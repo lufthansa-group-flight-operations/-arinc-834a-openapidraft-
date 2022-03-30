@@ -1,1 +1,1 @@
-# -arinc-834a-openapidraft-
+# OpenAPI Draft for ARINC 834A Standard

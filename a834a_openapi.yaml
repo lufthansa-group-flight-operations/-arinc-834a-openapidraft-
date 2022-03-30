@@ -1,0 +1,937 @@
+openapi: 3.0.3
+info:
+  title: ARINC 834A API
+  description: Draft of Websocket upgrade API  
+  license:
+    name: License Info
+    url: https://example.com/license
+  version: v0.0.2
+servers:
+- url: https://a834a-1.suppliername.local/a834a/
+tags:
+  - name: 2.1. Protocol Switching  
+  - name: 3.2 Service Discovery
+    description: Service Discovery
+  - name: 4.1.4 Parameter Interfaces
+  - name: 6.0 ACARS
+    description:  Aicraft Communication and Reporting System Messaging
+
+paths:
+  /adif/v1/subscribe:
+    get:
+      tags:
+      - 2.1. Protocol Switching
+      servers:
+       - url: wss://a834a-1.suppliername.local/a834a/
+      summary: "2.1.1 Protocol Switching - Websockets NOTE: Need to be removed due to duplicate in openapi."
+      parameters:
+        - in: header
+          name: Connection
+          schema:
+            type: string
+            enum:
+              - Upgrade
+          required: true
+        - in: header
+          name: Upgrade
+          schema:
+            type: string
+            enum:
+              - websocket
+          required: true
+      responses:
+        101:
+          description: Switching Protocols to Websocket.
+          headers:
+            Connection:
+              schema:
+                type: string
+            Upgrade:
+              schema:
+                type: string
+                enum:
+                  - websocket
+            Sec-WebSocket-Accept:
+              schema:
+                type: object
+          content: {}
+        400:
+          description: Resource can only be accessed with Websockets.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Resource can only be access with websockets.
+        500:
+          description: adif Service is not reachable
+          content: {}
+        501:
+          description: adif Server is not implemented
+          content: {}
+
+  /stap/v1/:
+    get:
+      tags:
+      - 2.1. Protocol Switching
+      servers:
+       - url: wss://a834a-1.suppliername.local/a834a/
+      summary: 2.1.2 Protocol Switching - STAP
+      parameters:
+        - in: header
+          name: Connection
+          schema:
+            type: string
+            enum:
+              - Upgrade
+          required: true
+        - in: header
+          name: Upgrade
+          schema:
+            type: string
+            enum:
+              - a834/stap
+          required: true
+      responses:
+        101:
+          description: Switching Protocols to Websocket.
+          headers:
+            Connection:
+              schema:
+                type: string
+            Upgrade:
+              schema:
+                type: string
+                enum:
+                  - a834
+            Sec-WebSocket-Accept:
+              schema:
+                type: object
+          content: {}
+        400:
+          description: Resource can only be accessed with Websockets.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Resource can only be access with websockets.
+        500:
+          description: STAP Server is not reachable
+          content: {}
+        501:
+          description: STAP Server is not implemented
+          content: {}
+
+  /adbp/v1/:
+    get:
+      tags:
+      - 2.1. Protocol Switching
+      servers:
+       - url: wss://a834a-1.suppliername.local/a834a/
+      summary: 2.1.2 Protocol Switching - ADBP
+      parameters:
+        - in: header
+          name: Connection
+          schema:
+            type: string
+            enum:
+              - Upgrade
+          required: true
+        - in: header
+          name: Upgrade
+          schema:
+            type: string
+            enum:
+              - a834/adbp
+          required: true
+      responses:
+        101:
+          description: Switching Protocols to Websocket.
+          headers:
+            Connection:
+              schema:
+                type: string
+            Upgrade:
+              schema:
+                type: string
+                enum:
+                  - a834
+            Sec-WebSocket-Accept:
+              schema:
+                type: object
+          content: {}
+        400:
+          description: Resource can only be accessed with Websockets.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Resource can only be access with websockets.
+        500:
+          description: STAP Server is not reachable
+          content: {}
+        501:
+          description: STAP Server is not implemented
+          content: {}
+
+  /{service}/v1/:
+    get:
+      tags:
+      - 2.1. Protocol Switching
+      servers:
+       - url: wss://a834a-1.suppliername.local/a834a/
+      summary: 2.1.4 Protocol Switching - Future Useages
+      parameters:
+        - in: path
+          name: service
+          description: Service on which a Websocket connection should be established.
+          required: true
+          schema:
+            type: string
+          example: 
+        - in: header
+          name: Connection
+          schema:
+            type: string
+            enum:
+              - Upgrade
+          required: true
+        - in: header
+          name: Upgrade
+          schema:
+            type: string
+            pattern: '^[a-zA-Z0-9-._~!$&()*+,;=:/?@]+$'
+          required: true
+      responses:
+        101:
+          description: Switching Protocols to Websocket.
+          headers:
+            Connection:
+              schema:
+                type: string
+            Upgrade:
+              schema:
+                type: string
+                enum:
+                  - a834
+            Sec-WebSocket-Accept:
+              schema:
+                type: object
+          content: {}
+        400:
+          description: Resource can only be accessed with Websockets.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Resource can only be access with websockets.
+        500:
+          description: Service is not reachable
+        501:
+          description: Service is not implemented
+          content: {}
+
+  /services/:
+    get:
+      tags:
+      -  3.2 Service Discovery
+      summary: "3.2. Get a list of services"
+      description: "An ARINC 834A server should provide a Service Discovery function enabling connected clients to discover the supported service(s)."
+      responses:
+        200:
+          description: "The server should response by providing the list of supported services and optional description field (free content field based on string)"
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/3.2.Services'
+              example:
+                - service: adif
+                  description: Avionics Parameters
+                - service: nas
+                  description: Network Attached Storage
+        400:
+          description: ""
+        500:
+          description: "Internal Server Error"
+        503:
+          description: "Service Unavailable"
+
+  /services/{service}/version:          
+    get:
+      tags:
+      - 3.2 Service Discovery
+      summary: "3.2. Get a List of supported versions of a service."
+      description: "Additionally, for each supported service, the ARINC 834A server should provide a Service Discovery service based on the following REST request."
+      parameters:
+        - in: path
+          name: service
+          description: "Where {service} will one of the server’s supported service"
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: "OK: The server should respond with the list of supported version defined as “vx” x being an integer and optional HTTP basic authentication requirement information (not providing this information assumes that no authentication is required by the client)."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/3.2.ServiceSupportedVersions"
+              example:
+                - version: v1
+                  authenticate: true
+                - version: v2
+                  authenticate: true        
+        404:
+          description: Service not found.
+        500:
+          description: "Internal Server Error"
+        503:
+          description: "Service Unavailable"
+
+  /nas/v1/:
+    get:
+      tags:
+      - NAS
+      summary: Retreive identified root folder
+      operationId: getRoot
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PathList'
+  
+  /nas/v1/{path}:
+    get:
+      tags:
+      - NAS
+      summary: Retreive identified folder/file
+      operationId: getItem
+      parameters:
+      - name: path
+        in: path
+        description: Path
+        required: true
+        schema:
+          type: string
+          pattern: '^[a-zA-Z0-9-._~!$&()*+,;=:/?@]+$'
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PathList'
+        404:
+          description: not found
+          content: {}
+    put:
+      tags:
+      - NAS
+      summary: Create/Update folder/file
+      operationId: createItem
+      parameters:
+      - name: path
+        in: path
+        description: Path
+        required: true
+        schema:
+          type: string
+          pattern: '^[a-zA-Z0-9-._~!$&()*+,;=:/?@]+$'
+      requestBody:
+        content:
+          '*/*':
+            schema:
+              type: object
+              format: binary
+        required: false
+      responses:
+        201:
+          description: created
+          content: {}
+        500:
+          description: internal error
+          content: {}
+      x-codegen-request-body-name: fileupload
+    delete:
+      tags:
+      - NAS
+      summary: Delete folder/file
+      operationId: deleteItem
+      parameters:
+      - name: path
+        in: path
+        description: Path
+        required: true
+        schema:
+          type: string
+          pattern: '^[a-zA-Z0-9-._~!$&()*+,;=:/?@]+$'
+      responses:
+        204:
+          description: successful deletion, no content
+          content: {}
+        404:
+          description: not found
+          content: {}
+
+  /adif/v1/parameters:
+    post:
+      tags:
+        - "4.1.4 Parameter Interfaces"
+      summary: 4.1.4.2 Parameter Synchronus request API
+      description: "The ARINC 834A server should allow connected clients to retrieve valid parameters using the following REST commands."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/4.1.4.2ParameterRequest"      
+      responses:
+        200:
+          description: "OK: The server should return the requested parameters formatted with applicable JSON schema."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/4.1.4.4.A834AParameters"
+              example:
+                - name: Parametername1
+                  timestamp: 1000
+                  value: "xxx"
+                  settable: false
+                - name: Parametername2
+                  tiemstamp: 1000
+                  value: "xxx"
+                  settable: false
+        403:
+          description: "Forbidden: On an item that is not allowed for modification, the server should report error message 403 (Forbidden) with the list of rejected parameters as follows"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/4.1.4.4.ErrorResponse"
+              example:
+                error: "parameter not modifiable"
+                parameters: [parameter]
+        404:
+          description: "Not Found: Non-Existent parameter should be answered with code 404 (Not Found). The name of the unknown parameter should be reported in the error message as follows"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/4.1.4.4.ErrorResponse"
+              example:
+                error: "parameter not found"
+                parameters: [parameter]
+        429:
+          description: "Too many requests: If the server has reached the maximum number of supported clients, it should use standard HTTP code 429."
+        501:
+          description: "Not Implemented: Unsupported service or Version in a URL should be answered with code. The client should not expect the service to be available anytime and should not poll the server with the same request to reduce resources consumption."
+        502:
+          description: "Bad Gateway: If a proxy or reverse proxy is set-up between the A834A Client and Server, in case the proxy is experiencing issue, this error code should be reported."
+        503:
+          description: "Service Unavailable: Other standard HTTP codes may be used by the A834A supplier to provide useful information to the clients nevertheless, the general principle is that overlap with error codes defined in the present document should be avoided."
+    put:
+      tags:
+        - "4.1.4 Parameter Interfaces"
+      summary: 4.1.4.3 Parameter REST Set API.
+      description: "The ARINC 834A supports also the “Write Parameter” feature. This is applicable only to specific services as detailed in this document. As such this function is optional since only ADIF function is mandatory for ARINC 834A."
+      requestBody:
+        description: "Multiple parameters may be Set with a single request."
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/4.1.4.3.WriteParameters"      
+      responses:
+        200:
+          description: "OK: The server should return the requested parameters formatted with applicable JSON schema."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/4.1.4.4.A834AParameters"
+              example:
+                - name: Parametername1
+                  timestamp: 1000
+                  value: "xxx"
+                  settable: false
+                - name: Parametername2
+                  tiemstamp: 1000
+                  value: "xxx"
+                  settable: false
+        403:
+          description: "Forbidden: On an item that is not allowed for modification, the server should report error message 403 (Forbidden) with the list of rejected parameters as follows"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/4.1.4.4.ErrorResponse"
+              example:
+                error: "parameter not modifiable"
+                parameters: [parameter]
+        404:
+          description: "Not Found: Non-Existent parameter should be answered with code 404 (Not Found). The name of the unknown parameter should be reported in the error message as follows"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/4.1.4.4.ErrorResponse"
+              example:
+                error: "parameter not found"
+                parameters: [parameter]
+        429:
+          description: "Too many requests: If the server has reached the maximum number of supported clients, it should use standard HTTP code 429."
+        501:
+          description: "Not Implemented: Unsupported service or Version in a URL should be answered with code. The client should not expect the service to be available anytime and should not poll the server with the same request to reduce resources consumption."
+        502:
+          description: "Bad Gateway: If a proxy or reverse proxy is set-up between the A834A Client and Server, in case the proxy is experiencing issue, this error code should be reported."
+        503:
+          description: "Service Unavailable: Other standard HTTP codes may be used by the A834A supplier to provide useful information to the clients nevertheless, the general principle is that overlap with error codes defined in the present document should be avoided."
+    
+  /adif/v1/subscription:
+    get:
+      tags:
+      - 2.1. Protocol Switching
+      servers:
+       - url: wss://a834a-1.suppliername.local/a834a/
+      summary: "2.1.1 Protocol Switching - Websockets NOTE: Need to be removed due to duplicate in openapi."
+      parameters:
+        - in: header
+          name: Connection
+          schema:
+            type: string
+            enum:
+              - Upgrade
+          required: true
+        - in: header
+          name: Upgrade
+          schema:
+            type: string
+            enum:
+              - websocket
+          required: true
+      responses:
+        101:
+          description: Switching Protocols to Websocket.
+          headers:
+            Connection:
+              schema:
+                type: string
+            Upgrade:
+              schema:
+                type: string
+                enum:
+                  - websocket
+            Sec-WebSocket-Accept:
+              schema:
+                type: object
+          content: {}
+        400:
+          description: Resource can only be accessed with Websockets.
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Resource can only be access with websockets.
+        500:
+          description: adif Service is not reachable
+          content: {}
+        501:
+          description: adif Server is not implemented
+          content: {}
+
+  /acars/v1/downlink:
+    post:
+      tags:
+      - 6.0 ACARS
+      summary: Add a new message to be transmitted
+      operationId: addDownlinkMessage
+      requestBody:
+        description: Message to be added
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/6.2.1.DownlinkMessage'
+        required: true
+      responses:
+        201:
+          description: successfully added new message
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/6.2.3.DownlinkPostResponse'
+      x-codegen-request-body-name: body
+  
+  /acars/v1/downlink/{messageId}:
+    get:
+      tags:
+      - 6.0 ACARS
+      summary: Get message status
+      description: Returns a single message status
+      operationId: getDownlinkMessageById
+      parameters:
+      - name: messageId
+        in: path
+        description: ID of message to return
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/6.2.4.DownlinkGetMessageResponse'
+    delete:
+      tags:
+      - 6.0 ACARS
+      summary: Deletes a message
+      operationId: deleteTxMessageById
+      parameters:
+      - name: messageId
+        in: path
+        description: Message id to delete
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: successful operation
+          content: {}
+  
+  /acars/v1/uplink:
+    post:
+      tags:
+      - 6.0 ACARS
+      summary: Gets messages in queue
+      operationId: getRxMessages
+      requestBody:
+        description: Message filter
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/6.2.6.MessageFilter'
+      parameters:
+        - in: query
+          name: mti
+          description: Filter for MTI selection
+          style: form
+          explode: true
+          schema:
+            type: string
+            maxLength: 2
+            minLength: 2
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MessageList'
+  
+  /acars/v1/uplink/{messageId}:
+    get:
+      tags:
+      - 6.0 ACARS
+      summary: Get message
+      description: Returns a single message
+      operationId: getRxMessageById
+      parameters:
+      - name: messageId
+        in: path
+        description: ID of message to return
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/6.2.2.UplinkMessage'
+  
+  /acars/v1/subscribe/:
+    get:
+      tags:
+      - 6.0 ACARS
+      servers:
+       - url: wss://a834a-1.suppliername.local/a834a/
+      summary: Note this is WSS not HTTP and is an UPGRADE not a POST
+      operationId: subscribeNotifications
+      requestBody:
+        description: websocket parameters
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebsocketParameters'
+        required: true
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/6.2.2.UplinkMessage'
+
+components:  
+  schemas:    
+    3.2.Services:
+      type: array
+      items:
+        type: object
+        description: "Describes the A834a services available on the server."
+        properties:
+          service:
+            type: string
+            pattern: "^[a-zA-Z0-9-_./]+$"
+          description:
+            type: string   
+        minItems: 0
+    
+    3.2.ServiceSupportedVersions:
+      type: array
+      items:
+        description: "Version supported by the A834A. Authenticate has to be set to true if HTTP Basic Authentication is required for that service."
+        type: object
+        properties:
+          version:
+            type: string
+            pattern: "^v[0-9]+$"
+          authenticate:
+            type: boolean
+            default: false
+        minItems: 1
+    
+    4.1.3.timestamp:
+      description: "Time in milliseconds based on a monotonic clock (arbitrary fixed point in the past; is not affected by changes in the system time-of-day clock). This is the time of the last modification of the value of the parameter."
+      type: integer
+    
+    4.1.4.2ParameterRequest:      
+      type: object
+      properties:
+        names:
+          type: array
+          items:
+            $ref: "#/components/schemas/parameterName"            
+            minItems: 1
+          example: ["parameter1","parameter2","parameter3"]
+    
+    4.1.4.3.WriteParameters:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            $ref: "#/components/schemas/parameterName"
+          timestamp:
+            $ref: "#/components/schemas/4.1.3.timestamp"
+          value: {}
+      minItems: 1
+      example:
+          - name: targetparamter
+            timestamp: 5000
+            value: "User Defined"
+    
+    4.1.4.4.A834AParameters:
+      description: "Schema for A834A parameter version 1.0.2"
+      type: object
+      properties:
+        name: 
+          $ref: "#/components/schemas/parameterName"
+        timestamp:
+          $ref: "#/components/schemas/4.1.3.timestamp"
+        value:
+          type: object
+          description: "Which type is strictly defined in the JSON schema (e.g., kg, knots, degrees, complex type, etc.). ‘value’ is set to null (JSON datatype) when the parameter is not valid (that is to say for in the A429 case: not in “NO”)	‘settable’(boolean) by default all parameters for public ARINC 834A ADIF service cannot be set by a client."
+        settable:
+          type: boolean
+          description: "by default all parameters for public ARINC 834A ADIF service cannot be set by a client."
+          default: false
+    
+    4.1.4.4.ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+        parameters:
+          type: array
+          items:
+            $ref: "#/components/schemas/parameterName"
+      example:
+        error: "ErrorMessage"
+        parameters: ["parameter"]
+
+    4.1.5.1.WebSocketSubscription:
+      type: object
+      properties:
+        NOTE: 
+          type: string
+          example: "TODO: OPEN ITEM"
+          
+    
+    6.2.1.DownlinkMessage:      
+      type: object
+      properties:
+        mti:
+          maxLength: 2
+          minLength: 2
+          type: string
+        mediaSelect:
+          type: string
+          enum:
+          - ACARS_ANY
+          - ACARS_VHF
+          - ACARS_HF
+          - ACARS_SATCOM
+          - FMS
+        lifetime:
+          multipleOf: 2
+          maximum: 30
+          minimum: 0
+          type: integer
+        datatype:
+          type: string
+          enum:
+          - ASCII
+          - BINARY
+        datasize:
+          minimum: 1
+          type: integer
+        data:
+          pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
+          type: string
+          format: byte
+    
+    6.2.2.UplinkMessage:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        mti:
+          maxLength: 2
+          minLength: 2
+          type: string
+        lifetime:
+          multipleOf: 2
+          maximum: 30
+          minimum: 0
+          type: integer
+        datatype:
+          type: string
+          enum:
+          - ASCII
+          - BINARY
+        datasize:
+          minimum: 1
+          type: integer
+        data:
+          pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
+          type: string
+          format: byte
+    
+    6.2.3.DownlinkPostResponse:
+      type: object
+      properties:
+        uri:
+          type: string
+        code:
+          maximum: 6
+          minimum: 0
+          type: integer
+        description:
+          type: string
+          enum:
+          - OK
+          - PAYLOAD TOO LARGE
+          - BUSY
+          - REQ BAD FORMAT
+          - PAYLOAD BAD FORMAT
+          - MEDIA NOT AVAIL
+    
+    6.2.4.DownlinkGetMessageResponse:
+      type: object
+      properties:
+        code:
+          maximum: 3
+          minimum: 0
+          type: integer
+        description:
+          type: string
+          enum:
+          - OK
+          - Transfer to ground completed
+          - Transfer to CMF failed
+          - Message discarded because lifetime expired
+          - Requested Media is noCOM
+    
+    6.2.5.MessageLink:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        mti:
+          maxLength: 2
+          minLength: 2
+          type: string
+        uri:
+          type: string
+    
+    6.2.6.MessageFilter:
+      type: object
+      properties:
+        mti:
+          type: array
+          items:
+            maxLength: 2
+            minLength: 2
+            type: string
+
+    PathList:
+      type: array
+      items:
+        required:
+        - name
+        - path
+        - pathtype
+        type: object
+        properties:
+          name:
+            type: string
+          path:
+            type: string
+          pathtype:
+            type: string
+            enum:
+            - folder
+            - file
+    parameterName:
+      type: string
+      description: "Name of a parameter, please note that '.' are used for namespaces."
+      pattern: "^([A-Za-z0-9_]+.)?[A-Za-z0-9_]+$"
+      example: AirlineID
+    
+    WebsocketParameters:
+      type: object
+      properties:
+        mti:
+          type: array
+          items:
+            maxLength: 2
+            minLength: 2
+            type: string
+        sendHistory:
+          type: boolean
+        itemHistory:
+          type: integer
+        minutesHistory:
+          type: integer
+    
+    MessageList:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            $ref: '#/components/schemas/6.2.5.MessageLink'
+
+x-generator: NSwag v13.2.2.0 (NJsonSchema v10.1.4.0 (Newtonsoft.Json v11.0.0.0))

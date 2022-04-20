@@ -374,17 +374,46 @@ paths:
           description: not found
           content: {}
 
-  /adif/v1/parameters:
-    post:
+  /adif/v1/parameters/{paramname}:
+    get:
       tags:
         - "4.1.4 Parameter Interfaces"
-      summary: 4.1.4.2 Parameter Synchronus request API
+      parameters:
+        - in: path
+          name: paramname
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: "OK"
+
+  /adif/v1/parameters:
+    get:
+      tags:
+        - "4.1.4 Parameter Interfaces"
+      summary: 4.1.4.2 Parameter Synchronous request API
       description: "The ARINC 834A server should allow connected clients to retrieve valid parameters using the following REST commands."
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/4.1.4.2ParameterRequest"      
+      parameters:
+        - in: query
+          name: params
+          required: false
+          schema:
+            type: string
+            minimum: 0
+          description: The list of parameters which a client want to retrieve the values should be set as a comma separated list within the path following the query "?params=". 
+            <br/>If now query is provided, all parameters are returned. To reduce required resources on both client and server, the client should use this function with caution.
+            <br/>For multiple parameters request, the parameters should be provided as a comma separated list.
+          examples:
+            singleParameter:
+              summary: Example of single parameter request
+              value: "time_utc"
+            multipleParameter:
+              summary: Example of multiple parameters request
+              value: "date_utc,time_utc"
+            allParameter:
+              summary: Example of all parameters request
+              value: "*"
       responses:
         200:
           description: "OK: The server should return the requested parameters formatted with applicable JSON schema."
@@ -420,13 +449,13 @@ paths:
                 error: "parameter not found"
                 parameters: [parameter]
         429:
-          description: "Too many requests: If the server has reached the maximum number of supported clients, it should use standard HTTP code 429."
+         $ref: '#/components/responses/429TooManyRequests'
         501:
           description: "Not Implemented: Unsupported service or Version in a URL should be answered with code. The client should not expect the service to be available anytime and should not poll the server with the same request to reduce resources consumption."
         502:
           description: "Bad Gateway: If a proxy or reverse proxy is set-up between the A834A Client and Server, in case the proxy is experiencing issue, this error code should be reported."
         503:
-          description: "Service Unavailable: Other standard HTTP codes may be used by the A834A supplier to provide useful information to the clients nevertheless, the general principle is that overlap with error codes defined in the present document should be avoided."
+          description: "Service Unavailable: If a service is (temporary) not available (i.e. not yet fully initialized) it should return this error code to indicate the client, that the service may be available soon and the client may retry its request later on.(Other standard HTTP codes may be used by the A834A supplier to provide useful information to the clients nevertheless, the general principle is that overlap with error codes defined in the present document should be avoided.)"
     put:
       tags:
         - "4.1.4 Parameter Interfaces"
@@ -480,6 +509,7 @@ paths:
           description: "Bad Gateway: If a proxy or reverse proxy is set-up between the A834A Client and Server, in case the proxy is experiencing issue, this error code should be reported."
         503:
           description: "Service Unavailable: Other standard HTTP codes may be used by the A834A supplier to provide useful information to the clients nevertheless, the general principle is that overlap with error codes defined in the present document should be avoided."
+
     
   /adif/v1/subscription:
     get:
@@ -933,5 +963,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/6.2.5.MessageLink'
-
+  responses:
+    429TooManyRequests:
+      description: "Too many requests: A request may receive this error message instead of an response, if the server determined to many requests need to be handled. Optionally the Server may include the 'Retry-After' Header with a value based on seconds for an estimation when the client may try to restart the request."
+      headers:
+        Retry-After:
+          schema:
+            type: integer
+            description: "Seconds"
+      
 x-generator: NSwag v13.2.2.0 (NJsonSchema v10.1.4.0 (Newtonsoft.Json v11.0.0.0))

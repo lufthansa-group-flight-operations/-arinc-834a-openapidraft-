@@ -767,6 +767,21 @@ paths:
         404:
           description: Downlink with the given id not found.
 
+  /acars/v1/status:
+    get:
+      tags:
+        - 6.0 ACARS
+      summary: 6.2.10	Get the status of the channels
+      description: Retrieve the status of all communication channels.
+      operationId: getChannelStatus
+      responses:
+        200:
+          description: Returns the status object for the communication channels.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/6.0.Status"
+
   /acars/v1/subscribe:
     get:
       tags:
@@ -1084,6 +1099,8 @@ components:
             - TRANSMITTING
             - SENT
             - ACKNOWLEDGED
+            - TIMED_OUT
+            - FAILED
         mfi:
           description: Message Function Identifier to address specific applications.
           type: string
@@ -1093,11 +1110,12 @@ components:
         mediaSelect:
           type: string
           enum:
-            - ACARS_ANY
-            - ACARS_VHF
-            - ACARS_HF
-            - ACARS_SATCOM
-            - FMS
+            - MEDIA_ANY
+            - MEDIA_GATELINK
+            - MEDIA_VHF
+            - MEDIA_SATCOM
+            - MEDIA_HF
+            - MEDIA_ANY_OTHER
         lifetime:
           description: Lifetime in minutes. (0 = infinite)
           multipleOf: 2
@@ -1130,6 +1148,46 @@ components:
         dataType: ASCII
         dataSize: 82
         data: TUVUQVIgS1NUTCAyMTE2NTFaIDAxMDA1S1QgMTBTTSBGRVcwMjAgQktOMjUwIDE5LzEyIEEzMDI2IFJNSyBBTzIgU0xQMjQ0IFQwMTg5MDExNw==
+
+    6.0.Status:
+      type: object
+      properties:
+        selfLink:
+          description: A URL that can be used to access the resource again.
+          type: string
+          format: URL
+          example: https://server/a834a/acars/v1/status
+        updated:
+          description: Timestamp when the information was updated.
+          type: string
+          format: date-time
+        isAnyAvailable:
+          description: Indicates whether any communication channel is available.
+          type: boolean
+          example: true
+        channels:
+          description: Indicates whether any communication channel is available.
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                description: Name of the communication channel.
+                type: string
+              isAvailable:
+                description: Indicates whether the channel is available or not.
+                type: boolean
+          example:
+            - name: VHF
+              isAvailable: true
+            - name: HF
+              isAvailable: false
+            - name: SATCOM
+              isAvailable: true
+            - name: GATELINK
+              isAvailable: false
+            - name: ANY_OTHER
+              isAvailable: false
 
     PathList:
       type: array

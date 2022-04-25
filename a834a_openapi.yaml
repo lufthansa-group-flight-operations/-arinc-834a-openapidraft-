@@ -15,6 +15,8 @@ tags:
   - name: 4.1.4 Parameter Interfaces
   - name: 6.0 ACARS
     description: Aicraft Communication and Reporting System Messaging
+  - name: 7.0 File Storage Management
+  - name: 8.0 Flight Plan Data Management
 
 paths:
   /adif/v1/subscribe:
@@ -290,8 +292,8 @@ paths:
   /nas/v1/:
     get:
       tags:
-        - NAS
-      summary: Retreive identified root folder
+        - 7.0 File Storage Management
+      summary: Retrieve identified root folder
       operationId: getRoot
       responses:
         200:
@@ -299,13 +301,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PathList"
+                $ref: "#/components/schemas/7.0.PathList"
 
   /nas/v1/{path}:
     get:
       tags:
-        - NAS
-      summary: Retreive identified folder/file
+        - 7.0 File Storage Management
+      summary: Retrieve identified folder/file
       operationId: getItem
       parameters:
         - name: path
@@ -317,17 +319,29 @@ paths:
             pattern: "^[a-zA-Z0-9-._~!$&()*+,;=:/?@]+$"
       responses:
         200:
-          description: successful operation
+          description:
+            When the query path is a folder type then an application/json with the path list is returned.
+            When the query path is a file type then an application/octet-stream with the Content-Disposition header and the file content as body is returned.
+          headers:
+            Content-Disposition:
+              description: "Content-Disposition is provided in case the path belongs to a file type.<br/>Example:<br/>Content-Disposition: attachment; filename=README.txt"
+              schema:
+                type: string
+              example: attachment; filename=README.txt
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PathList"
+                $ref: "#/components/schemas/7.0.PathList"
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
         404:
           description: not found
           content: {}
     put:
       tags:
-        - NAS
+        - 7.0 File Storage Management
       summary: Create/Update folder/file
       operationId: createItem
       parameters:
@@ -340,9 +354,9 @@ paths:
             pattern: "^[a-zA-Z0-9-._~!$&()*+,;=:/?@]+$"
       requestBody:
         content:
-          "*/*":
+          application/octet-stream:
             schema:
-              type: object
+              type: string
               format: binary
         required: false
       responses:
@@ -352,10 +366,9 @@ paths:
         500:
           description: internal error
           content: {}
-      x-codegen-request-body-name: fileupload
     delete:
       tags:
-        - NAS
+        - 7.0 File Storage Management
       summary: Delete folder/file
       operationId: deleteItem
       parameters:
@@ -610,7 +623,7 @@ paths:
             maxLength: 2
             minLength: 2
       responses:
-        200:
+        204:
           description: Successful operation
 
   /acars/v1/uplinks/{id}:
@@ -652,7 +665,7 @@ paths:
             type: integer
             format: int64
       responses:
-        200:
+        204:
           description: Uplink successfully deleted.
         404:
           description: Uplink with the given id not found.
@@ -740,7 +753,7 @@ paths:
             maxLength: 2
             minLength: 2
       responses:
-        200:
+        204:
           description: Successful operation
 
   /acars/v1/downlinks/{id}:
@@ -782,7 +795,7 @@ paths:
             type: integer
             format: int64
       responses:
-        200:
+        204:
           description: Downlink successfully deleted.
         404:
           description: Downlink with the given id not found.
@@ -1216,7 +1229,7 @@ components:
           type: boolean
           example: true
         channels:
-          description: Indicates whether any communication channel is available.
+          description: List of all communication channels and the corresponding state.
           type: array
           items:
             type: object
@@ -1239,24 +1252,38 @@ components:
             - name: ANY_OTHER
               isAvailable: false
 
-    PathList:
-      type: array
-      items:
-        required:
-          - name
-          - path
-          - pathtype
-        type: object
-        properties:
-          name:
-            type: string
-          path:
-            type: string
-          pathtype:
-            type: string
-            enum:
-              - folder
-              - file
+    7.0.PathList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              path:
+                type: string
+              pathtype:
+                type: string
+                enum:
+                  - folder
+                  - file
+            required:
+              - name
+              - path
+              - pathtype
+      example:
+        items:
+          - name: eTLB
+            path: /eTLB
+            pathtype: folder
+          - name: Temp
+            path: /Temp
+            pathtype: folder
+          - name: README.txt
+            path: /README.txt
+            pathtype: file
 
     parameterName:
       type: string

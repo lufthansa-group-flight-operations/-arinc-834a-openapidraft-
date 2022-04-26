@@ -410,7 +410,7 @@ paths:
       description: "The ARINC 834A server should allow connected clients to retrieve valid parameters using the following REST commands."
       parameters:
         - in: query
-          name: params
+          name: names
           required: false
           schema:
             type: string

@@ -433,10 +433,10 @@ paths:
         200:
           description: "OK: The server should return the requested parameters formatted with applicable JSON schema."
           content:
-            application/json:              
+            application/json:
               schema:
-                $ref: "#/components/schemas/4.1.4.4.A834AParameters"              
-                
+                $ref: "#/components/schemas/4.1.4.4.A834AParameters"
+
         403:
           description: "Forbidden: On an item that is not allowed for modification, the server should report error message 403 (Forbidden) with the list of rejected parameters as follows"
           content:
@@ -904,6 +904,21 @@ paths:
                 type: string
                 example: Resource can only be access with WebSockets.
 
+  /fms/v1/flightPlan:
+    get:
+      tags:
+        - 8.0 Flight Plan Data Management
+      summary: 8.x
+      description: Retrieve current FMS flight plan.
+      operationId: getFmsFlightPlan
+      responses:
+        200:
+          description: Returns the FMS flight plan.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/8.0.FmsFlightPlan"
+
 components:
   schemas:
     3.2.Services:
@@ -922,11 +937,11 @@ components:
                 type: string
             minItems: 0
       example:
-                services:
-                  - service: adif
-                    description: Avionics Parameters
-                  - service: nas
-                    description: Network Attached Storage
+        services:
+          - service: adif
+            description: Avionics Parameters
+          - service: nas
+            description: Network Attached Storage
 
     3.2.ServiceSupportedVersions:
       type: array
@@ -973,7 +988,6 @@ components:
                 $ref: "#/components/schemas/4.1.3.timestamp"
               value: {}
             minItems: 1
-      
 
     4.1.4.4.A834AParameters:
       description: "Schema for A834 parameter array version."
@@ -981,7 +995,7 @@ components:
       required:
         - parameters
       properties:
-        parameters:          
+        parameters:
           type: array
           items:
             $ref: "#/components/schemas/4.1.4.4.A834AParameter"
@@ -1297,6 +1311,123 @@ components:
               isAvailable: false
             - name: ANY_OTHER
               isAvailable: false
+
+    8.0.FmsFlightPlan:
+      type: object
+      properties:
+        name:
+          description: TODO
+          type: string
+          example: FMSTrajectory
+        source:
+          description: TODO
+          type: string
+          example: IntBusV1/2-4/5/GAMA
+        timestamp:
+          description: TODO
+          type: integer
+          example: 12345
+        utc:
+          description: TODO
+          type: integer
+          example: 12345
+        value:
+          description: TODO
+          type: object
+          properties:
+            departure_airport:
+              description: TODO
+              type: string
+              example: LFBO
+            destination_airport:
+              description: TODO
+              type: string
+              example: LFLX
+            distance_to_destination:
+              description: TODO
+              type: number
+              example: 123.5
+            time_to_destination:
+              description: TODO
+              type: integer
+              example: 241
+            points:
+              description: TODO
+              type: array
+              items:
+                $ref: "#/components/schemas/8.0.FmsPoint"
+
+    8.0.FmsPoint:
+      type: object
+      properties:
+        name:
+          description: TODO
+          type: string
+          example: ABUSO
+        latitude:
+          description: TODO
+          type: number
+          example: 45.8505556
+        longitude:
+          description: TODO
+          type: number
+          example: 1.7486111111111
+        altitude:
+          description: TODO
+          type: integer
+          example: 32000
+        eta:
+          description: TODO
+          type: integer
+          example: 12
+        speed:
+          description: TODO
+          type: number
+          example: 145.3
+        fuel:
+          description: TODO
+          type: number
+          example: 12540.6
+        characteristics:
+          description: TODO
+          type: string
+          enum:
+            - TOP_OF_CLIMB
+            - TOP_OF_DESCENT
+        constraints:
+          description: TODO
+          type: object
+          properties:
+            altitude_upper_bound:
+              description: TODO
+              type: integer
+              example: 12000
+            altitude_lower_bound:
+              description: TODO
+              type: integer
+              example: 13000
+            speed_type:
+              description: TODO
+              type: string
+              enum:
+                - AT_OR_BELOW
+                - AT
+                - AT_OR_ABOVE
+            speed_value:
+              description: TODO
+              type: integer
+              example: 123
+            time_type:
+              description: TODO
+              type: string
+              enum:
+                - AT_OR_BELOW
+                - AT
+                - AT_OR_ABOVE
+            time_value:
+              description: TODO
+              type: integer
+              example: 1234
 
     7.0.PathList:
       type: object

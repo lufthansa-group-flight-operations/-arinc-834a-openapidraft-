@@ -908,7 +908,7 @@ paths:
     get:
       tags:
         - 8.0 Flight Plan Data Management
-      summary: 8.x
+      summary: 8.x TODO
       description: Retrieve current FMS flight plan.
       operationId: getFmsFlightPlan
       responses:
@@ -1312,6 +1312,39 @@ components:
             - name: ANY_OTHER
               isAvailable: false
 
+    7.0.PathList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              path:
+                type: string
+              pathtype:
+                type: string
+                enum:
+                  - folder
+                  - file
+            required:
+              - name
+              - path
+              - pathtype
+      example:
+        items:
+          - name: eTLB
+            path: /eTLB
+            pathtype: folder
+          - name: Temp
+            path: /Temp
+            pathtype: folder
+          - name: README.txt
+            path: /README.txt
+            pathtype: file
+
     8.0.FmsFlightPlan:
       type: object
       properties:
@@ -1428,39 +1461,6 @@ components:
               description: TODO
               type: integer
               example: 1234
-
-    7.0.PathList:
-      type: object
-      properties:
-        items:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-              path:
-                type: string
-              pathtype:
-                type: string
-                enum:
-                  - folder
-                  - file
-            required:
-              - name
-              - path
-              - pathtype
-      example:
-        items:
-          - name: eTLB
-            path: /eTLB
-            pathtype: folder
-          - name: Temp
-            path: /Temp
-            pathtype: folder
-          - name: README.txt
-            path: /README.txt
-            pathtype: file
 
     parameterName:
       type: string

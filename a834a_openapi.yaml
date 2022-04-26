@@ -244,12 +244,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/3.2.Services"
-              example:
-                - service: adif
-                  description: Avionics Parameters
-                - service: nas
-                  description: Network Attached Storage
+                $ref: "#/components/schemas/3.2.Services"              
         400:
           description: ""
         500:
@@ -894,17 +889,26 @@ paths:
 components:
   schemas:
     3.2.Services:
-      type: array
-      items:
-        type: object
-        description: "Describes the A834a services available on the server."
-        properties:
-          service:
-            type: string
-            pattern: "^[a-zA-Z0-9-_./]+$"
-          description:
-            type: string
-        minItems: 0
+      type: object      
+      properties:
+        services:
+          type: array
+          items:
+            type: object
+            description: "Describes the A834a services available on the server."
+            properties:
+              service:
+                type: string
+                pattern: "^[a-zA-Z0-9-_./]+$"
+              description:
+                type: string
+            minItems: 0
+      example:
+                services:
+                  - service: adif
+                    description: Avionics Parameters
+                  - service: nas
+                    description: Network Attached Storage
 
     3.2.ServiceSupportedVersions:
       type: array

@@ -245,43 +245,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/3.2.Services"
-        400:
-          description: ""
-        500:
-          description: "Internal Server Error"
-        503:
-          description: "Service Unavailable"
-
-  /services/{service}/version:
-    get:
-      tags:
-        - 3.2 Service Discovery
-      summary: "3.2. Get a List of supported versions of a service."
-      description: "Additionally, for each supported service, the ARINC 834A server should provide a Service Discovery service based on the following REST request."
-      parameters:
-        - in: path
-          name: service
-          description: "Where {service} will one of the server's supported service"
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: |
-            OK: The server should respond with the list of supported version defined as “vx” x being an 
-            integer and optional HTTP basic authentication requirement information (not providing this 
-            information assumes that no authentication is required by the client).
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/3.2.ServiceSupportedVersions"
-              example:
-                - version: v1
-                  authenticate: true
-                - version: v2
-                  authenticate: true
-        404:
-          description: Service not found.
         500:
           description: "Internal Server Error"
         503:
@@ -388,26 +351,13 @@ paths:
           description: not found
           content: {}
 
-  /adif/v1/parameters/{paramname}:
-    get:
-      tags:
-        - "4.1.4 Parameter Interfaces"
-      parameters:
-        - in: path
-          name: paramname
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: "OK"
-
   /adif/v1/parameters:
     get:
       tags:
         - "4.1.4 Parameter Interfaces"
       summary: 4.1.4.2 Parameter Synchronous request API
       description: "The ARINC 834A server should allow connected clients to retrieve valid parameters using the following REST commands."
+      operationId: getParameters
       parameters:
         - in: query
           name: params
@@ -431,7 +381,10 @@ paths:
               value: "*"
       responses:
         200:
-          description: "OK: The server should return the requested parameters formatted with applicable JSON schema."
+          description: |
+            OK: The server should return the requested parameters formatted with applicable JSON schema. 
+            Without the `params=xxx` the server only returns the name and the settable flag without values.
+            To retrieve all parameters with values use the `*` as query parameter.
           content:
             application/json:
               schema:
@@ -534,6 +487,21 @@ paths:
           description: |
             Service Unavailable: Other standard HTTP codes may be used by the A834A supplier to provide useful information to the clients 
             nevertheless, the general principle is that overlap with error codes defined in the present document should be avoided.
+
+  /adif/v1/parameters/{paramname}:
+    get:
+      tags:
+        - "4.1.4 Parameter Interfaces"
+      operationId: getParameterById
+      parameters:
+        - in: path
+          name: paramname
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: "OK"
 
   /adif/v1/subscription:
     get:
@@ -929,33 +897,49 @@ components:
           items:
             type: object
             description: "Describes the A834a services available on the server."
+            minItems: 0
             properties:
               service:
                 type: string
-                pattern: "^[a-zA-Z0-9-_./]+$"
+                pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.]*$"
               description:
                 type: string
-            minItems: 0
+              versions:
+                type: array
+                items:
+                  description: |
+                    Version supported by the A834A. Authenticate has to be set to true if HTTP Basic Authentication is required for that service.
+                  type: object
+                  properties:
+                    version:
+                      type: string
+                      pattern: "^v[0-9]+$"
+                    uri:
+                      type: string
+                    authenticate:
+                      type: boolean
+                      default: false
+                  minItems: 1
       example:
         services:
           - service: adif
             description: Avionics Parameters
+            versions:
+              - version: "v1"
+                uri: https://server/a834a/adif/v1
+                authenticate: false
+              - version: "v2"
+                uri: https://server/a834a/adif/v2
+                authenticate: false
           - service: nas
             description: Network Attached Storage
-
-    3.2.ServiceSupportedVersions:
-      type: array
-      items:
-        description: "Version supported by the A834A. Authenticate has to be set to true if HTTP Basic Authentication is required for that service."
-        type: object
-        properties:
-          version:
-            type: string
-            pattern: "^v[0-9]+$"
-          authenticate:
-            type: boolean
-            default: false
-        minItems: 1
+            versions:
+              - version: "v1"
+                uri: https://server/a834a/nas/v1
+                authenticate: true
+              - version: "v2"
+                uri: https://server/a834a/nas/v2
+                authenticate: true
 
     4.1.3.timestamp:
       description: |

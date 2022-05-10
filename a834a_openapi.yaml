@@ -5,7 +5,7 @@ info:
   license:
     name: License Info
     url: https://example.com/license
-  version: v0.0.2
+  version: v0.0.3
 servers:
   - url: https://a834a-1.suppliername.local/a834a/
 tags:
@@ -17,7 +17,6 @@ tags:
     description: Aircraft Communication and Reporting System Messaging
   - name: 7.0 File Storage Management
   - name: 8.0 Flight Plan Data Management
-
 paths:
   /adif/v1/subscribe:
     get:
@@ -25,7 +24,7 @@ paths:
         - 2.1. Protocol Switching
       servers:
         - url: wss://a834a-1.suppliername.local/a834a/
-      summary: "2.1.1 Protocol Switching - WebSockets NOTE: Need to be removed due to duplicate in OpenApi."
+      summary: '2.1.1 Protocol Switching - WebSockets NOTE: Need to be removed due to duplicate in OpenApi.'
       parameters:
         - in: header
           name: Connection
@@ -42,7 +41,7 @@ paths:
               - websocket
           required: true
       responses:
-        101:
+        '101':
           description: Switching Protocols to Websocket.
           headers:
             Connection:
@@ -57,20 +56,19 @@ paths:
               schema:
                 type: object
           content: {}
-        400:
+        '400':
           description: Resource can only be accessed with WebSockets.
           content:
             text/plain:
               schema:
                 type: string
                 example: Resource can only be access with WebSockets.
-        500:
+        '500':
           description: adif Service is not reachable
           content: {}
-        501:
+        '501':
           description: adif Server is not implemented
           content: {}
-
   /stap/v1/:
     get:
       tags:
@@ -94,7 +92,7 @@ paths:
               - a834/stap
           required: true
       responses:
-        101:
+        '101':
           description: Switching Protocols to WebSocket.
           headers:
             Connection:
@@ -109,20 +107,19 @@ paths:
               schema:
                 type: object
           content: {}
-        400:
+        '400':
           description: Resource can only be accessed with WebSockets.
           content:
             text/plain:
               schema:
                 type: string
                 example: Resource can only be access with WebSockets.
-        500:
+        '500':
           description: STAP Server is not reachable
           content: {}
-        501:
+        '501':
           description: STAP Server is not implemented
           content: {}
-
   /adbp/v1/:
     get:
       tags:
@@ -146,7 +143,7 @@ paths:
               - a834/adbp
           required: true
       responses:
-        101:
+        '101':
           description: Switching Protocols to WebSocket.
           headers:
             Connection:
@@ -161,20 +158,19 @@ paths:
               schema:
                 type: object
           content: {}
-        400:
+        '400':
           description: Resource can only be accessed with WebSockets.
           content:
             text/plain:
               schema:
                 type: string
                 example: Resource can only be access with WebSockets.
-        500:
+        '500':
           description: STAP Server is not reachable
           content: {}
-        501:
+        '501':
           description: STAP Server is not implemented
           content: {}
-
   /{service}/v1/:
     get:
       tags:
@@ -189,7 +185,7 @@ paths:
           required: true
           schema:
             type: string
-          example:
+          example: null
         - in: header
           name: Connection
           schema:
@@ -201,10 +197,10 @@ paths:
           name: Upgrade
           schema:
             type: string
-            pattern: "^[a-zA-Z0-9-._~!$&()*+,;=:/?@]+$"
+            pattern: ^[a-zA-Z0-9-._~!$&()*+,;=:/?@]+$
           required: true
       responses:
-        101:
+        '101':
           description: Switching Protocols to Websocket.
           headers:
             Connection:
@@ -219,37 +215,35 @@ paths:
               schema:
                 type: object
           content: {}
-        400:
+        '400':
           description: Resource can only be accessed with WebSockets.
           content:
             text/plain:
               schema:
                 type: string
                 example: Resource can only be access with WebSockets.
-        500:
+        '500':
           description: Service is not reachable
-        501:
+        '501':
           description: Service is not implemented
           content: {}
-
   /services/:
     get:
       tags:
         - 3.2 Service Discovery
-      summary: "3.2. Get a list of services"
-      description: "An ARINC 834A server should provide a Service Discovery function enabling connected clients to discover the supported service(s)."
+      summary: 3.2. Get a list of services
+      description: An ARINC 834A server should provide a Service Discovery function enabling connected clients to discover the supported service(s).
       responses:
-        200:
-          description: "The server should response by providing the list of supported services and optional description field (free content field based on string)"
+        '200':
+          description: The server should response by providing the list of supported services and optional description field (free content field based on string)
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/3.2.Services"
-        500:
-          description: "Internal Server Error"
-        503:
-          description: "Service Unavailable"
-
+                $ref: '#/components/schemas/3.2.Services'
+        '500':
+          description: Internal Server Error
+        '503':
+          description: Service Unavailable
   /nas/v1/:
     get:
       tags:
@@ -257,13 +251,12 @@ paths:
       summary: Retrieve identified root folder
       operationId: getRoot
       responses:
-        200:
+        '200':
           description: successful operation
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/7.0.PathList"
-
+                $ref: '#/components/schemas/7.0.PathList'
   /nas/v1/{path}:
     get:
       tags:
@@ -277,9 +270,9 @@ paths:
           required: true
           schema:
             type: string
-            pattern: "^[a-zA-Z0-9-._~!$&()*+,;=:/?@]+$"
+            pattern: ^[a-zA-Z0-9-._~!$&()*+,;=:/?@]+$
       responses:
-        200:
+        '200':
           description: |
             When the query path is a folder type then an `application/json` with the path list is returned.
             When the query path is a file type then an `application/octet-stream` with 
@@ -295,12 +288,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/7.0.PathList"
+                $ref: '#/components/schemas/7.0.PathList'
             application/octet-stream:
               schema:
                 type: string
                 format: binary
-        404:
+        '404':
           description: not found
           content: {}
     put:
@@ -315,7 +308,7 @@ paths:
           required: true
           schema:
             type: string
-            pattern: "^[a-zA-Z0-9-._~!$&()*+,;=:/?@]+$"
+            pattern: ^[a-zA-Z0-9-._~!$&()*+,;=:/?@]+$
       requestBody:
         content:
           application/octet-stream:
@@ -324,10 +317,10 @@ paths:
               format: binary
         required: false
       responses:
-        201:
+        '201':
           description: created
           content: {}
-        500:
+        '500':
           description: internal error
           content: {}
     delete:
@@ -342,25 +335,24 @@ paths:
           required: true
           schema:
             type: string
-            pattern: "^[a-zA-Z0-9-._~!$&()*+,;=:/?@]+$"
+            pattern: ^[a-zA-Z0-9-._~!$&()*+,;=:/?@]+$
       responses:
-        204:
+        '204':
           description: successful deletion, no content
           content: {}
-        404:
+        '404':
           description: not found
           content: {}
-
   /adif/v1/parameters:
     get:
       tags:
-        - "4.1.4 Parameter Interfaces"
+        - 4.1.4 Parameter Interfaces
       summary: 4.1.4.2 Parameter Synchronous request API
-      description: "The ARINC 834A server should allow connected clients to retrieve valid parameters using the following REST commands."
+      description: The ARINC 834A server should allow connected clients to retrieve valid parameters using the following REST commands.
       operationId: getParameters
       parameters:
         - in: query
-          name: names
+          name: params
           required: false
           schema:
             type: string
@@ -372,15 +364,15 @@ paths:
           examples:
             singleParameter:
               summary: Example of single parameter request
-              value: "time_utc"
+              value: time_utc
             multipleParameter:
               summary: Example of multiple parameters request
-              value: "date_utc,time_utc"
+              value: date_utc,time_utc
             allParameter:
               summary: Example of all parameters request
-              value: "*"
+              value: '*'
       responses:
-        200:
+        '200':
           description: |
             OK: The server should return the requested parameters formatted with applicable JSON schema. 
             Without the `params=xxx` the server only returns the name and the settable flag without values.
@@ -388,37 +380,38 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/4.1.4.4.A834AParameters"
-
-        403:
-          description: "Forbidden: On an item that is not allowed for modification, the server should report error message 403 (Forbidden) with the list of rejected parameters as follows"
+                $ref: '#/components/schemas/4.1.4.4.A834AParameters'
+        '403':
+          description: 'Forbidden: On an item that is not allowed for modification, the server should report error message 403 (Forbidden) with the list of rejected parameters as follows'
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/4.1.4.4.ErrorResponse"
+                $ref: '#/components/schemas/4.1.4.4.ErrorResponse'
               example:
-                error: "parameter not modifiable"
-                parameters: [parameter]
-        404:
-          description: "Not Found: If none parameter of the request could be found it should be answered with code 404 (Not Found). The name of the unknown parameter should be reported in the error message as follows"
+                error: parameter not modifiable
+                parameters:
+                  - parameter
+        '404':
+          description: 'Not Found: If none parameter of the request could be found it should be answered with code 404 (Not Found). The name of the unknown parameter should be reported in the error message as follows'
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/4.1.4.4.ErrorResponse"
+                $ref: '#/components/schemas/4.1.4.4.ErrorResponse'
               example:
-                error: "parameter not found"
-                parameters: [parameter]
-        429:
-          $ref: "#/components/responses/429TooManyRequests"
-        501:
+                error: parameter not found
+                parameters:
+                  - parameter
+        '429':
+          $ref: '#/components/responses/429TooManyRequests'
+        '501':
           description: |
             Not Implemented: Unsupported service or Version in a URL should be answered with code. The client should not 
             expect the service to be available anytime and should not poll the server with the same request to reduce resources consumption.
-        502:
+        '502':
           description: |
             Bad Gateway: If a proxy or reverse proxy is set-up between the A834A Client and Server, in case the proxy is 
             experiencing issue, this error code should be reported.
-        503:
+        '503':
           description: |
             Service Unavailable: If a service is (temporary) not available (i.e. not yet fully initialized) it should 
             return this error code to indicate the client, that the service may be available soon and the client may 
@@ -427,71 +420,74 @@ paths:
             the present document should be avoided.)
     put:
       tags:
-        - "4.1.4 Parameter Interfaces"
+        - 4.1.4 Parameter Interfaces
       summary: 4.1.4.3 Parameter REST Set API.
       description: |
         The ARINC 834A supports also the “Write Parameter” feature. This is applicable only to specific services as detailed 
         in this document. As such this function is optional since only ADIF function is mandatory for ARINC 834A.
       requestBody:
-        description: "Multiple parameters may be Set with a single request."
+        description: Multiple parameters may be Set with a single request.
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/4.1.4.3.WriteParameters"
+              $ref: '#/components/schemas/4.1.4.3.WriteParameters'
       responses:
-        200:
-          description: "OK: The server should return the requested parameters formatted with applicable JSON schema."
+        '200':
+          description: 'OK: The server should return the requested parameters formatted with applicable JSON schema.'
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/4.1.4.4.A834AParameters"
+                $ref: '#/components/schemas/4.1.4.4.A834AParameters'
               example:
                 - name: Parametername1
                   timestamp: 1000
-                  value: "xxx"
+                  value: xxx
                   settable: true
                 - name: Parametername2
                   tiemstamp: 1000
-                  value: "xxx"
+                  value: xxx
                   settable: true
-        403:
-          description: "Forbidden: On an item that is not allowed for modification, the server should report error message 403 (Forbidden) with the list of rejected parameters as follows"
+        '403':
+          description: 'Forbidden: On an item that is not allowed for modification, the server should report error message 403 (Forbidden) with the list of rejected parameters as follows'
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/4.1.4.4.ErrorResponse"
+                $ref: '#/components/schemas/4.1.4.4.ErrorResponse'
               example:
-                error: "parameter not modifiable"
-                parameters: [hdg_mag, tas]
-        404:
-          description: "Not Found: Non-Existent parameter should be answered with code 404 (Not Found). The name of the unknown parameter should be reported in the error message as follows"
+                error: parameter not modifiable
+                parameters:
+                  - hdg_mag
+                  - tas
+        '404':
+          description: 'Not Found: Non-Existent parameter should be answered with code 404 (Not Found). The name of the unknown parameter should be reported in the error message as follows'
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/4.1.4.4.ErrorResponse"
+                $ref: '#/components/schemas/4.1.4.4.ErrorResponse'
               example:
-                error: "parameter not found"
-                parameters: ["fuel_price", "coffee_temperature"]
-        429:
+                error: parameter not found
+                parameters:
+                  - fuel_price
+                  - coffee_temperature
+        '429':
           description: |
             Too many requests: If the server has reached the maximum number of supported clients, it should use standard HTTP code 429.
-        501:
+        '501':
           description: |
             Not Implemented: Unsupported service or Version in a URL should be answered with code. The client should not expect the service 
             to be available anytime and should not poll the server with the same request to reduce resources consumption.
-        502:
+        '502':
           description: |
             Bad Gateway: If a proxy or reverse proxy is set-up between the A834A Client and Server, in case the proxy is 
             experiencing issue, this error code should be reported.
-        503:
+        '503':
           description: |
             Service Unavailable: Other standard HTTP codes may be used by the A834A supplier to provide useful information to the clients 
             nevertheless, the general principle is that overlap with error codes defined in the present document should be avoided.
-
   /adif/v1/parameters/{paramname}:
     get:
       tags:
-        - "4.1.4 Parameter Interfaces"
+        - 4.1.4 Parameter Interfaces
       operationId: getParameterById
       parameters:
         - in: path
@@ -500,16 +496,15 @@ paths:
           schema:
             type: string
       responses:
-        200:
-          description: "OK"
-
+        '200':
+          description: OK
   /adif/v1/subscription:
     get:
       tags:
         - 2.1. Protocol Switching
       servers:
         - url: wss://a834a-1.suppliername.local/a834a/
-      summary: "2.1.1 Protocol Switching - WebSockets NOTE: Need to be removed due to duplicate in openapi."
+      summary: '2.1.1 Protocol Switching - WebSockets NOTE: Need to be removed due to duplicate in openapi.'
       parameters:
         - in: header
           name: Connection
@@ -526,7 +521,7 @@ paths:
               - websocket
           required: true
       responses:
-        101:
+        '101':
           description: Switching Protocols to Websocket.
           headers:
             Connection:
@@ -541,20 +536,19 @@ paths:
               schema:
                 type: object
           content: {}
-        400:
+        '400':
           description: Resource can only be accessed with WebSockets.
           content:
             text/plain:
               schema:
                 type: string
                 example: Resource can only be access with WebSockets.
-        500:
+        '500':
           description: adif Service is not reachable
           content: {}
-        501:
+        '501':
           description: adif Server is not implemented
           content: {}
-
   /acars/v1/uplinks:
     get:
       tags:
@@ -563,9 +557,9 @@ paths:
       description: Retrieve uplinks which matches the filter criteria or all uplinks when no filter is provided.
       operationId: getAllUplinks
       parameters:
-        - $ref: "#/components/parameters/IfNoneMatch"
-        - $ref: "#/components/parameters/Limit"
-        - $ref: "#/components/parameters/Start"
+        - $ref: '#/components/parameters/IfNoneMatch'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Start'
         - in: query
           name: mfi
           description: Filter by MFI (Message Function Identifier) to address specific applications.
@@ -574,17 +568,17 @@ paths:
             maxLength: 2
             minLength: 2
       responses:
-        200:
+        '200':
           description: Returns a list of matching uplinks or an empty list when no uplinks are found.
           headers:
             ETag:
-              $ref: "#/components/parameters/ETag"
+              $ref: '#/components/headers/ETag'
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/6.0.UplinkList"
-        304:
-          $ref: "#/components/responses/304NotModified"
+                $ref: '#/components/schemas/6.0.UplinkList'
+        '304':
+          $ref: '#/components/responses/304NotModified'
     delete:
       tags:
         - 6.0 ACARS
@@ -600,9 +594,8 @@ paths:
             maxLength: 2
             minLength: 2
       responses:
-        204:
+        '204':
           description: Successful operation
-
   /acars/v1/uplinks/{id}:
     get:
       tags:
@@ -619,13 +612,13 @@ paths:
             type: integer
             format: int64
       responses:
-        200:
+        '200':
           description: Return the uplink with the specified id.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/6.0.Uplink"
-        404:
+                $ref: '#/components/schemas/6.0.Uplink'
+        '404':
           description: Uplinks with the specified id not found.
     delete:
       tags:
@@ -642,11 +635,10 @@ paths:
             type: integer
             format: int64
       responses:
-        204:
+        '204':
           description: Uplink successfully deleted.
-        404:
+        '404':
           description: Uplink with the given id not found.
-
   /acars/v1/downlinks:
     get:
       tags:
@@ -655,9 +647,9 @@ paths:
       description: Retrieve downlinks which matches the filter criteria or all downlinks when no filter is provided.
       operationId: getAllDownlinks
       parameters:
-        - $ref: "#/components/parameters/IfNoneMatch"
-        - $ref: "#/components/parameters/Limit"
-        - $ref: "#/components/parameters/Start"
+        - $ref: '#/components/parameters/IfNoneMatch'
+        - $ref: '#/components/parameters/Limit'
+        - $ref: '#/components/parameters/Start'
         - in: query
           name: mfi
           description: Filter by MFI (Message Function Identifier) to address specific applications.
@@ -666,17 +658,17 @@ paths:
             maxLength: 2
             minLength: 2
       responses:
-        200:
+        '200':
           description: Returns a list of matching downlinks or an empty list when no downlinks are found.
           headers:
             ETag:
-              $ref: "#/components/parameters/ETag"
+              $ref: '#/components/headers/ETag'
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/6.0.DownlinkList"
-        304:
-          $ref: "#/components/responses/304NotModified"
+                $ref: '#/components/schemas/6.0.DownlinkList'
+        '304':
+          $ref: '#/components/responses/304NotModified'
     post:
       tags:
         - 6.0 ACARS
@@ -689,7 +681,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/6.0.Downlink"
+              $ref: '#/components/schemas/6.0.Downlink'
             example:
               mfi: WX
               mediaSelect: ACARS_ANY
@@ -697,9 +689,8 @@ paths:
               dataType: ASCII
               dataSize: 82
               data: TUVUQVIgS1NUTCAyMTE2NTFaIDAxMDA1S1QgMTBTTSBGRVcwMjAgQktOMjUwIDE5LzEyIEEzMDI2IFJNSyBBTzIgU0xQMjQ0IFQwMTg5MDExNw==
-
       responses:
-        201:
+        '201':
           description: Downlink request successfully created. Returns the newly created downlink.
           headers:
             Location:
@@ -709,9 +700,8 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/6.0.Downlink"
-
-        400:
+                $ref: '#/components/schemas/6.0.Downlink'
+        '400':
           description: Request is malformed.
     delete:
       tags:
@@ -728,9 +718,8 @@ paths:
             maxLength: 2
             minLength: 2
       responses:
-        204:
+        '204':
           description: Successful operation
-
   /acars/v1/downlinks/{id}:
     get:
       tags:
@@ -739,7 +728,7 @@ paths:
       description: Retrieve a downlinks for the given id.
       operationId: getDownlinkById
       parameters:
-        - $ref: "#/components/parameters/IfNoneMatch"
+        - $ref: '#/components/parameters/IfNoneMatch'
         - name: id
           in: path
           description: Unique id which identifies a downlink.
@@ -748,18 +737,18 @@ paths:
             type: integer
             format: int64
       responses:
-        200:
+        '200':
           description: Return the downlink with the specified id.
           headers:
             ETag:
-              $ref: "#/components/parameters/ETag"
+              $ref: '#/components/headers/ETag'
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/6.0.Downlink"
-        304:
-          $ref: "#/components/responses/304NotModified"
-        404:
+                $ref: '#/components/schemas/6.0.Downlink'
+        '304':
+          $ref: '#/components/responses/304NotModified'
+        '404':
           description: Uplinks with the specified id not found.
     delete:
       tags:
@@ -776,26 +765,24 @@ paths:
             type: integer
             format: int64
       responses:
-        204:
+        '204':
           description: Downlink successfully deleted.
-        404:
+        '404':
           description: Downlink with the given id not found.
-
   /acars/v1/status:
     get:
       tags:
         - 6.0 ACARS
-      summary: 6.2.10	Get the status of the channels
+      summary: "6.2.10\tGet the status of the channels"
       description: Retrieve the status of all communication channels.
       operationId: getChannelStatus
       responses:
-        200:
+        '200':
           description: Returns the status object for the communication channels.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/6.0.Status"
-
+                $ref: '#/components/schemas/6.0.Status'
   /acars/v1/subscribe:
     get:
       tags:
@@ -842,7 +829,7 @@ paths:
               - acars-1
           required: true
       responses:
-        101:
+        '101':
           description: Switching Protocols to Websocket.
           headers:
             Connection:
@@ -864,14 +851,13 @@ paths:
                 enum:
                   - acars-1
           content: {}
-        400:
+        '400':
           description: Resource can only be accessed with WebSockets.
           content:
             text/plain:
               schema:
                 type: string
                 example: Resource can only be access with WebSockets.
-
   /fms/v1/flightPlan:
     get:
       tags:
@@ -880,13 +866,12 @@ paths:
       description: Retrieve current FMS flight plan.
       operationId: getFmsFlightPlan
       responses:
-        200:
+        '200':
           description: Returns the FMS flight plan.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/8.0.FmsFlightPlan"
-
+                $ref: '#/components/schemas/8.0.FmsFlightPlan'
 components:
   schemas:
     3.2.Services:
@@ -896,12 +881,12 @@ components:
           type: array
           items:
             type: object
-            description: "Describes the A834a services available on the server."
+            description: Describes the A834a services available on the server.
             minItems: 0
             properties:
               service:
                 type: string
-                pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.]*$"
+                pattern: ^[a-zA-Z0-9][a-zA-Z0-9_.]*$
               description:
                 type: string
               versions:
@@ -913,7 +898,7 @@ components:
                   properties:
                     version:
                       type: string
-                      pattern: "^v[0-9]+$"
+                      pattern: ^v[0-9]+$
                     uri:
                       type: string
                     authenticate:
@@ -925,39 +910,38 @@ components:
           - service: adif
             description: Avionics Parameters
             versions:
-              - version: "v1"
+              - version: v1
                 uri: https://server/a834a/adif/v1
                 authenticate: false
-              - version: "v2"
+              - version: v2
                 uri: https://server/a834a/adif/v2
                 authenticate: false
           - service: nas
             description: Network Attached Storage
             versions:
-              - version: "v1"
+              - version: v1
                 uri: https://server/a834a/nas/v1
                 authenticate: true
-              - version: "v2"
+              - version: v2
                 uri: https://server/a834a/nas/v2
                 authenticate: true
-
     4.1.3.timestamp:
       description: |
         Time in milliseconds based on a monotonic clock (arbitrary fixed point in the past; is not affected by 
         changes in the system time-of-day clock). This is the time of the last modification of the value of the parameter.
       type: integer
       format: int64
-
     UnknownParameters:
       type: object
       properties:
         unknownParameters:
           type: array
           items:
-            $ref: "#/components/schemas/parameterName"
+            $ref: '#/components/schemas/parameterName'
             minItems: 1
-          example: ["fuel_price", "coffee_temperature"]
-
+          example:
+            - fuel_price
+            - coffee_temperature
     4.1.4.3.WriteParameters:
       type: object
       properties:
@@ -967,14 +951,13 @@ components:
             type: object
             properties:
               name:
-                $ref: "#/components/schemas/parameterName"
+                $ref: '#/components/schemas/parameterName'
               timestamp:
-                $ref: "#/components/schemas/4.1.3.timestamp"
+                $ref: '#/components/schemas/4.1.3.timestamp'
               value: {}
             minItems: 1
-
     4.1.4.4.A834AParameters:
-      description: "Schema for A834 parameter array version."
+      description: Schema for A834 parameter array version.
       type: object
       required:
         - parameters
@@ -982,34 +965,29 @@ components:
         parameters:
           type: array
           items:
-            $ref: "#/components/schemas/4.1.4.4.A834AParameter"
+            $ref: '#/components/schemas/4.1.4.4.A834AParameter'
         unknownParameters:
           type: array
           items:
-            $ref: "#/components/schemas/parameterName"
+            $ref: '#/components/schemas/parameterName'
           example:
-            - "fuel_price"
-            - "coffee_temperature"
-
+            - fuel_price
+            - coffee_temperature
     4.1.4.4.A834AParameter:
-      description: "Schema for A834A parameter version 1.0.2"
+      description: Schema for A834A parameter version 1.0.2
       type: object
       properties:
         name:
-          $ref: "#/components/schemas/parameterName"
+          $ref: '#/components/schemas/parameterName'
         timestamp:
-          $ref: "#/components/schemas/4.1.3.timestamp"
+          $ref: '#/components/schemas/4.1.3.timestamp'
         value:
           type: object
-          description: |
-            Which type is strictly defined in the JSON schema (e.g., kg, knots, degrees, complex type, etc.). 'value' is set 
-            to null (JSON datatype) when the parameter is not valid (that is to say for in the A429 case: not in “NO”)	
-            "settable"(boolean) by default all parameters for public ARINC 834A ADIF service cannot be set by a client.
+          description: "Which type is strictly defined in the JSON schema (e.g., kg, knots, degrees, complex type, etc.). 'value' is set \nto null (JSON datatype) when the parameter is not valid (that is to say for in the A429 case: not in “NO”)\t\n\"settable\"(boolean) by default all parameters for public ARINC 834A ADIF service cannot be set by a client.\n"
         settable:
           type: boolean
-          description: "by default all parameters for public ARINC 834A ADIF service cannot be set by a client."
+          description: by default all parameters for public ARINC 834A ADIF service cannot be set by a client.
           default: false
-
     4.1.4.4.ErrorResponse:
       type: object
       properties:
@@ -1018,18 +996,18 @@ components:
         parameters:
           type: array
           items:
-            $ref: "#/components/schemas/parameterName"
+            $ref: '#/components/schemas/parameterName'
       example:
-        error: "ErrorMessage"
-        parameters: ["fuel_price", "coffee_temperature"]
-
+        error: ErrorMessage
+        parameters:
+          - fuel_price
+          - coffee_temperature
     4.1.5.1.WebSocketSubscription:
       type: object
       properties:
         NOTE:
           type: string
-          example: "TODO: OPEN ITEM"
-
+          example: 'TODO: OPEN ITEM'
     6.0.UplinkList:
       type: object
       properties:
@@ -1054,7 +1032,7 @@ components:
           type: array
           readOnly: true
           items:
-            $ref: "#/components/schemas/6.0.Uplink"
+            $ref: '#/components/schemas/6.0.Uplink'
       example:
         selfLink: https://server/a834a/acars/v1/uplinks
         limit: 10
@@ -1077,7 +1055,6 @@ components:
             dataType: ASCII
             dataSize: 82
             data: TUVUQVIgS1NUTCAyMTE2NTFaIDAxMDA1S1QgMTBTTSBGRVcwMjAgQktOMjUwIDE5LzEyIEEzMDI2IFJNSyBBTzIgU0xQMjQ0IFQwMTg5MDExNw==
-
     6.0.Uplink:
       type: object
       properties:
@@ -1128,7 +1105,6 @@ components:
         dataType: ASCII
         dataSize: 82
         data: TUVUQVIgS1NUTCAyMTE2NTFaIDAxMDA1S1QgMTBTTSBGRVcwMjAgQktOMjUwIDE5LzEyIEEzMDI2IFJNSyBBTzIgU0xQMjQ0IFQwMTg5MDExNw==
-
     6.0.DownlinkList:
       type: object
       properties:
@@ -1153,7 +1129,7 @@ components:
           type: array
           readOnly: true
           items:
-            $ref: "#/components/schemas/6.0.Downlink"
+            $ref: '#/components/schemas/6.0.Downlink'
       example:
         selfLink: https://server/a834a/acars/v1/downlinks
         limit: 10
@@ -1180,7 +1156,6 @@ components:
             dataType: ASCII
             dataSize: 82
             data: TUVUQVIgS1NUTCAyMTE2NTFaIDAxMDA1S1QgMTBTTSBGRVcwMjAgQktOMjUwIDE5LzEyIEEzMDI2IFJNSyBBTzIgU0xQMjQ0IFQwMTg5MDExNw==
-
     6.0.Downlink:
       type: object
       properties:
@@ -1255,7 +1230,6 @@ components:
         dataType: ASCII
         dataSize: 82
         data: TUVUQVIgS1NUTCAyMTE2NTFaIDAxMDA1S1QgMTBTTSBGRVcwMjAgQktOMjUwIDE5LzEyIEEzMDI2IFJNSyBBTzIgU0xQMjQ0IFQwMTg5MDExNw==
-
     6.0.Status:
       type: object
       properties:
@@ -1295,7 +1269,6 @@ components:
               isAvailable: false
             - name: ANY_OTHER
               isAvailable: false
-
     7.0.PathList:
       type: object
       properties:
@@ -1328,7 +1301,6 @@ components:
           - name: README.txt
             path: /README.txt
             pathtype: file
-
     8.0.FmsFlightPlan:
       type: object
       properties:
@@ -1372,8 +1344,7 @@ components:
               description: TODO
               type: array
               items:
-                $ref: "#/components/schemas/8.0.FmsPoint"
-
+                $ref: '#/components/schemas/8.0.FmsPoint'
     8.0.FmsPoint:
       type: object
       properties:
@@ -1445,13 +1416,11 @@ components:
               description: TODO
               type: integer
               example: 1234
-
     parameterName:
       type: string
-      description: "Name of a parameter, please note that '.' are used for namespaces."
-      pattern: "^([A-Za-z0-9_]+.)?[A-Za-z0-9_]+$"
+      description: Name of a parameter, please note that '.' are used for namespaces.
+      pattern: ^([A-Za-z0-9_]+.)?[A-Za-z0-9_]+$
       example: AirlineID
-
   parameters:
     Limit:
       description: Limit the number of results.
@@ -1469,17 +1438,6 @@ components:
         default: 0
         type: integer
         format: int64
-    ETag:
-      description: |
-        The RFC7232 ETag header field in a response provides the current entity-tag for the selected resource. An entity-tag 
-        is an opaque identifier for different versions of a resource over time, regardless whether multiple versions are valid 
-        at the same time. An entity-tag consists of an opaque quoted string, possibly prefixed by a weakness indicator.
-      example: W/"abc", "42", "c0d5809f-cbfa-4ce9-8b03-2231fee3e1ee"
-      in: header
-      name: ETag
-      required: false
-      schema:
-        type: string
     IfMatch:
       description: |
         The RFC7232 If-Match header field in a request requires the server to only operate on the resource that matches at least 
@@ -1501,7 +1459,6 @@ components:
       required: false
       schema:
         type: string
-
   responses:
     304NotModified:
       description: Returns a Not Modified if the If-None-Match header matches the current ETag.
@@ -1514,4 +1471,14 @@ components:
         Retry-After:
           schema:
             type: integer
-            description: "Seconds"
+            description: Seconds
+  headers:
+    ETag:
+      description: |
+        The RFC7232 ETag header field in a response provides the current entity-tag for the selected resource. An entity-tag 
+        is an opaque identifier for different versions of a resource over time, regardless whether multiple versions are valid 
+        at the same time. An entity-tag consists of an opaque quoted string, possibly prefixed by a weakness indicator.
+      example: W/"abc", "42", "c0d5809f-cbfa-4ce9-8b03-2231fee3e1ee"
+      required: false
+      schema:
+        type: string

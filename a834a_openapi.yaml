@@ -1234,10 +1234,11 @@ components:
             - MEDIA_HF
             - MEDIA_ANY_OTHER
         lifetime:
-          description: Lifetime in minutes. (0 = infinite)
+          description: Lifetime in minutes as specified in ARINC 620. (default = 0 = infinite)
           multipleOf: 2
           maximum: 30
           minimum: 0
+          default: 0
           type: integer
         dataType:
           description: Type of the data.

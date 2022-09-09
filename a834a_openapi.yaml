@@ -1039,16 +1039,14 @@ components:
         start: 20
         total: 22
         uplinks:
-          - selfLink: https://server/a834a/acars/v1/uplinks/20
-            id: 20
+          - selfLink: https://server/a834a/acars/v1/uplinks/20            
             timestamp: 2022-04-21T17:55:35.321Z
             mfi: AC
             lifetime: 10
             dataType: ASCII
             dataSize: 32
             data: SGVsbG8gV29ybGQgRnJlZSBUZXh0Lg==
-          - selfLink: https://server/a834a/acars/v1/uplinks/21
-            id: 21
+          - selfLink: https://server/a834a/acars/v1/uplinks/21            
             timestamp: 2022-04-21T18:45:15.456Z
             mfi: WX
             lifetime: 0
@@ -1061,10 +1059,6 @@ components:
         selfLink:
           description: A URL that can be used to access the resource again.
           type: string
-          readOnly: true
-        id:
-          description: Unique Identifier.
-          type: integer
           readOnly: true
         timestamp:
           description: Timestamp when the message was received.
@@ -1098,7 +1092,6 @@ components:
           format: base64
       example:
         selfLink: https://server/a834a/acars/v1/uplinks/10
-        id: 10
         timestamp: 2022-04-21T18:45:15.456Z
         mfi: WX
         lifetime: 0
@@ -1137,7 +1130,6 @@ components:
         total: 2
         downlinks:
           - selfLink: https://server/a834a/acars/v1/downlinks/3
-            id: 3
             created: 2022-04-21T17:55:35.321Z
             state: ACKNOWLEDGED
             mfi: AO
@@ -1147,7 +1139,6 @@ components:
             dataSize: 32
             data: SGVsbG8gV29ybGQgRnJlZSBUZXh0Lg==
           - selfLink: https://server/a834a/acars/v1/downlinks/4
-            id: 4
             created: 2022-04-21T18:45:15.456Z
             state: TRANSMITTING
             mfi: WX
@@ -1163,10 +1154,6 @@ components:
           description: A URL that can be used to access the resource again.
           type: string
           format: URL
-          readOnly: true
-        id:
-          type: integer
-          description: Unique Identifier.
           readOnly: true
         created:
           description: Timestamp when the message was received.
@@ -1221,7 +1208,6 @@ components:
           format: base64
       example:
         selfLink: https://server/a834a/acars/v1/downlinks/4
-        id: 4
         created: 2022-04-21T18:45:15.456Z
         state: TRANSMITTING
         mfi: WX

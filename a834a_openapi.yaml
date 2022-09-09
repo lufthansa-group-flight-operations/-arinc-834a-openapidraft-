@@ -874,6 +874,13 @@ paths:
                 $ref: '#/components/schemas/8.0.FmsFlightPlan'
 components:
   schemas:
+    selfLink:
+      description: A URL that can be used to access the resource again.
+      type: string
+      readOnly: true
+    ISO8601TimeStamp:
+      description: Test
+      type: string
     3.2.Services:
       type: object
       properties:
@@ -1012,9 +1019,7 @@ components:
       type: object
       properties:
         selfLink:
-          description: A URL that can be used to access the resource again.
-          type: string
-          readOnly: true
+          $ref: '#/components/schemas/selfLink'
         limit:
           description: The selected limit in the query. Not provided or null when pagination was not used in the query.
           type: integer
@@ -1057,13 +1062,11 @@ components:
       type: object
       properties:
         selfLink:
-          description: A URL that can be used to access the resource again.
-          type: string
-          readOnly: true
+          $ref: '#/components/schemas/selfLink'
         timestamp:
           description: Timestamp when the message was received.
           type: string
-          format: date-time
+          format: ISO8601TimeStamp
         mti:
           description: Message Type Identifier to address specific applications.
           type: string
@@ -1102,9 +1105,7 @@ components:
       type: object
       properties:
         selfLink:
-          description: A URL that can be used to access the resource again.
-          type: string
-          readOnly: true
+          $ref: '#/components/schemas/selfLink'
         limit:
           description: The selected limit in the query. Not provided or null when pagination was not used in the query.
           type: integer
@@ -1151,10 +1152,7 @@ components:
       type: object
       properties:
         selfLink:
-          description: A URL that can be used to access the resource again.
-          type: string
-          format: URL
-          readOnly: true
+          $ref: '#/components/schemas/selfLink'
         created:
           description: Timestamp when the message was received.
           type: string
@@ -1220,9 +1218,7 @@ components:
       type: object
       properties:
         selfLink:
-          description: A URL that can be used to access the resource again.
-          type: string
-          format: URL
+          $ref: '#/components/schemas/selfLink'
           example: https://server/a834a/acars/v1/status
         updated:
           description: Timestamp when the information was updated.
@@ -1255,6 +1251,21 @@ components:
               isAvailable: false
             - name: ANY_OTHER
               isAvailable: false
+      example:
+        selflink: https://server/a834a/acars/v1/status
+        isAnyAvailable: true
+        updated: TBD
+        channels:
+          - name: VHF
+            isAvailable: true
+          - name: HF
+            isAvailable: false
+          - name: SATCOM
+            isAvailable: true
+          - name: GATELINK
+            isAvailable: false
+          - name: ANY_OTHER
+            isAvailable: false
     7.0.PathList:
       type: object
       properties:

@@ -1039,14 +1039,14 @@ components:
         start: 20
         total: 22
         uplinks:
-          - selfLink: https://server/a834a/acars/v1/uplinks/20            
+          - selfLink: https://server/a834a/acars/v1/uplinks/90ad2e56-aa8c-49dc-a1aa-028379c011c4           
             timestamp: 2022-04-21T17:55:35.321Z
             mfi: AC
             lifetime: 10
             dataType: ASCII
             dataSize: 32
             data: SGVsbG8gV29ybGQgRnJlZSBUZXh0Lg==
-          - selfLink: https://server/a834a/acars/v1/uplinks/21            
+          - selfLink: https://server/a834a/acars/v1/uplinks/240be703-012b-4442-ab38-405616baf625            
             timestamp: 2022-04-21T18:45:15.456Z
             mfi: WX
             lifetime: 0
@@ -1091,7 +1091,7 @@ components:
           type: string
           format: base64
       example:
-        selfLink: https://server/a834a/acars/v1/uplinks/10
+        selfLink: https://server/a834a/acars/v1/uplinks/240be703-012b-4442-ab38-405616baf625
         timestamp: 2022-04-21T18:45:15.456Z
         mfi: WX
         lifetime: 0
@@ -1129,7 +1129,7 @@ components:
         start: 0
         total: 2
         downlinks:
-          - selfLink: https://server/a834a/acars/v1/downlinks/3
+          - selfLink: https://server/a834a/acars/v1/downlinks/127ade54-8458-4d01-b94f-5f9216838f1f
             created: 2022-04-21T17:55:35.321Z
             state: ACKNOWLEDGED
             mfi: AO
@@ -1138,7 +1138,7 @@ components:
             dataType: ASCII
             dataSize: 32
             data: SGVsbG8gV29ybGQgRnJlZSBUZXh0Lg==
-          - selfLink: https://server/a834a/acars/v1/downlinks/4
+          - selfLink: https://server/a834a/acars/v1/downlinks/5eb2e8cd-a853-4d7a-bdd4-2a45f8ebbeb7
             created: 2022-04-21T18:45:15.456Z
             state: TRANSMITTING
             mfi: WX
@@ -1207,7 +1207,7 @@ components:
           type: string
           format: base64
       example:
-        selfLink: https://server/a834a/acars/v1/downlinks/4
+        selfLink: https://server/a834a/acars/v1/downlinks/5eb2e8cd-a853-4d7a-bdd4-2a45f8ebbeb7
         created: 2022-04-21T18:45:15.456Z
         state: TRANSMITTING
         mfi: WX

@@ -557,6 +557,7 @@ paths:
       description: Retrieve uplinks which matches the filter criteria or all uplinks when no filter is provided.
       operationId: getAllUplinks
       parameters:
+        - $ref: '#/components/parameters/IncludePayload'
         - $ref: '#/components/parameters/IfNoneMatch'
         - $ref: '#/components/parameters/Limit'
         - $ref: '#/components/parameters/Start'
@@ -611,6 +612,8 @@ paths:
           schema:
             type: integer
             format: int64
+        - include_payload:
+          $ref: '#/components/parameters/IncludePayload'
       responses:
         '200':
           description: Return the uplink with the specified id.
@@ -647,6 +650,7 @@ paths:
       description: Retrieve downlinks which matches the filter criteria or all downlinks when no filter is provided.
       operationId: getAllDownlinks
       parameters:
+        - $ref: '#/components/parameters/IncludePayload'
         - $ref: '#/components/parameters/IfNoneMatch'
         - $ref: '#/components/parameters/Limit'
         - $ref: '#/components/parameters/Start'
@@ -736,6 +740,8 @@ paths:
           schema:
             type: integer
             format: int64
+        - include_payload:
+          $ref: '#/components/parameters/IncludePayload'
       responses:
         '200':
           description: Return the downlink with the specified id.
@@ -1416,6 +1422,13 @@ components:
       pattern: ^([A-Za-z0-9_]+.)?[A-Za-z0-9_]+$
       example: AirlineID
   parameters:
+    IncludePayload:
+      description: If set to true, the response will have the payload included. Otherwise the payload is not sent. If not set, the default is false.
+      in: query
+      name: include_payload
+      required: false
+      schema:
+        type: boolean
     Limit:
       description: Limit the number of results.
       in: query

@@ -1015,6 +1015,9 @@ components:
         NOTE:
           type: string
           example: 'TODO: OPEN ITEM'
+    6.0.MsgPayload:
+      description: Payload of the message. Currently ASCII only.
+      type: string
     6.0.UplinkList:
       type: object
       properties:
@@ -1088,11 +1091,8 @@ components:
           description: Size of the data after Base64 decoding.
           minimum: 1
           type: integer
-        data:
-          description: Base64 encoded data.
-          pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
-          type: string
-          format: base64
+        payload:
+          $ref: '#/components/schemas/6.0.MsgPayload'
       example:
         selfLink: https://server/a834a/acars/v1/uplinks/240be703-012b-4442-ab38-405616baf625
         timestamp: 2022-04-21T18:45:15.456Z
@@ -1100,7 +1100,7 @@ components:
         lifetime: 0
         dataType: ASCII
         dataSize: 82
-        data: TUVUQVIgS1NUTCAyMTE2NTFaIDAxMDA1S1QgMTBTTSBGRVcwMjAgQktOMjUwIDE5LzEyIEEzMDI2IFJNSyBBTzIgU0xQMjQ0IFQwMTg5MDExNw==
+        payload: METAR KSTL 211651Z 01005KT 10SM FEW020 BKN250 19/12 A3026 RMK AO2 SLP244 T01890117
     6.0.DownlinkList:
       type: object
       properties:
@@ -1138,7 +1138,7 @@ components:
             lifetime: 0
             dataType: ASCII
             dataSize: 32
-            data: SGVsbG8gV29ybGQgRnJlZSBUZXh0Lg==
+            payload: Hello World Free Text.
           - selfLink: https://server/a834a/acars/v1/downlinks/5eb2e8cd-a853-4d7a-bdd4-2a45f8ebbeb7
             created: 2022-04-21T18:45:15.456Z
             state: TRANSMITTING
@@ -1147,7 +1147,7 @@ components:
             lifetime: 0
             dataType: ASCII
             dataSize: 82
-            data: TUVUQVIgS1NUTCAyMTE2NTFaIDAxMDA1S1QgMTBTTSBGRVcwMjAgQktOMjUwIDE5LzEyIEEzMDI2IFJNSyBBTzIgU0xQMjQ0IFQwMTg5MDExNw==
+            payload: METAR KSTL 211651Z 01005KT 10SM FEW020 BKN250 19/12 A3026 RMK AO2 SLP244 T01890117
     6.0.Downlink:
       type: object
       properties:
@@ -1199,11 +1199,8 @@ components:
           description: Size of the data after Base64 decoding.
           minimum: 1
           type: integer
-        data:
-          description: Base64 encoded data.
-          pattern: ^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$
-          type: string
-          format: base64
+        payload:
+          $ref: '#/components/schemas/6.0.MsgPayload'
       example:
         selfLink: https://server/a834a/acars/v1/downlinks/5eb2e8cd-a853-4d7a-bdd4-2a45f8ebbeb7
         created: 2022-04-21T18:45:15.456Z
@@ -1213,7 +1210,7 @@ components:
         lifetime: 0
         dataType: ASCII
         dataSize: 82
-        data: TUVUQVIgS1NUTCAyMTE2NTFaIDAxMDA1S1QgMTBTTSBGRVcwMjAgQktOMjUwIDE5LzEyIEEzMDI2IFJNSyBBTzIgU0xQMjQ0IFQwMTg5MDExNw==
+        payload: METAR KSTL 211651Z 01005KT 10SM FEW020 BKN250 19/12 A3026 RMK AO2 SLP244 T01890117
     6.0.Status:
       type: object
       properties:

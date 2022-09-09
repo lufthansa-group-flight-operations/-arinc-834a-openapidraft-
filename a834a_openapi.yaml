@@ -561,8 +561,8 @@ paths:
         - $ref: '#/components/parameters/Limit'
         - $ref: '#/components/parameters/Start'
         - in: query
-          name: mfi
-          description: Filter by MFI (Message Function Identifier) to address specific applications.
+          name: mti
+          description: Filter by MTI (Message Type Identifier) to address specific applications.
           schema:
             type: string
             maxLength: 2
@@ -587,8 +587,8 @@ paths:
       operationId: deleteAllUplinks
       parameters:
         - in: query
-          name: mfi
-          description: Filter by MFI (Message Function Identifier) to address specific applications.
+          name: mti
+          description: Filter by MTI (Message Type Identifier) to address specific applications.
           schema:
             type: string
             maxLength: 2
@@ -651,8 +651,8 @@ paths:
         - $ref: '#/components/parameters/Limit'
         - $ref: '#/components/parameters/Start'
         - in: query
-          name: mfi
-          description: Filter by MFI (Message Function Identifier) to address specific applications.
+          name: mti
+          description: Filter by MTI (Message Type Identifier) to address specific applications.
           schema:
             type: string
             maxLength: 2
@@ -683,7 +683,7 @@ paths:
             schema:
               $ref: '#/components/schemas/6.0.Downlink'
             example:
-              mfi: WX
+              mti: WX
               mediaSelect: ACARS_ANY
               lifetime: 0
               dataType: ASCII
@@ -711,8 +711,8 @@ paths:
       operationId: deleteAllDownlinks
       parameters:
         - in: query
-          name: mfi
-          description: Filter by MFI (Message Function Identifier) to address specific applications.
+          name: mti
+          description: Filter by MTI (Message Type Identifier) to address specific applications.
           schema:
             type: string
             maxLength: 2
@@ -1041,14 +1041,14 @@ components:
         uplinks:
           - selfLink: https://server/a834a/acars/v1/uplinks/90ad2e56-aa8c-49dc-a1aa-028379c011c4           
             timestamp: 2022-04-21T17:55:35.321Z
-            mfi: AC
+            mti: AC
             lifetime: 10
             dataType: ASCII
             dataSize: 32
             data: SGVsbG8gV29ybGQgRnJlZSBUZXh0Lg==
           - selfLink: https://server/a834a/acars/v1/uplinks/240be703-012b-4442-ab38-405616baf625            
             timestamp: 2022-04-21T18:45:15.456Z
-            mfi: WX
+            mti: WX
             lifetime: 0
             dataType: ASCII
             dataSize: 82
@@ -1064,8 +1064,8 @@ components:
           description: Timestamp when the message was received.
           type: string
           format: date-time
-        mfi:
-          description: Message Function Identifier to address specific applications.
+        mti:
+          description: Message Type Identifier to address specific applications.
           type: string
           minLength: 2
           maxLength: 2
@@ -1093,7 +1093,7 @@ components:
       example:
         selfLink: https://server/a834a/acars/v1/uplinks/240be703-012b-4442-ab38-405616baf625
         timestamp: 2022-04-21T18:45:15.456Z
-        mfi: WX
+        mti: WX
         lifetime: 0
         dataType: ASCII
         dataSize: 82
@@ -1132,7 +1132,7 @@ components:
           - selfLink: https://server/a834a/acars/v1/downlinks/127ade54-8458-4d01-b94f-5f9216838f1f
             created: 2022-04-21T17:55:35.321Z
             state: ACKNOWLEDGED
-            mfi: AO
+            mti: AO
             mediaSelect: ACARS_ANY
             lifetime: 0
             dataType: ASCII
@@ -1141,7 +1141,7 @@ components:
           - selfLink: https://server/a834a/acars/v1/downlinks/5eb2e8cd-a853-4d7a-bdd4-2a45f8ebbeb7
             created: 2022-04-21T18:45:15.456Z
             state: TRANSMITTING
-            mfi: WX
+            mti: WX
             mediaSelect: ACARS_ANY
             lifetime: 0
             dataType: ASCII
@@ -1170,8 +1170,8 @@ components:
             - ACKNOWLEDGED
             - TIMED_OUT
             - FAILED
-        mfi:
-          description: Message Function Identifier to address specific applications.
+        mti:
+          description: Message Type Identifier to address specific applications.
           type: string
           minLength: 2
           maxLength: 2
@@ -1210,7 +1210,7 @@ components:
         selfLink: https://server/a834a/acars/v1/downlinks/5eb2e8cd-a853-4d7a-bdd4-2a45f8ebbeb7
         created: 2022-04-21T18:45:15.456Z
         state: TRANSMITTING
-        mfi: WX
+        mti: WX
         mediaSelect: ACARS_ANY
         lifetime: 0
         dataType: ASCII

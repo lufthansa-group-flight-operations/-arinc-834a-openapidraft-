@@ -1235,7 +1235,7 @@ components:
           description: Timestamp when the information was updated.
           type: string
           format: date-time
-        isAnyAvailable:
+        acars_any:
           description: Indicates whether any communication channel is available.
           type: boolean
           example: true
@@ -1252,31 +1252,27 @@ components:
                 description: Indicates whether the channel is available or not.
                 type: boolean
           example:
-            - name: VHF
+            - name: acars_vhf
               isAvailable: true
-            - name: HF
+            - name: acars_hf
               isAvailable: false
-            - name: SATCOM
+            - name: acars_satcom
               isAvailable: true
-            - name: GATELINK
-              isAvailable: false
-            - name: ANY_OTHER
-              isAvailable: false
+            - name: acars_fms
+              isAvailable: false            
       example:
         selflink: https://server/a834a/acars/v1/status
         isAnyAvailable: true
-        updated: TBD
+        updated: 2022-04-21T18:45:15.500Z
         channels:
-          - name: VHF
+          - name: acars_vhf
             isAvailable: true
-          - name: HF
+          - name: acars_hf
             isAvailable: false
-          - name: SATCOM
+          - name: acars_satcom
             isAvailable: true
-          - name: GATELINK
-            isAvailable: false
-          - name: ANY_OTHER
-            isAvailable: false
+          - name: acars_fms
+            isAvailable: false    
     7.0.PathList:
       type: object
       properties:

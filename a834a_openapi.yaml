@@ -707,6 +707,14 @@ paths:
                 $ref: '#/components/schemas/6.0.Downlink'
         '400':
           description: Request is malformed.
+        '429':
+          description: Too many requests - is returned, if the downlink queue in the A834A server has no space left.          
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorMessage'
+              example:
+                error: Downlink queue full
     delete:
       tags:
         - 6.0 ACARS
@@ -887,6 +895,13 @@ components:
     ISO8601TimeStamp:
       description: Test
       type: string
+    ErrorMessage:
+      type: object
+      description: Error message that gives additional info about the error.
+      properties:
+        error:
+          type: string
+          description: additional info about the error.
     3.2.Services:
       type: object
       properties:

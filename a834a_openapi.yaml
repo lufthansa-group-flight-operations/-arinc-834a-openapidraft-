@@ -690,7 +690,7 @@ paths:
               mti: WX
               mediaSelect: ACARS_ANY
               lifetime: 0
-              dataType: ASCII
+              data_type: ASCII
               dataSize: 82
               data: TUVUQVIgS1NUTCAyMTE2NTFaIDAxMDA1S1QgMTBTTSBGRVcwMjAgQktOMjUwIDE5LzEyIEEzMDI2IFJNSyBBTzIgU0xQMjQ0IFQwMTg5MDExNw==
       responses:
@@ -1142,7 +1142,7 @@ components:
         downlinks:
           - selfLink: https://server/a834a/acars/v1/downlinks/127ade54-8458-4d01-b94f-5f9216838f1f
             timestamp: 2022-04-21T17:55:35.321Z
-            state: ACKNOWLEDGED
+            state: dsp_ack
             status_update_timestamp: 2022-04-21T17:55:36.000Z
             mti: AO
             mediaSelect: ACARS_ANY
@@ -1152,7 +1152,7 @@ components:
             payload: Hello World Free Text.
           - selfLink: https://server/a834a/acars/v1/downlinks/5eb2e8cd-a853-4d7a-bdd4-2a45f8ebbeb7
             timestamp: 2022-04-21T18:45:15.456Z
-            state: TRANSMITTING
+            state: cmf_ack
             status_update_timestamp: 2022-04-21T18:45:15.500Z
             mti: WX
             mediaSelect: ACARS_ANY
@@ -1176,12 +1176,13 @@ components:
           description: State of the queued downlink message.
           type: string
           enum:
-            - WAITING
-            - TRANSMITTING
-            - SENT
-            - ACKNOWLEDGED
-            - TIMED_OUT
-            - FAILED
+            - queued
+            - timeout
+            - cmf_transfer
+            - cmf_ack
+            - cmf_nak
+            - cmf_timeout
+            - dsp_ack            
           readOnly: true
         status_update_timestamp:
           description: Time stamp indicating when the last status change took place.
@@ -1221,7 +1222,7 @@ components:
       example:
         selfLink: https://server/a834a/acars/v1/downlinks/5eb2e8cd-a853-4d7a-bdd4-2a45f8ebbeb7
         timestamp: 2022-04-21T18:45:15.456Z
-        state: TRANSMITTING
+        state: cmf_transfer
         status_update_timestamp: "2022-04-21T18:45:15.500Z"
         mti: WX
         mediaSelect: ACARS_ANY

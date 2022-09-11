@@ -1075,7 +1075,7 @@ components:
         timestamp:
           description: Timestamp when the message was received.
           type: string
-          format: ISO8601TimeStamp
+          format: date-time
         mti:
           description: Message Type Identifier to address specific applications.
           type: string
@@ -1137,7 +1137,7 @@ components:
         total: 2
         downlinks:
           - selfLink: https://server/a834a/acars/v1/downlinks/127ade54-8458-4d01-b94f-5f9216838f1f
-            created: 2022-04-21T17:55:35.321Z
+            timestamp: 2022-04-21T17:55:35.321Z
             state: ACKNOWLEDGED
             status_update_timestamp: 2022-04-21T17:55:36.000Z
             mti: AO
@@ -1147,7 +1147,7 @@ components:
             dataSize: 32
             payload: Hello World Free Text.
           - selfLink: https://server/a834a/acars/v1/downlinks/5eb2e8cd-a853-4d7a-bdd4-2a45f8ebbeb7
-            created: 2022-04-21T18:45:15.456Z
+            timestamp: 2022-04-21T18:45:15.456Z
             state: TRANSMITTING
             status_update_timestamp: 2022-04-21T18:45:15.500Z
             mti: WX
@@ -1162,8 +1162,8 @@ components:
       properties:
         selfLink:
           $ref: '#/components/schemas/selfLink'
-        created:
-          description: Timestamp when the message was received.
+        timestamp:
+          description: Timestamp when the message was received by the A834A Server.
           type: string
           format: date-time
           readOnly: true
@@ -1216,7 +1216,7 @@ components:
           $ref: '#/components/schemas/6.0.MsgPayload'
       example:
         selfLink: https://server/a834a/acars/v1/downlinks/5eb2e8cd-a853-4d7a-bdd4-2a45f8ebbeb7
-        created: 2022-04-21T18:45:15.456Z
+        timestamp: 2022-04-21T18:45:15.456Z
         state: TRANSMITTING
         status_update_timestamp: "2022-04-21T18:45:15.500Z"
         mti: WX

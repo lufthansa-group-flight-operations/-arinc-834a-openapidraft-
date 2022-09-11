@@ -1139,6 +1139,7 @@ components:
           - selfLink: https://server/a834a/acars/v1/downlinks/127ade54-8458-4d01-b94f-5f9216838f1f
             created: 2022-04-21T17:55:35.321Z
             state: ACKNOWLEDGED
+            status_update_timestamp: 2022-04-21T17:55:36.000Z
             mti: AO
             mediaSelect: ACARS_ANY
             lifetime: 0
@@ -1148,12 +1149,14 @@ components:
           - selfLink: https://server/a834a/acars/v1/downlinks/5eb2e8cd-a853-4d7a-bdd4-2a45f8ebbeb7
             created: 2022-04-21T18:45:15.456Z
             state: TRANSMITTING
+            status_update_timestamp: 2022-04-21T18:45:15.500Z
             mti: WX
             mediaSelect: ACARS_ANY
             lifetime: 0
             dataType: ASCII
             dataSize: 82
-            payload: METAR KSTL 211651Z 01005KT 10SM FEW020 BKN250 19/12 A3026 RMK AO2 SLP244 T01890117
+            payload: METAR KSTL 211651Z 01005KT 10SM FEW020 BKN250 19/12 A3026 RMK AO2 SLP244 T01890117          
+
     6.0.Downlink:
       type: object
       properties:
@@ -1174,6 +1177,10 @@ components:
             - ACKNOWLEDGED
             - TIMED_OUT
             - FAILED
+        status_update_timestamp:
+          description: Time stamp indicating when the last status change took place.
+          type: string
+          format: date-time
         mti:
           description: Message Type Identifier to address specific applications.
           type: string
@@ -1211,6 +1218,7 @@ components:
         selfLink: https://server/a834a/acars/v1/downlinks/5eb2e8cd-a853-4d7a-bdd4-2a45f8ebbeb7
         created: 2022-04-21T18:45:15.456Z
         state: TRANSMITTING
+        status_update_timestamp: "2022-04-21T18:45:15.500Z"
         mti: WX
         mediaSelect: ACARS_ANY
         lifetime: 0

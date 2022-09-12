@@ -1255,10 +1255,6 @@ components:
           description: Timestamp when the information was updated.
           type: string
           format: date-time
-        acars_any:
-          description: Indicates whether any communication channel is available.
-          type: boolean
-          example: true
         cmf_connected:
           description: Indicates if the ACARS messaging service on the A834A server has established a connection to the cmf unit (i.e. via ARINC 429)
           type: boolean
@@ -1266,7 +1262,11 @@ components:
         cmf_status:
           description: Indicates the health status of the CMF as broadcasted by the unit.
           type: boolean
-          eaxample: true
+          example: true
+        acars_any:
+          description: Indicates whether any communication channel is available.
+          type: boolean
+          example: true
         channels:
           description: List of all communication channels and the corresponding state.
           type: array

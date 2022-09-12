@@ -1259,6 +1259,14 @@ components:
           description: Indicates whether any communication channel is available.
           type: boolean
           example: true
+        cmf_connected:
+          description: Indicates if the ACARS messaging service on the A834A server has established a connection to the cmf unit (i.e. via ARINC 429)
+          type: boolean
+          example: true
+        cmf_status:
+          description: Indicates the health status of the CMF as broadcasted by the unit.
+          type: boolean
+          eaxample: true
         channels:
           description: List of all communication channels and the corresponding state.
           type: array
@@ -1279,20 +1287,7 @@ components:
             - name: acars_satcom
               isAvailable: true
             - name: acars_fms
-              isAvailable: false            
-      example:
-        selflink: https://server/a834a/acars/v1/status
-        isAnyAvailable: true
-        updated: 2022-04-21T18:45:15.500Z
-        channels:
-          - name: acars_vhf
-            isAvailable: true
-          - name: acars_hf
-            isAvailable: false
-          - name: acars_satcom
-            isAvailable: true
-          - name: acars_fms
-            isAvailable: false    
+              isAvailable: false    
     7.0.PathList:
       type: object
       properties:

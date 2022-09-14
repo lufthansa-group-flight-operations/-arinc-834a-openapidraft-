@@ -708,7 +708,7 @@ paths:
         '400':
           description: Request is malformed.
         '429':
-          description: Too many requests - is returned, if the downlink queue in the A834A server has no space left.          
+          description: Too many requests - is returned, if the downlink queue in the A834A server has no space left.
           content:
             application/json:
               schema:
@@ -1039,7 +1039,7 @@ components:
     6.0.MsgPayload:
       description: Payload of the message. Currently ASCII only. Mandatory in POST command. Optional, if "include_content" is set, the payload will be delivered in GET request.
       type: string
-    6.0.PayloadDataType:      
+    6.0.PayloadDataType:
       description: Describes the format of the data in payload. Currently only ASCII is supported. Optional field, if not set ASCII is assumed.
       type: string
       minimum: 0
@@ -1076,14 +1076,14 @@ components:
         start: 20
         total: 22
         uplinks:
-          - selfLink: https://server/a834a/acars/v1/uplinks/90ad2e56-aa8c-49dc-a1aa-028379c011c4           
+          - selfLink: https://server/a834a/acars/v1/uplinks/90ad2e56-aa8c-49dc-a1aa-028379c011c4
             timestamp: 2022-04-21T17:55:35.321Z
             mti: AC
             lifetime: 10
             data_type: ASCII
             dataSize: 22
             data: Hello World Free Text.
-          - selfLink: https://server/a834a/acars/v1/uplinks/240be703-012b-4442-ab38-405616baf625            
+          - selfLink: https://server/a834a/acars/v1/uplinks/240be703-012b-4442-ab38-405616baf625
             timestamp: 2022-04-21T18:45:15.456Z
             mti: WX
             lifetime: 0
@@ -1174,7 +1174,7 @@ components:
             lifetime: 0
             data_type: ASCII
             dataSize: 82
-            payload: METAR KSTL 211651Z 01005KT 10SM FEW020 BKN250 19/12 A3026 RMK AO2 SLP244 T01890117          
+            payload: METAR KSTL 211651Z 01005KT 10SM FEW020 BKN250 19/12 A3026 RMK AO2 SLP244 T01890117
 
     6.0.Downlink:
       type: object
@@ -1197,7 +1197,7 @@ components:
             - cmf_ack
             - cmf_nak
             - cmf_timeout
-            - dsp_ack            
+            - dsp_ack
           readOnly: true
         status_update_timestamp:
           description: Time stamp indicating when the last status change took place.
@@ -1226,7 +1226,7 @@ components:
           minimum: 0
           type: integer
         data_type:
-          $ref: '#/components/schemas/6.0.PayloadDataType'          
+          $ref: '#/components/schemas/6.0.PayloadDataType'
         dataSize:
           description: Size of the data after Base64 decoding.
           minimum: 1
@@ -1238,7 +1238,7 @@ components:
         selfLink: https://server/a834a/acars/v1/downlinks/5eb2e8cd-a853-4d7a-bdd4-2a45f8ebbeb7
         timestamp: 2022-04-21T18:45:15.456Z
         state: cmf_transfer
-        status_update_timestamp: "2022-04-21T18:45:15.500Z"
+        status_update_timestamp: '2022-04-21T18:45:15.500Z'
         mti: WX
         mediaSelect: ACARS_ANY
         lifetime: 0
@@ -1256,14 +1256,14 @@ components:
           type: string
           format: date-time
         cmf_connected:
-          description: Indicates if the ACARS messaging service on the A834A server has established a connection to the cmf unit (i.e. via ARINC 429)
+          description: Indicates if the ACARS messaging service on the A834A server has established a connection to the cmf unit. (i.e. via ARINC 429)
           type: boolean
           example: true
         cmf_status:
-          description: Indicates the health status of the CMF as broadcasted by the unit.
+          description: Indicates the health status of the CMF as broadcasted by the unit. (Label 270, !Bit16)
           type: boolean
           example: true
-        acars_any:
+        is_any_avail:
           description: Indicates whether any communication channel is available.
           type: boolean
           example: true
@@ -1287,7 +1287,7 @@ components:
             - name: acars_satcom
               isAvailable: true
             - name: acars_fms
-              isAvailable: false    
+              isAvailable: false
     7.0.PathList:
       type: object
       properties:

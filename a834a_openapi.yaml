@@ -177,7 +177,7 @@ paths:
         - 2.1. Protocol Switching
       servers:
         - url: wss://a834a-1.suppliername.local/a834a/
-      summary: 2.1.4 Protocol Switching - Future Useages
+      summary: 2.1.4 Protocol Switching - Future Usages
       parameters:
         - in: path
           name: service
@@ -559,8 +559,6 @@ paths:
       parameters:
         - $ref: '#/components/parameters/IncludePayload'
         - $ref: '#/components/parameters/IfNoneMatch'
-        - $ref: '#/components/parameters/Limit'
-        - $ref: '#/components/parameters/Start'
         - in: query
           name: mti
           description: Filter by MTI (Message Type Identifier) to address specific applications.
@@ -652,8 +650,6 @@ paths:
       parameters:
         - $ref: '#/components/parameters/IncludePayload'
         - $ref: '#/components/parameters/IfNoneMatch'
-        - $ref: '#/components/parameters/Limit'
-        - $ref: '#/components/parameters/Start'
         - in: query
           name: mti
           description: Filter by MTI (Message Type Identifier) to address specific applications.
@@ -1052,18 +1048,6 @@ components:
       properties:
         selfLink:
           $ref: '#/components/schemas/selfLink'
-        limit:
-          description: The selected limit in the query. Not provided or null when pagination was not used in the query.
-          type: integer
-          readOnly: true
-        start:
-          description: The selected start position in the query. Not provided or null when pagination was not used in the query.
-          type: integer
-          readOnly: true
-        total:
-          description: The total number of uplinks.
-          type: integer
-          readOnly: true
         uplinks:
           description: List of uplinks.
           type: array
@@ -1072,9 +1056,6 @@ components:
             $ref: '#/components/schemas/6.0.Uplink'
       example:
         selfLink: https://server/a834a/acars/v1/uplinks
-        limit: 10
-        start: 20
-        total: 22
         uplinks:
           - selfLink: https://server/a834a/acars/v1/uplinks/90ad2e56-aa8c-49dc-a1aa-028379c011c4
             timestamp: 2022-04-21T17:55:35.321Z
@@ -1131,18 +1112,6 @@ components:
       properties:
         selfLink:
           $ref: '#/components/schemas/selfLink'
-        limit:
-          description: The selected limit in the query. Not provided or null when pagination was not used in the query.
-          type: integer
-          readOnly: true
-        start:
-          description: The selected start position in the query. Not provided or null when pagination was not used in the query.
-          type: integer
-          readOnly: true
-        total:
-          description: The total number of downlinks.
-          type: integer
-          readOnly: true
         downlinks:
           description: List of downlinks.
           type: array
@@ -1151,9 +1120,6 @@ components:
             $ref: '#/components/schemas/6.0.Downlink'
       example:
         selfLink: https://server/a834a/acars/v1/downlinks
-        limit: 10
-        start: 0
-        total: 2
         downlinks:
           - selfLink: https://server/a834a/acars/v1/downlinks/127ade54-8458-4d01-b94f-5f9216838f1f
             timestamp: 2022-04-21T17:55:35.321Z
@@ -1448,22 +1414,6 @@ components:
       required: false
       schema:
         type: boolean
-    Limit:
-      description: Limit the number of results.
-      in: query
-      name: limit
-      schema:
-        type: integer
-        format: int32
-      example: 20
-    Start:
-      description: Start the result at specified position. (Zero indexed)
-      in: query
-      name: start
-      schema:
-        default: 0
-        type: integer
-        format: int64
     IfMatch:
       description: |
         The RFC7232 If-Match header field in a request requires the server to only operate on the resource that matches at least 

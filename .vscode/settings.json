@@ -6,8 +6,10 @@
     "ARINC",
     "GATELINK",
     "openapi",
+    "paramname",
     "SATCOM",
-    "STAP"
+    "STAP",
+    "suppliername"
   ],
   "yaml.format.singleQuote": true
 }

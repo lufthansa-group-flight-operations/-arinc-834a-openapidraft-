@@ -24,160 +24,68 @@ paths:
         - 2.1. Protocol Switching
       servers:
         - url: wss://a834a-1.suppliername.local/a834a/
-      summary: '2.1.1 Protocol Switching - WebSockets NOTE: Need to be removed due to duplicate in OpenApi.'
+      summary: |
+        2.1.1 Protocol Switching - WebSockets NOTE: Need to be removed due to duplicate in OpenApi.
       parameters:
-        - in: header
-          name: Connection
-          schema:
-            type: string
-            enum:
-              - Upgrade
-          required: true
-        - in: header
-          name: Upgrade
-          schema:
-            type: string
-            enum:
-              - websocket
-          required: true
+        - $ref: '#/components/parameters/WebSocketConnection'
+        - $ref: '#/components/parameters/WebSocketUpgrade'
       responses:
         '101':
-          description: Switching Protocols to Websocket.
-          headers:
-            Connection:
-              schema:
-                type: string
-            Upgrade:
-              schema:
-                type: string
-                enum:
-                  - websocket
-            Sec-WebSocket-Accept:
-              schema:
-                type: object
-          content: {}
+          $ref: '#/components/responses/WebSocket101'
         '400':
-          description: Resource can only be accessed with WebSockets.
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: Resource can only be access with WebSockets.
-        '500':
-          description: adif Service is not reachable
-          content: {}
+          $ref: '#/components/responses/WebSocket400'
         '501':
-          description: adif Server is not implemented
-          content: {}
+          $ref: '#/components/responses/WebSocket501'
+        '503':
+          $ref: '#/components/responses/WebSocket503'
   /stap/v1/:
     get:
       tags:
         - 2.1. Protocol Switching
       servers:
         - url: wss://a834a-1.suppliername.local/a834a/
-      summary: 2.1.2 Protocol Switching - STAP
+      summary: |
+        2.1.2 Protocol Switching - STAP
       parameters:
-        - in: header
-          name: Connection
-          schema:
-            type: string
-            enum:
-              - Upgrade
-          required: true
-        - in: header
-          name: Upgrade
-          schema:
-            type: string
-            enum:
-              - a834/stap
-          required: true
+        - $ref: '#/components/parameters/WebSocketConnection'
+        - $ref: '#/components/parameters/WebSocketUpgrade'
       responses:
         '101':
-          description: Switching Protocols to WebSocket.
-          headers:
-            Connection:
-              schema:
-                type: string
-            Upgrade:
-              schema:
-                type: string
-                enum:
-                  - a834
-            Sec-WebSocket-Accept:
-              schema:
-                type: object
-          content: {}
+          $ref: '#/components/responses/WebSocket101'
         '400':
-          description: Resource can only be accessed with WebSockets.
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: Resource can only be access with WebSockets.
-        '500':
-          description: STAP Server is not reachable
-          content: {}
+          $ref: '#/components/responses/WebSocket400'
         '501':
-          description: STAP Server is not implemented
-          content: {}
+          $ref: '#/components/responses/WebSocket501'
+        '503':
+          $ref: '#/components/responses/WebSocket503'
   /adbp/v1/:
     get:
       tags:
         - 2.1. Protocol Switching
       servers:
         - url: wss://a834a-1.suppliername.local/a834a/
-      summary: 2.1.2 Protocol Switching - ADBP
+      summary: |
+        2.1.2 Protocol Switching - ADBP
       parameters:
-        - in: header
-          name: Connection
-          schema:
-            type: string
-            enum:
-              - Upgrade
-          required: true
-        - in: header
-          name: Upgrade
-          schema:
-            type: string
-            enum:
-              - a834/adbp
-          required: true
+        - $ref: '#/components/parameters/WebSocketConnection'
+        - $ref: '#/components/parameters/WebSocketUpgrade'
       responses:
         '101':
-          description: Switching Protocols to WebSocket.
-          headers:
-            Connection:
-              schema:
-                type: string
-            Upgrade:
-              schema:
-                type: string
-                enum:
-                  - a834
-            Sec-WebSocket-Accept:
-              schema:
-                type: object
-          content: {}
+          $ref: '#/components/responses/WebSocket101'
         '400':
-          description: Resource can only be accessed with WebSockets.
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: Resource can only be access with WebSockets.
-        '500':
-          description: STAP Server is not reachable
-          content: {}
+          $ref: '#/components/responses/WebSocket400'
         '501':
-          description: STAP Server is not implemented
-          content: {}
+          $ref: '#/components/responses/WebSocket501'
+        '503':
+          $ref: '#/components/responses/WebSocket503'
   /{service}/v1/:
     get:
       tags:
         - 2.1. Protocol Switching
       servers:
         - url: wss://a834a-1.suppliername.local/a834a/
-      summary: 2.1.4 Protocol Switching - Future Usages
+      summary: |
+        2.1.4 Protocol Switching - Future Usages
       parameters:
         - in: path
           name: service
@@ -186,47 +94,17 @@ paths:
           schema:
             type: string
           example: null
-        - in: header
-          name: Connection
-          schema:
-            type: string
-            enum:
-              - Upgrade
-          required: true
-        - in: header
-          name: Upgrade
-          schema:
-            type: string
-            pattern: ^[a-zA-Z0-9-._~!$&()*+,;=:/?@]+$
-          required: true
+        - $ref: '#/components/parameters/WebSocketConnection'
+        - $ref: '#/components/parameters/WebSocketUpgrade'
       responses:
         '101':
-          description: Switching Protocols to Websocket.
-          headers:
-            Connection:
-              schema:
-                type: string
-            Upgrade:
-              schema:
-                type: string
-                enum:
-                  - a834
-            Sec-WebSocket-Accept:
-              schema:
-                type: object
-          content: {}
+          $ref: '#/components/responses/WebSocket101'
         '400':
-          description: Resource can only be accessed with WebSockets.
-          content:
-            text/plain:
-              schema:
-                type: string
-                example: Resource can only be access with WebSockets.
-        '500':
-          description: Service is not reachable
+          $ref: '#/components/responses/WebSocket400'
         '501':
-          description: Service is not implemented
-          content: {}
+          $ref: '#/components/responses/WebSocket501'
+        '503':
+          $ref: '#/components/responses/WebSocket503'
   /services/:
     get:
       tags:
@@ -1435,6 +1313,22 @@ components:
       required: false
       schema:
         type: string
+    WebSocketConnection:
+      in: header
+      name: Connection
+      schema:
+        type: string
+        enum:
+          - Upgrade
+      required: true
+    WebSocketUpgrade:
+      in: header
+      name: Upgrade
+      schema:
+        type: string
+        enum:
+          - websocket
+      required: true
   responses:
     304NotModified:
       description: Returns a Not Modified if the If-None-Match header matches the current ETag.
@@ -1448,6 +1342,34 @@ components:
           schema:
             type: integer
             description: Seconds
+    WebSocket101:
+      description: Successful switching of protocol to WebSocket.
+      headers:
+        Connection:
+          schema:
+            type: string
+        Upgrade:
+          schema:
+            type: string
+            enum:
+              - websocket
+        Sec-WebSocket-Accept:
+          schema:
+            type: object
+      content: {}
+    WebSocket400:
+      description: Resource can only be accessed with WebSockets. For GET requests without the required WebSocket headers.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessage'
+    WebSocket501:
+      description: Service is not implemented.
+      content: {}
+    WebSocket503:
+      description: Service Unavailable.
+      content: {}
+
   headers:
     ETag:
       description: |

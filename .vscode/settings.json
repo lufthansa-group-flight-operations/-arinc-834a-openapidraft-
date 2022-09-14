@@ -8,5 +8,6 @@
     "openapi",
     "SATCOM",
     "STAP"
-  ]
+  ],
+  "yaml.format.singleQuote": true
 }

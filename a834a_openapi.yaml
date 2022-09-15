@@ -119,9 +119,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/3.2.Services'
         '500':
-          description: Internal Server Error
+          $ref: '#/components/responses/RestApi500'
         '503':
-          description: Service Unavailable
+          $ref: '#/components/responses/RestApi503'
   /nas/v1/:
     get:
       tags:
@@ -172,8 +172,7 @@ paths:
                 type: string
                 format: binary
         '404':
-          description: not found
-          content: {}
+          $ref: '#/components/responses/RestApi404'
     put:
       tags:
         - 7.0 File Storage Management
@@ -199,8 +198,7 @@ paths:
           description: created
           content: {}
         '500':
-          description: internal error
-          content: {}
+          $ref: '#/components/responses/RestApi500'
     delete:
       tags:
         - 7.0 File Storage Management
@@ -219,8 +217,7 @@ paths:
           description: successful deletion, no content
           content: {}
         '404':
-          description: not found
-          content: {}
+          $ref: '#/components/responses/RestApi404'
   /adif/v1/parameters:
     get:
       tags:
@@ -280,22 +277,13 @@ paths:
                 parameters:
                   - parameter
         '429':
-          $ref: '#/components/responses/429TooManyRequests'
+          $ref: '#/components/responses/RestApi429'
         '501':
-          description: |
-            Not Implemented: Unsupported service or Version in a URL should be answered with code. The client should not 
-            expect the service to be available anytime and should not poll the server with the same request to reduce resources consumption.
+          $ref: '#/components/responses/RestApi501'
         '502':
-          description: |
-            Bad Gateway: If a proxy or reverse proxy is set-up between the A834A Client and Server, in case the proxy is 
-            experiencing issue, this error code should be reported.
+          $ref: '#/components/responses/RestApi502'
         '503':
-          description: |
-            Service Unavailable: If a service is (temporary) not available (i.e. not yet fully initialized) it should 
-            return this error code to indicate the client, that the service may be available soon and the client may 
-            retry its request later on.(Other standard HTTP codes may be used by the A834A supplier to provide useful 
-            information to the clients nevertheless, the general principle is that overlap with error codes defined in 
-            the present document should be avoided.)
+          $ref: '#/components/responses/RestApi503'
     put:
       tags:
         - 4.1.4 Parameter Interfaces
@@ -348,20 +336,13 @@ paths:
                   - fuel_price
                   - coffee_temperature
         '429':
-          description: |
-            Too many requests: If the server has reached the maximum number of supported clients, it should use standard HTTP code 429.
+          $ref: '#/components/responses/RestApi429'
         '501':
-          description: |
-            Not Implemented: Unsupported service or Version in a URL should be answered with code. The client should not expect the service 
-            to be available anytime and should not poll the server with the same request to reduce resources consumption.
+          $ref: '#/components/responses/RestApi501'
         '502':
-          description: |
-            Bad Gateway: If a proxy or reverse proxy is set-up between the A834A Client and Server, in case the proxy is 
-            experiencing issue, this error code should be reported.
+          $ref: '#/components/responses/RestApi502'
         '503':
-          description: |
-            Service Unavailable: Other standard HTTP codes may be used by the A834A supplier to provide useful information to the clients 
-            nevertheless, the general principle is that overlap with error codes defined in the present document should be avoided.
+          $ref: '#/components/responses/RestApi503'
   /adif/v1/parameters/{paramname}:
     get:
       tags:
@@ -422,11 +403,9 @@ paths:
                 type: string
                 example: Resource can only be access with WebSockets.
         '500':
-          description: adif Service is not reachable
-          content: {}
+          $ref: '#/components/responses/RestApi500'
         '501':
-          description: adif Server is not implemented
-          content: {}
+          $ref: '#/components/responses/RestApi501'
   /acars/v1/uplinks:
     get:
       tags:
@@ -455,7 +434,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/6.0.UplinkList'
         '304':
-          $ref: '#/components/responses/304NotModified'
+          $ref: '#/components/responses/RestApi304'
     delete:
       tags:
         - 6.0 ACARS
@@ -498,7 +477,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/6.0.Uplink'
         '404':
-          description: Uplinks with the specified id not found.
+          $ref: '#/components/responses/RestApi404'
     delete:
       tags:
         - 6.0 ACARS
@@ -517,7 +496,7 @@ paths:
         '204':
           description: Uplink successfully deleted.
         '404':
-          description: Uplink with the given id not found.
+          $ref: '#/components/responses/RestApi404'
   /acars/v1/downlinks:
     get:
       tags:
@@ -546,7 +525,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/6.0.DownlinkList'
         '304':
-          $ref: '#/components/responses/304NotModified'
+          $ref: '#/components/responses/RestApi304'
     post:
       tags:
         - 6.0 ACARS
@@ -580,7 +559,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/6.0.Downlink'
         '400':
-          description: Request is malformed.
+          $ref: '#/components/responses/RestApi400'
         '429':
           description: Too many requests - is returned, if the downlink queue in the A834A server has no space left.
           content:
@@ -635,9 +614,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/6.0.Downlink'
         '304':
-          $ref: '#/components/responses/304NotModified'
+          $ref: '#/components/responses/RestApi304'
         '404':
-          description: Uplinks with the specified id not found.
+          $ref: '#/components/responses/RestApi404'
     delete:
       tags:
         - 6.0 ACARS
@@ -656,7 +635,7 @@ paths:
         '204':
           description: Downlink successfully deleted.
         '404':
-          description: Downlink with the given id not found.
+          $ref: '#/components/responses/RestApi404'
   /acars/v1/status:
     get:
       tags:
@@ -1330,9 +1309,18 @@ components:
           - websocket
       required: true
   responses:
-    304NotModified:
-      description: Returns a Not Modified if the If-None-Match header matches the current ETag.
-    429TooManyRequests:
+    RestApi304:
+      description: |
+        Not Modified: Returns a Not Modified if the If-None-Match header matches the current ETag.
+    RestApi400:
+      description: |
+        Bad Request: The was badly formatted and couldn't be answered.
+      content: {}
+    RestApi404:
+      description: |
+        Not Found: The requested resource was not found.
+      content: {}
+    RestApi429:
       description: |
         Too many requests: A request may receive this error message instead of an response, if the server determined 
         to many requests need to be handled. Optionally the Server may include the 'Retry-After' Header with a value 
@@ -1342,6 +1330,31 @@ components:
           schema:
             type: integer
             description: Seconds
+    RestApi500:
+      description: |
+        Internal Server Error: An internal server error.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorMessage'
+    RestApi501:
+      description: |
+        Not Implemented: Unsupported service or Version in a URL should be answered with code. The client should not 
+        expect the service to be available anytime and should not poll the server with the same request to reduce resources consumption.
+      content: {}
+    RestApi502:
+      description: |
+        Bad Gateway: If a proxy or reverse proxy is set-up between the A834A Client and Server, in case the proxy is 
+        experiencing issue, this error code should be reported.
+      content: {}
+    RestApi503:
+      description: |
+        Service Unavailable: If a service is (temporary) not available (i.e. not yet fully initialized) it should 
+        return this error code to indicate the client, that the service may be available soon and the client may 
+        retry its request later on.(Other standard HTTP codes may be used by the A834A supplier to provide useful 
+        information to the clients nevertheless, the general principle is that overlap with error codes defined in 
+        the present document should be avoided.)
+      content: {}
     WebSocket101:
       description: Successful switching of protocol to WebSocket.
       headers:
@@ -1369,7 +1382,6 @@ components:
     WebSocket503:
       description: Service Unavailable.
       content: {}
-
   headers:
     ETag:
       description: |

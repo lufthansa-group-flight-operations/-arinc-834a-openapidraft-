@@ -35,9 +35,9 @@ paths:
         '400':
           $ref: '#/components/responses/WebSocket400'
         '501':
-          $ref: '#/components/responses/WebSocket501'
+          $ref: '#/components/responses/RestApi501'
         '503':
-          $ref: '#/components/responses/WebSocket503'
+          $ref: '#/components/responses/RestApi503'
   /stap/v1/:
     get:
       tags:
@@ -55,9 +55,9 @@ paths:
         '400':
           $ref: '#/components/responses/WebSocket400'
         '501':
-          $ref: '#/components/responses/WebSocket501'
+          $ref: '#/components/responses/RestApi501'
         '503':
-          $ref: '#/components/responses/WebSocket503'
+          $ref: '#/components/responses/RestApi503'
   /adbp/v1/:
     get:
       tags:
@@ -75,9 +75,9 @@ paths:
         '400':
           $ref: '#/components/responses/WebSocket400'
         '501':
-          $ref: '#/components/responses/WebSocket501'
+          $ref: '#/components/responses/RestApi501'
         '503':
-          $ref: '#/components/responses/WebSocket503'
+          $ref: '#/components/responses/RestApi503'
   /{service}/v1/:
     get:
       tags:
@@ -102,9 +102,9 @@ paths:
         '400':
           $ref: '#/components/responses/WebSocket400'
         '501':
-          $ref: '#/components/responses/WebSocket501'
+          $ref: '#/components/responses/RestApi501'
         '503':
-          $ref: '#/components/responses/WebSocket503'
+          $ref: '#/components/responses/RestApi503'
   /services/:
     get:
       tags:
@@ -120,6 +120,8 @@ paths:
                 $ref: '#/components/schemas/3.2.Services'
         '500':
           $ref: '#/components/responses/RestApi500'
+        '501':
+          $ref: '#/components/responses/RestApi501'
         '503':
           $ref: '#/components/responses/RestApi503'
   /nas/v1/:
@@ -135,6 +137,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/7.0.PathList'
+        '501':
+          $ref: '#/components/responses/RestApi501'
   /nas/v1/{path}:
     get:
       tags:
@@ -173,6 +177,8 @@ paths:
                 format: binary
         '404':
           $ref: '#/components/responses/RestApi404'
+        '501':
+          $ref: '#/components/responses/RestApi501'
     put:
       tags:
         - 7.0 File Storage Management
@@ -199,6 +205,8 @@ paths:
           content: {}
         '500':
           $ref: '#/components/responses/RestApi500'
+        '501':
+          $ref: '#/components/responses/RestApi501'
     delete:
       tags:
         - 7.0 File Storage Management
@@ -218,6 +226,8 @@ paths:
           content: {}
         '404':
           $ref: '#/components/responses/RestApi404'
+        '501':
+          $ref: '#/components/responses/RestApi501'
   /adif/v1/parameters:
     get:
       tags:
@@ -357,6 +367,8 @@ paths:
       responses:
         '200':
           description: OK
+        '501':
+          $ref: '#/components/responses/RestApi501'
   /adif/v1/subscription:
     get:
       tags:
@@ -435,6 +447,8 @@ paths:
                 $ref: '#/components/schemas/6.0.UplinkList'
         '304':
           $ref: '#/components/responses/RestApi304'
+        '501':
+          $ref: '#/components/responses/RestApi501'
     delete:
       tags:
         - 6.0 ACARS
@@ -452,6 +466,8 @@ paths:
       responses:
         '204':
           description: Successful operation
+        '501':
+          $ref: '#/components/responses/RestApi501'        
   /acars/v1/uplinks/{id}:
     get:
       tags:
@@ -478,6 +494,8 @@ paths:
                 $ref: '#/components/schemas/6.0.Uplink'
         '404':
           $ref: '#/components/responses/RestApi404'
+        '501':
+          $ref: '#/components/responses/RestApi501' 
     delete:
       tags:
         - 6.0 ACARS
@@ -497,6 +515,8 @@ paths:
           description: Uplink successfully deleted.
         '404':
           $ref: '#/components/responses/RestApi404'
+        '501':
+          $ref: '#/components/responses/RestApi501'
   /acars/v1/downlinks:
     get:
       tags:
@@ -526,6 +546,8 @@ paths:
                 $ref: '#/components/schemas/6.0.DownlinkList'
         '304':
           $ref: '#/components/responses/RestApi304'
+        '501':
+          $ref: '#/components/responses/RestApi501'
     post:
       tags:
         - 6.0 ACARS
@@ -568,6 +590,8 @@ paths:
                 $ref: '#/components/schemas/ErrorMessage'
               example:
                 error: Downlink queue full
+        '501':
+          $ref: '#/components/responses/RestApi501'
     delete:
       tags:
         - 6.0 ACARS
@@ -585,6 +609,8 @@ paths:
       responses:
         '204':
           description: Successful operation
+        '501':
+          $ref: '#/components/responses/RestApi501'
   /acars/v1/downlinks/{id}:
     get:
       tags:
@@ -617,6 +643,8 @@ paths:
           $ref: '#/components/responses/RestApi304'
         '404':
           $ref: '#/components/responses/RestApi404'
+        '501':
+          $ref: '#/components/responses/RestApi501' 
     delete:
       tags:
         - 6.0 ACARS
@@ -636,6 +664,8 @@ paths:
           description: Downlink successfully deleted.
         '404':
           $ref: '#/components/responses/RestApi404'
+        '501':
+          $ref: '#/components/responses/RestApi501'
   /acars/v1/status:
     get:
       tags:
@@ -650,6 +680,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/6.0.Status'
+        '501':
+          $ref: '#/components/responses/RestApi501'
+        
   /acars/v1/subscribe:
     get:
       tags:
@@ -725,6 +758,8 @@ paths:
               schema:
                 type: string
                 example: Resource can only be access with WebSockets.
+        '501':
+          $ref: '#/components/responses/RestApi501'
   /fms/v1/flightPlan:
     get:
       tags:
@@ -739,6 +774,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/8.0.FmsFlightPlan'
+        '501':
+          $ref: '#/components/responses/RestApi501'
 components:
   schemas:
     selfLink:
@@ -1339,8 +1376,8 @@ components:
             $ref: '#/components/schemas/ErrorMessage'
     RestApi501:
       description: |
-        Not Implemented: Unsupported service or Version in a URL should be answered with code. The client should not 
-        expect the service to be available anytime and should not poll the server with the same request to reduce resources consumption.
+        Not Implemented: Unsupported service or version in a URL should be answered with code 501. The client should not 
+        expect the service to be available anytime during the lifecycle of the server and should not poll the server with the same request to reduce resources consumption.
       content: {}
     RestApi502:
       description: |

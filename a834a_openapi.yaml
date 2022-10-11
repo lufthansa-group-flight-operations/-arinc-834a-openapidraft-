@@ -1302,7 +1302,7 @@ components:
       example: AirlineID
   parameters:
     IncludePayload:
-      description: If set to true, the response will have the payload included. Otherwise the payload is not sent. If not set, the default is false.
+      description: Optional parameter, if set to true, the response will have the payload included. Otherwise the payload is not sent. If not set, the default is false. If the client is only checking for updates of messages, it should request without the payload and use the ETAG as an indicator if messages has changed. The ETAG should be the same, independed if the payload is requested.
       in: query
       name: include_payload
       required: false
@@ -1348,7 +1348,7 @@ components:
   responses:
     RestApi304:
       description: |
-        Not Modified: Returns a Not Modified if the If-None-Match header matches the current ETag.
+        Not Modified: If a request is made with an ETag and the Server detects that the client has already an up-to-date version of the resource, the server may response instead with 200 (Ok) with 304 (Not modified) where no payload  is attached to conserve traffic.
     RestApi400:
       description: |
         Bad Request: The was badly formatted and couldn't be answered.

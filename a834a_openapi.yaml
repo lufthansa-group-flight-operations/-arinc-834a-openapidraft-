@@ -1064,7 +1064,7 @@ components:
           $ref: '#/components/schemas/6.0.DownlinkState'
           readOnly: true
         status_update_timestamp:
-          description: Time stamp (ISO 8601 format) indicating when the last status change took place.
+          description: Time stamp (ISO 8601 format) indicating when the last 'state' change took place.
           type: string
           format: date-time
           readOnly: true
@@ -1077,12 +1077,10 @@ components:
         media_select:
           type: string
           enum:
-            - MEDIA_ANY
-            - MEDIA_GATELINK
-            - MEDIA_VHF
-            - MEDIA_SATCOM
-            - MEDIA_HF
-            - MEDIA_ANY_OTHER
+            - acars_any            
+            - acars_vhf
+            - acars_satcom            
+            - acars_fms
         lifetime:
           $ref: '#/components/schemas/6.0.LifeTime'
         data_type:

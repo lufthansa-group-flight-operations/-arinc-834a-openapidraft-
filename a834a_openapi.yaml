@@ -567,7 +567,7 @@ paths:
               lifetime: 0
               data_type: ASCII
               dataSize: 82
-              data: TUVUQVIgS1NUTCAyMTE2NTFaIDAxMDA1S1QgMTBTTSBGRVcwMjAgQktOMjUwIDE5LzEyIEEzMDI2IFJNSyBBTzIgU0xQMjQ0IFQwMTg5MDExNw==
+              data: METAR KSTL 211651Z 01005KT 10SM FEW020 BKN250 19/12 A3026 RMK AO2 SLP244 T01890117
       responses:
         '201':
           description: Downlink request successfully created. Returns the newly created downlink.

@@ -779,12 +779,12 @@ paths:
 components:
   schemas:
     selfLink:
-      description: A URL that can be used to access the resource again.
+      description: A URL that can be used to access the resource again. The last element in the url represents the id of the message. It is an abstract that represents kind of uniqueness over livetime and over different AIDS and different Aircraft. A UUID would fullfill that requirement. The client should not make any assumptions of previous or following messages by altering the ID. Instead the client should request a list of messages.
       type: string
       readOnly: true
     ISO8601TimeStamp:
       description: Test
-      type: string
+      type: string    
     ErrorMessage:
       type: object
       description: Error message that gives additional info about the error.
@@ -937,6 +937,28 @@ components:
       enum:
         - ASCII
       default: ASCII
+    6.0.LifeTime:    
+      description: The pattern of the value is according A619, but with the diference, that the timer restarts at each unit. In particular it means that the timer starts when the message is received by the ACARS Service on the A834A and if the message did not timeout until the transfer to the CMU, that value is passed unaltered towards the CMU. The A834A-Service should not modify the value by the time it hold on the message.
+      multipleOf: 2
+      maximum: 30
+      minimum: 0
+      type: integer
+    6.0.TimeStamp:
+      description: Time stamp  (ISO 8601 format) when the message was received by the A834A Server.
+      type: string
+      format: date-time
+      readOnly: true
+    6.0.DownlinkState:
+        description: State of the queued downlink message.
+        type: string
+        enum:
+          - queued
+          - timeout
+          - cmf_transfer
+          - cmf_ack
+          - cmf_nak
+          - cmf_timeout
+          - dsp_ack
     6.0.UplinkList:
       type: object
       properties:
@@ -968,38 +990,32 @@ components:
     6.0.Uplink:
       type: object
       properties:
-        selfLink:
+        selflink:
           $ref: '#/components/schemas/selfLink'
         timestamp:
-          description: Timestamp when the message was received.
-          type: string
-          format: date-time
+          $ref: '#/components/schemas/6.0.TimeStamp'
         mti:
           description: Message Type Identifier to address specific applications.
           type: string
           minLength: 2
           maxLength: 2
         lifetime:
-          description: Lifetime in minutes. (0 = infinite)
-          multipleOf: 2
-          maximum: 30
-          minimum: 0
-          type: integer
+          $ref: '#/components/schemas/6.0.LifeTime'
         data_type:
           $ref: '#/components/schemas/6.0.PayloadDataType'
-        dataSize:
-          description: Size of the data after Base64 decoding.
+        data_size:
+          description: Size of the data.
           minimum: 1
           type: integer
         payload:
           $ref: '#/components/schemas/6.0.MsgPayload'
       example:
-        selfLink: https://server/a834a/acars/v1/uplinks/240be703-012b-4442-ab38-405616baf625
+        selflink: https://server/a834a/acars/v1/uplinks/240be703-012b-4442-ab38-405616baf625
         timestamp: 2022-04-21T18:45:15.456Z
         mti: WX
         lifetime: 0
         data_type: ASCII
-        dataSize: 82
+        data_size: 82
         payload: METAR KSTL 211651Z 01005KT 10SM FEW020 BKN250 19/12 A3026 RMK AO2 SLP244 T01890117
     6.0.DownlinkList:
       type: object
@@ -1015,52 +1031,40 @@ components:
       example:
         selfLink: https://server/a834a/acars/v1/downlinks
         downlinks:
-          - selfLink: https://server/a834a/acars/v1/downlinks/127ade54-8458-4d01-b94f-5f9216838f1f
+          - selflink: https://server/a834a/acars/v1/downlinks/127ade54-8458-4d01-b94f-5f9216838f1f
             timestamp: 2022-04-21T17:55:35.321Z
             state: dsp_ack
             status_update_timestamp: 2022-04-21T17:55:36.000Z
             mti: AO
-            mediaSelect: ACARS_ANY
+            media_select: ACARS_ANY
             lifetime: 0
             data_type: ASCII
-            dataSize: 32
+            data_size: 32
             payload: Hello World Free Text.
-          - selfLink: https://server/a834a/acars/v1/downlinks/5eb2e8cd-a853-4d7a-bdd4-2a45f8ebbeb7
+          - selflink: https://server/a834a/acars/v1/downlinks/5eb2e8cd-a853-4d7a-bdd4-2a45f8ebbeb7
             timestamp: 2022-04-21T18:45:15.456Z
             state: cmf_ack
             status_update_timestamp: 2022-04-21T18:45:15.500Z
             mti: WX
-            mediaSelect: ACARS_ANY
+            media_select: ACARS_ANY
             lifetime: 0
             data_type: ASCII
-            dataSize: 82
+            data_size: 82
             payload: METAR KSTL 211651Z 01005KT 10SM FEW020 BKN250 19/12 A3026 RMK AO2 SLP244 T01890117
-
     6.0.Downlink:
       type: object
       properties:
-        selfLink:
+        selflink:
           $ref: '#/components/schemas/selfLink'
           readOnly: true
         timestamp:
-          description: Timestamp when the message was received by the A834A Server.
-          type: string
-          format: date-time
+          $ref: '#/components/schemas/6.0.TimeStamp'          
           readOnly: true
         state:
-          description: State of the queued downlink message.
-          type: string
-          enum:
-            - queued
-            - timeout
-            - cmf_transfer
-            - cmf_ack
-            - cmf_nak
-            - cmf_timeout
-            - dsp_ack
+          $ref: '#/components/schemas/6.0.DownlinkState'
           readOnly: true
         status_update_timestamp:
-          description: Time stamp indicating when the last status change took place.
+          description: Time stamp (ISO 8601 format) indicating when the last status change took place.
           type: string
           format: date-time
           readOnly: true
@@ -1070,7 +1074,7 @@ components:
           minLength: 2
           maxLength: 2
           example: WX
-        mediaSelect:
+        media_select:
           type: string
           enum:
             - MEDIA_ANY
@@ -1080,14 +1084,10 @@ components:
             - MEDIA_HF
             - MEDIA_ANY_OTHER
         lifetime:
-          description: Lifetime in minutes. (0 = infinite)
-          multipleOf: 2
-          maximum: 30
-          minimum: 0
-          type: integer
+          $ref: '#/components/schemas/6.0.LifeTime'
         data_type:
           $ref: '#/components/schemas/6.0.PayloadDataType'
-        dataSize:
+        data_size:
           description: Size of the data after Base64 decoding.
           minimum: 1
           type: integer
@@ -1095,20 +1095,20 @@ components:
         payload:
           $ref: '#/components/schemas/6.0.MsgPayload'
       example:
-        selfLink: https://server/a834a/acars/v1/downlinks/5eb2e8cd-a853-4d7a-bdd4-2a45f8ebbeb7
+        selflink: https://server/a834a/acars/v1/downlinks/5eb2e8cd-a853-4d7a-bdd4-2a45f8ebbeb7
         timestamp: 2022-04-21T18:45:15.456Z
         state: cmf_transfer
         status_update_timestamp: '2022-04-21T18:45:15.500Z'
         mti: WX
-        mediaSelect: ACARS_ANY
+        media_select: ACARS_ANY
         lifetime: 0
         data_type: ASCII
-        dataSize: 82
+        data_size: 82
         payload: METAR KSTL 211651Z 01005KT 10SM FEW020 BKN250 19/12 A3026 RMK AO2 SLP244 T01890117
     6.0.Status:
       type: object
       properties:
-        selfLink:
+        selflink:
           $ref: '#/components/schemas/selfLink'
           example: https://server/a834a/acars/v1/status
         updated:

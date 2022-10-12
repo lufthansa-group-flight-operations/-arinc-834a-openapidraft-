@@ -829,19 +829,21 @@ components:
             description: Avionics Parameters
             versions:
               - version: v1
-                uri: https://server/a834a/adif/v1
+                uri_http: https://aid.supplier.local/a834a/adif/v1
+                uri_wss: wss://aid.supplier.local/a834a/adif/v1
                 authenticate: false
               - version: v2
-                uri: https://server/a834a/adif/v2
+                uri_http: https://aid.supplier.local/a834a/adif/v2
+                uri_wss: wss://aid.supplier.local/a834a/adif/v2
                 authenticate: false
           - service: nas
             description: Network Attached Storage
             versions:
               - version: v1
-                uri: https://server/a834a/nas/v1
+                uri_http: https://aid.supplier.local/a834a/nas/v1
                 authenticate: true
               - version: v2
-                uri: https://server/a834a/nas/v2
+                uri_http: https://aid.supplier.local/a834a/nas/v2
                 authenticate: true
     4.1.3.timestamp:
       description: |
@@ -927,7 +929,7 @@ components:
           type: string
           example: 'TODO: OPEN ITEM'
     6.0.MsgPayload:
-      description: Payload of the message. Currently ASCII only. Mandatory in POST command. Optional, if "include_content" is set, the payload will be delivered in GET request.
+      description: Payload of the message. Currently ASCII only. Mandatory in POST command. Optional, if "include_content" is set in the query for the GET request, the payload will be delivered.
       type: string
     6.0.PayloadDataType:
       description: Describes the format of the data in payload. Currently only ASCII is supported. Optional field, if not set ASCII is assumed.
@@ -938,7 +940,7 @@ components:
         - ASCII
       default: ASCII
     6.0.LifeTime:    
-      description: The pattern of the value is according A619, but with the diference, that the timer restarts at each unit. In particular it means that the timer starts when the message is received by the ACARS Service on the A834A and if the message did not timeout until the transfer to the CMU, that value is passed unaltered towards the CMU. The A834A-Service should not modify the value by the time it hold on the message.
+      description: Time after which the message gets discarded. The pattern of the value is according A619, but with the diference, that the timer restarts at each unit. In particular it means that the timer starts when the message is received by the ACARS Service on the A834A and if the message did not timeout until the transfer to the CMU, that value is passed unaltered towards the CMU. The A834A-Service should not modify the value by the time it hold on the message.
       multipleOf: 2
       maximum: 30
       minimum: 0
@@ -948,6 +950,11 @@ components:
       type: string
       format: date-time
       readOnly: true
+    6.0.Data_size:
+      description: Size of the data in bytes.
+      minimum: 1
+      type: integer
+      readOnly: true  
     6.0.DownlinkState:
         description: State of the queued downlink message.
         type: string
@@ -1004,9 +1011,7 @@ components:
         data_type:
           $ref: '#/components/schemas/6.0.PayloadDataType'
         data_size:
-          description: Size of the data.
-          minimum: 1
-          type: integer
+          $ref: '#/components/schemas/6.0.Data_size'
         payload:
           $ref: '#/components/schemas/6.0.MsgPayload'
       example:
@@ -1086,9 +1091,7 @@ components:
         data_type:
           $ref: '#/components/schemas/6.0.PayloadDataType'
         data_size:
-          description: Size of the data after Base64 decoding.
-          minimum: 1
-          type: integer
+          $ref: '#/components/schemas/6.0.Data_size'
           readOnly: true
         payload:
           $ref: '#/components/schemas/6.0.MsgPayload'

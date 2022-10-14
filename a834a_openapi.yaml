@@ -562,12 +562,11 @@ paths:
             schema:
               $ref: '#/components/schemas/6.0.Downlink'
             example:
-              mti: WX
-              mediaSelect: ACARS_ANY
+              mti: FT
+              mediaSelect: acars_any
               lifetime: 0
-              data_type: ASCII
-              dataSize: 82
-              data: METAR KSTL 211651Z 01005KT 10SM FEW020 BKN250 19/12 A3026 RMK AO2 SLP244 T01890117
+              data_type: ASCII              
+              payload: "Free Text: Testmessage"
       responses:
         '201':
           description: Downlink request successfully created. Returns the newly created downlink.
@@ -579,7 +578,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/6.0.Downlink'
+                $ref: '#/components/schemas/6.0.Downlink'              
         '400':
           $ref: '#/components/responses/RestApi400'
         '429':
@@ -596,7 +595,7 @@ paths:
       tags:
         - 6.0 ACARS
       summary: 6.2.8 Delete all Downlinks
-      description: Delete downlinks which matches the filter criteria or all downlinks when no filter is provided.
+      description: Delete downlinks which matches the filter criteria or all downlinks when no filter is provided. The delete command only deletes the message(s) on the 834A server. If the message is in the state 'queued', meaning it has not been transferred to CMF, the message will be deleted before it has been sent to ground. Otherwise, if the message is transferring, or was already transferred to the CMF, the CMF will send the message to ground anyway and the message will only be deleted on the 834A Server.
       operationId: deleteAllDownlinks
       parameters:
         - in: query
@@ -779,6 +778,10 @@ paths:
 components:
   schemas:
     selfLink:
+      description: A URL that can be used to access the resource again.
+      type: string
+      readOnly: true
+    selfLinkWithUniqueId:
       description: A URL that can be used to access the resource again. The last element in the url represents the id of the message. It is an abstract that represents kind of uniqueness over livetime and over different AIDS and different Aircraft. A UUID would fullfill that requirement. The client should not make any assumptions of previous or following messages by altering the ID. Instead the client should request a list of messages.
       type: string
       readOnly: true
@@ -998,7 +1001,7 @@ components:
       type: object
       properties:
         selflink:
-          $ref: '#/components/schemas/selfLink'
+          $ref: '#/components/schemas/selfLinkWithUniqueId'
         timestamp:
           $ref: '#/components/schemas/6.0.TimeStamp'
         mti:
@@ -1059,8 +1062,8 @@ components:
     6.0.Downlink:
       type: object
       properties:
-        selflink:
-          $ref: '#/components/schemas/selfLink'
+        selflink:          
+          $ref: '#/components/schemas/selfLinkWithUniqueId'
           readOnly: true
         timestamp:
           $ref: '#/components/schemas/6.0.TimeStamp'          

@@ -139,8 +139,17 @@ paths:
             application/json:
               schema:
                 oneOf:
+                  - $ref: '#/components/schemas/7.0.PathListDetailed'                
+                      
                   - $ref: '#/components/schemas/7.0.PathList'
-                  - $ref: '#/components/schemas/7.0.PathListDetailed'
+        '400':
+          $ref: '#/components/responses/RestApi400'
+        #'401':
+        #  $ref: '#/components/responses/RestApi401'
+        #'403':
+        #  $ref: '#/components/responses/RestApi403'
+        '404':
+          $ref: '#/components/responses/RestApi404'  
         '501':
           $ref: '#/components/responses/RestApi501'
   /nas/v1/{path}:
@@ -175,13 +184,21 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/7.0.PathList'
+                $ref: '#/components/schemas/7.0.PathListDetailed'
             application/octet-stream:
               schema:
                 type: string
                 format: binary
+        '400':
+          $ref: '#/components/responses/RestApi400'
+        #'401':
+        #  $ref: '#/components/responses/RestApi401'
+        #'403':
+        #  $ref: '#/components/responses/RestApi403'
         '404':
-          $ref: '#/components/responses/RestApi404'
+          $ref: '#/components/responses/RestApi404'  
+        '500':
+          $ref: '#/components/responses/RestApi500'
         '501':
           $ref: '#/components/responses/RestApi501'
     put:
@@ -206,12 +223,23 @@ paths:
         required: false
       responses:
         '201':
+          #$ref: '#/components/responses/RestApi201'
           description: created
           content: {}
+        '204':
+          $ref: '#/components/responses/RestApi204'
+        '400':
+          $ref: '#/components/responses/RestApi400'
+        #'401':
+        #  $ref: '#/components/responses/RestApi401'
+        #'403':
+        #  $ref: '#/components/responses/RestApi403'
         '500':
           $ref: '#/components/responses/RestApi500'
         '501':
           $ref: '#/components/responses/RestApi501'
+        #'507':
+          #$ref: '#/components/responses/RestApi507'
     delete:
       tags:
         - 7.0 File Storage Management
@@ -227,12 +255,19 @@ paths:
             pattern: ^[a-zA-Z0-9-._~!$&()*+,;=:/?@]+$
       responses:
         '204':
-          description: successful deletion, no content
-          content: {}
+          $ref: '#/components/responses/RestApi204'
+        '400':
+          $ref: '#/components/responses/RestApi400'
+        #'401':
+        #  $ref: '#/components/responses/RestApi401'
+        #'403':
+        #  $ref: '#/components/responses/RestApi403'
         '404':
           $ref: '#/components/responses/RestApi404'
+        '500':
+          $ref: '#/components/responses/RestApi500'
         '501':
-          $ref: '#/components/responses/RestApi501'
+           $ref: '#/components/responses/RestApi501'  
   /adif/v1/parameters:
     get:
       tags:
@@ -1190,7 +1225,79 @@ components:
             path: README.txt
             path_type: file
     7.0.PathListDetailed:
-      $ref: '#/components/schemas/7.0.PathList'
+      type: object
+      properties:
+        items:
+          type: object
+          properties:
+            selflink:
+              type: string
+            name:
+              type: string
+            path_type:
+              type: string
+              enum:
+                - folder
+                - file
+            last_modified_timestamp:
+              type: string
+              format: date-time
+            filesize:
+              type: integer
+            writable:
+              type: boolean
+            deletable:
+              type: boolean
+            quota_total:
+              type: integer              
+            quota_available:
+              type: integer
+            quota_used:
+              type: integer
+          required:
+            - selflink
+            - name
+            - path_type
+            - filesize
+            - last_modified_timestamp
+            - writable
+            - deletable
+            - quota_total
+            - quota_available
+            - quota_used
+      example:
+        items:
+          - selflink: https://a834a-1.suppliername.local/a834a/v1/nas/eTLB
+            name: eTLB
+            path_type: folder
+            filesize: 0
+            last_modified_timestamp: "2022-11-07T09:52:02.000Z"
+            writable: 'true'
+            deletable: 'true'
+            quota_total: 100000000
+            quota_available: 99000000
+            quota_used: 1000000
+          - selflink: https://a834a-1.suppliername.local/a834a/v1/nas/Temp
+            name: Temp
+            path_type: folder
+            filesize: 0
+            last_modified_timestamp: "2022-11-07T09:52:02.000Z"
+            writable: 'true'
+            deletable: 'true'
+            quota_total: 100000000
+            quota_available: 99000000
+            quota_used: 1000000
+          - selflink: https://a834a-1.suppliername.local/a834a/nas/v1/README.txt
+            path: README.txt
+            path_type: file
+            filesize: 10
+            last_modified_timestamp: "2022-11-07T09:52:02.000Z"
+            writable: 'true'
+            deletable: 'true'
+            quota_total: 100000000
+            quota_available: 99999990
+            quota_used: 10
+
     8.0.FmsFlightPlan:
       type: object
       properties:
@@ -1363,12 +1470,15 @@ components:
       schema:
         type: boolean
   responses:
+    RestApi204:
+      description: |
+        No Content: Already exists
     RestApi304:
       description: |
         Not Modified: If a request is made with an ETag and the Server detects that the client has already an up-to-date version of the resource, the server may response instead with 200 (Ok) with 304 (Not modified) where no payload  is attached to conserve traffic.
     RestApi400:
       description: |
-        Bad Request: The was badly formatted and couldn't be answered.
+        Bad Request: The request was badly formatted and could not be completed.
       content: {}
     RestApi404:
       description: |

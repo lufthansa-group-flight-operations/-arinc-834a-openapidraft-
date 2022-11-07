@@ -129,6 +129,8 @@ paths:
       tags:
         - 7.0 File Storage Management
       summary: Retrieve identified root folder
+      parameters:
+        - $ref: '#/components/parameters/NasDetailed'
       operationId: getRoot
       responses:
         '200':
@@ -136,7 +138,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/7.0.PathList'
+                oneOf:
+                  - $ref: '#/components/schemas/7.0.PathList'
+                  - $ref: '#/components/schemas/7.0.PathListDetailed'
         '501':
           $ref: '#/components/responses/RestApi501'
   /nas/v1/{path}:
@@ -153,6 +157,7 @@ paths:
           schema:
             type: string
             pattern: ^[a-zA-Z0-9-._~!$&()*+,;=:/?@]+$
+        - $ref: '#/components/parameters/NasDetailed'
       responses:
         '200':
           description: |
@@ -1160,30 +1165,32 @@ components:
           items:
             type: object
             properties:
+              selflink:
+                type: string
               name:
                 type: string
-              path:
-                type: string
-              pathtype:
+              path_type:
                 type: string
                 enum:
                   - folder
                   - file
             required:
+              - selflink
               - name
-              - path
               - pathtype
       example:
         items:
-          - name: eTLB
-            path: /eTLB
-            pathtype: folder
-          - name: Temp
-            path: /Temp
-            pathtype: folder
-          - name: README.txt
-            path: /README.txt
-            pathtype: file
+          - selflink: https://a834a-1.suppliername.local/a834a/v1/nas/eTLB
+            name: eTLB
+            path_type: folder
+          - selflink: https://a834a-1.suppliername.local/a834a/v1/nas/Temp
+            name: Temp
+            path_type: folder
+          - selflink: https://a834a-1.suppliername.local/a834a/nas/v1/README.txt
+            path: README.txt
+            path_type: file
+    7.0.PathListDetailed:
+      $ref: '#/components/schemas/7.0.PathList'
     8.0.FmsFlightPlan:
       type: object
       properties:
@@ -1349,6 +1356,12 @@ components:
         enum:
           - websocket
       required: true
+    NasDetailed:
+      name: detailed
+      description: If the client requests additional detail using the optional parameter 'detailed' with the value 'true' within the query, additional properties as described in XXX should be included.
+      in: query
+      schema:
+        type: boolean
   responses:
     RestApi304:
       description: |

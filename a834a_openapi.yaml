@@ -1090,11 +1090,7 @@ components:
         selfLink:
           description: A URL that can be used to access the resource again.
           type: string
-          readOnly: true
-        id:
-          description: Unique Identifier.
-          type: integer
-          readOnly: true
+          readOnly: true        
         timestamp:
           description: Timestamp when the message was received.
           type: string

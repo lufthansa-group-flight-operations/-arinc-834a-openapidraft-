@@ -1521,7 +1521,7 @@ components:
       content: {}
     WebSocket101:
       description: Successful switching of protocol to WebSocket.
-  headers:
+      headers:
         Connection:
           schema:
             type: string

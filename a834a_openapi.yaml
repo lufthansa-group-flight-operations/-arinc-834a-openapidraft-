@@ -139,8 +139,8 @@ paths:
             application/json:
               schema:
                 oneOf:
-                  - $ref: '#/components/schemas/7.0.PathListDetailed'                
-                      
+                  - $ref: '#/components/schemas/7.0.PathListDetailed'
+
                   - $ref: '#/components/schemas/7.0.PathList'
         '400':
           $ref: '#/components/responses/RestApi400'
@@ -149,7 +149,7 @@ paths:
         #'403':
         #  $ref: '#/components/responses/RestApi403'
         '404':
-          $ref: '#/components/responses/RestApi404'  
+          $ref: '#/components/responses/RestApi404'
         '501':
           $ref: '#/components/responses/RestApi501'
   /nas/v1/{path}:
@@ -171,7 +171,7 @@ paths:
         '200':
           description: |
             When the query path is a folder type then an `application/json` with the path list is returned.
-            When the query path is a file type then an `application/octet-stream` with 
+            When the query path is a file type then an `application/octet-stream` with
             the `Content-Disposition` header and the file content as body is returned.
           headers:
             Content-Disposition:
@@ -196,7 +196,7 @@ paths:
         #'403':
         #  $ref: '#/components/responses/RestApi403'
         '404':
-          $ref: '#/components/responses/RestApi404'  
+          $ref: '#/components/responses/RestApi404'
         '500':
           $ref: '#/components/responses/RestApi500'
         '501':
@@ -267,7 +267,7 @@ paths:
         '500':
           $ref: '#/components/responses/RestApi500'
         '501':
-           $ref: '#/components/responses/RestApi501'  
+           $ref: '#/components/responses/RestApi501'
   /adif/v1/parameters:
     get:
       tags:
@@ -299,7 +299,7 @@ paths:
       responses:
         '200':
           description: |
-            OK: The server should return the requested parameters formatted with applicable JSON schema. 
+            OK: The server should return the requested parameters formatted with applicable JSON schema.
             Without the `params=xxx` the server only returns the name and the settable flag without values.
             To retrieve all parameters with values use the `*` as query parameter.
           content:
@@ -307,7 +307,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/4.1.4.4.A834AParameters'
         '403':
-          description: 'Forbidden: On an item that is not allowed for modification, the server should report error message 403 (Forbidden) with the list of rejected parameters as follows'
+          description: |
+            Forbidden: On an item that is not allowed for modification, the server should report error message 403 (Forbidden) with the
+            list of rejected parameters as follows.
           content:
             application/json:
               schema:
@@ -317,7 +319,9 @@ paths:
                 parameters:
                   - parameter
         '404':
-          description: 'Not Found: If none parameter of the request could be found it should be answered with code 404 (Not Found). The name of the unknown parameter should be reported in the error message as follows'
+          description: |
+            Not Found: If none parameter of the request could be found it should be answered with code 404 (Not Found). The name of
+            the unknown parameter should be reported in the error message as follows.
           content:
             application/json:
               schema:
@@ -339,7 +343,7 @@ paths:
         - 4.1.4 Parameter Interfaces
       summary: 4.1.4.3 Parameter REST Set API.
       description: |
-        The ARINC 834A supports also the “Write Parameter” feature. This is applicable only to specific services as detailed 
+        The ARINC 834A supports also the “Write Parameter” feature. This is applicable only to specific services as detailed
         in this document. As such this function is optional since only ADIF function is mandatory for ARINC 834A.
       requestBody:
         description: Multiple parameters may be Set with a single request.
@@ -364,7 +368,9 @@ paths:
                   value: xxx
                   settable: true
         '403':
-          description: 'Forbidden: On an item that is not allowed for modification, the server should report error message 403 (Forbidden) with the list of rejected parameters as follows'
+          description: |
+            Forbidden: On an item that is not allowed for modification, the server should report error message 403 (Forbidden) with
+            the list of rejected parameters as follows.
           content:
             application/json:
               schema:
@@ -375,7 +381,9 @@ paths:
                   - hdg_mag
                   - tas
         '404':
-          description: 'Not Found: Non-Existent parameter should be answered with code 404 (Not Found). The name of the unknown parameter should be reported in the error message as follows'
+          description: |
+            Not Found: Non-Existent parameter should be answered with code 404 (Not Found). The name of the unknown parameter
+            should be reported in the error message as follows.
           content:
             application/json:
               schema:
@@ -507,7 +515,7 @@ paths:
         '204':
           description: Successful operation
         '501':
-          $ref: '#/components/responses/RestApi501'        
+          $ref: '#/components/responses/RestApi501'
   /acars/v1/uplinks/{id}:
     get:
       tags:
@@ -535,7 +543,7 @@ paths:
         '404':
           $ref: '#/components/responses/RestApi404'
         '501':
-          $ref: '#/components/responses/RestApi501' 
+          $ref: '#/components/responses/RestApi501'
     delete:
       tags:
         - 6.0 ACARS
@@ -605,7 +613,7 @@ paths:
               mti: FT
               mediaSelect: acars_any
               lifetime: 0
-              data_type: ASCII              
+              data_type: ASCII
               payload: "Free Text: Testmessage"
       responses:
         '201':
@@ -618,7 +626,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/6.0.Downlink'              
+                $ref: '#/components/schemas/6.0.Downlink'
         '400':
           $ref: '#/components/responses/RestApi400'
         '429':
@@ -635,7 +643,11 @@ paths:
       tags:
         - 6.0 ACARS
       summary: 6.2.8 Delete all Downlinks
-      description: Delete downlinks which matches the filter criteria or all downlinks when no filter is provided. The delete command only deletes the message(s) on the 834A server. If the message is in the state 'queued', meaning it has not been transferred to CMF, the message will be deleted before it has been sent to ground. Otherwise, if the message is transferring, or was already transferred to the CMF, the CMF will send the message to ground anyway and the message will only be deleted on the 834A Server.
+      description: |
+        Delete downlinks which matches the filter criteria or all downlinks when no filter is provided. The delete command only deletes
+        the message(s) on the 834A server. If the message is in the state 'queued', meaning it has not been transferred to CMF, the message
+        will be deleted before it has been sent to ground. Otherwise, if the message is transferring, or was already transferred to the
+        CMF, the CMF will send the message to ground anyway and the message will only be deleted on the 834A Server.
       operationId: deleteAllDownlinks
       parameters:
         - in: query
@@ -683,7 +695,7 @@ paths:
         '404':
           $ref: '#/components/responses/RestApi404'
         '501':
-          $ref: '#/components/responses/RestApi501' 
+          $ref: '#/components/responses/RestApi501'
     delete:
       tags:
         - 6.0 ACARS
@@ -721,7 +733,7 @@ paths:
                 $ref: '#/components/schemas/6.0.Status'
         '501':
           $ref: '#/components/responses/RestApi501'
-        
+
   /acars/v1/subscribe:
     get:
       tags:
@@ -822,12 +834,16 @@ components:
       type: string
       readOnly: true
     selfLinkWithUniqueId:
-      description: A URL that can be used to access the resource again. The last element in the url represents the id of the message. It is an abstract that represents kind of uniqueness over livetime and over different AIDS and different Aircraft. A UUID would fullfill that requirement. The client should not make any assumptions of previous or following messages by altering the ID. Instead the client should request a list of messages.
+      description: |
+        A URL that can be used to access the resource again. The last element in the url represents the id of the message. It is an
+        abstract that represents kind of uniqueness over livetime and over different AIDS and different Aircraft. A UUID would fullfill
+        that requirement. The client should not make any assumptions of previous or following messages by altering the ID. Instead the
+        client should request a list of messages.
       type: string
       readOnly: true
     ISO8601TimeStamp:
       description: Test
-      type: string    
+      type: string
     ErrorMessage:
       type: object
       description: Error message that gives additional info about the error.
@@ -854,7 +870,8 @@ components:
                 type: array
                 items:
                   description: |
-                    Version supported by the A834A. Authenticate has to be set to true if HTTP Basic Authentication is required for that service.
+                    Version supported by the A834A. Authenticate has to be set to true if HTTP Basic Authentication is required for that
+                    service.
                   type: object
                   properties:
                     version:
@@ -890,7 +907,7 @@ components:
                 authenticate: true
     4.1.3.timestamp:
       description: |
-        Time in milliseconds based on a monotonic clock (arbitrary fixed point in the past; is not affected by 
+        Time in milliseconds based on a monotonic clock (arbitrary fixed point in the past; is not affected by
         changes in the system time-of-day clock). This is the time of the last modification of the value of the parameter.
       type: integer
       format: int64
@@ -946,7 +963,11 @@ components:
           $ref: '#/components/schemas/4.1.3.timestamp'
         value:
           type: object
-          description: "Which type is strictly defined in the JSON schema (e.g., kg, knots, degrees, complex type, etc.). 'value' is set \nto null (JSON datatype) when the parameter is not valid (that is to say for in the A429 case: not in “NO”)\t\n\"settable\"(boolean) by default all parameters for public ARINC 834A ADIF service cannot be set by a client.\n"
+          description: |
+            Which type is strictly defined in the JSON schema (e.g., kg, knots, degrees, complex type, etc.). 'value' is set to
+            null (JSON datatype) when the parameter is not valid (that is to say for in the A429 case: not in "NO")
+            "settable"(boolean) by default all parameters for public ARINC 834A ADIF service cannot be
+            set by a client.
         settable:
           type: boolean
           description: by default all parameters for public ARINC 834A ADIF service cannot be set by a client.
@@ -972,18 +993,25 @@ components:
           type: string
           example: 'TODO: OPEN ITEM'
     6.0.MsgPayload:
-      description: Payload of the message. Currently ASCII only. Mandatory in POST command. Optional, if "include_content" is set in the query for the GET request, the payload will be delivered.
+      description: |
+        Payload of the message. Currently ASCII only. Mandatory in POST command. Optional, if "include_content" is set in the
+        query for the GET request, the payload will be delivered.
       type: string
     6.0.PayloadDataType:
-      description: Describes the format of the data in payload. Currently only ASCII is supported. Optional field, if not set ASCII is assumed.
+      description: |
+        Describes the format of the data in payload. Currently only ASCII is supported. Optional field, if not set ASCII is assumed.
       type: string
       minimum: 0
       maximum: 1
       enum:
         - ASCII
       default: ASCII
-    6.0.LifeTime:    
-      description: Time after which the message gets discarded. The pattern of the value is according A619, but with the diference, that the timer restarts at each unit. In particular it means that the timer starts when the message is received by the ACARS Service on the A834A and if the message did not timeout until the transfer to the CMU, that value is passed unaltered towards the CMU. The A834A-Service should not modify the value by the time it hold on the message.
+    6.0.LifeTime:
+      description: |
+        Time after which the message gets discarded. The pattern of the value is according A619, but with the diference, that the
+        timer restarts at each unit. In particular it means that the timer starts when the message is received by the ACARS Service
+        on the A834A and if the message did not timeout until the transfer to the CMU, that value is passed unaltered towards the
+        CMU. The A834A-Service should not modify the value by the time it hold on the message.
       multipleOf: 2
       maximum: 30
       minimum: 0
@@ -997,7 +1025,7 @@ components:
       description: Size of the data in bytes.
       minimum: 1
       type: integer
-      readOnly: true  
+      readOnly: true
     6.0.DownlinkState:
         description: State of the queued downlink message.
         type: string
@@ -1102,11 +1130,11 @@ components:
     6.0.Downlink:
       type: object
       properties:
-        selflink:          
+        selflink:
           $ref: '#/components/schemas/selfLinkWithUniqueId'
           readOnly: true
         timestamp:
-          $ref: '#/components/schemas/6.0.TimeStamp'          
+          $ref: '#/components/schemas/6.0.TimeStamp'
           readOnly: true
         state:
           $ref: '#/components/schemas/6.0.DownlinkState'
@@ -1125,9 +1153,9 @@ components:
         media_select:
           type: string
           enum:
-            - acars_any            
+            - acars_any
             - acars_vhf
-            - acars_satcom            
+            - acars_satcom
             - acars_fms
         lifetime:
           $ref: '#/components/schemas/6.0.LifeTime'
@@ -1160,7 +1188,8 @@ components:
           type: string
           format: date-time
         cmf_connected:
-          description: Indicates if the ACARS messaging service on the A834A server has established a connection to the cmf unit. (i.e. via ARINC 429)
+          description: |
+            Indicates if the ACARS messaging service on the A834A server has established a connection to the cmf unit. (i.e. via ARINC 429)
           type: boolean
           example: true
         cmf_status:
@@ -1249,7 +1278,7 @@ components:
             deletable:
               type: boolean
             quota_total:
-              type: integer              
+              type: integer
             quota_available:
               type: integer
             quota_used:
@@ -1306,113 +1335,197 @@ components:
           type: string
           example: FMSTrajectory
         source:
-          description: TODO
+          description: |
+            Protocol version of the bus.
+            IntBusV1: ARINC 702A-1 (5.2.12.2)
+            IntBusV2-4: ARINC 702A-2-4 (5.2.12.2)
+            IntBusV5: ARINC 702A-5 (5.2.12.2)
+            GAMA: TODO
+            EPP: DO-350A/351A - ED-228A/229A
           type: string
-          example: IntBusV1/2-4/5/GAMA
+          enum:
+          - IntBusV1
+          - IntBusV2-4
+          - IntBusV5
+          - GAMA
+          - EPP
+          example: IntBusV5
         timestamp:
-          description: TODO
-          type: integer
-          example: 12345
+          description: |
+            Time of Trajectory Prediction. (RFC3339 date-time)
+          type: string
+          format: date-time
+          example: 2023-01-18T12:00:00Z
         utc:
-          description: TODO
-          type: integer
-          example: 12345
+          description: |
+            Current system time. (RFC3339 date-time)
+          type: string
+          format: date-time
+          example: 2023-01-18T12:00:00Z
         value:
           description: TODO
           type: object
           properties:
             departure_airport:
-              description: TODO
+              description: |
+                TODO
+                ICAO + IATA Code?
               type: string
+              pattern: ^[A-Z]{3,4}$
               example: LFBO
             destination_airport:
-              description: TODO
+              description: |
+                TODO
+                ICAO + IATA Code?
               type: string
+              pattern: ^[A-Z]{3,4}$
               example: LFLX
             distance_to_destination:
-              description: TODO
+              description: |
+                TODO
+                Distance in nautical miles.
               type: number
+              minimum: 0
               example: 123.5
             time_to_destination:
-              description: TODO
-              type: integer
-              example: 241
+              description: |
+                TODO
+                Time in seconds or as RFC3339 Duration f.e. "PT00H15M00S"?
+              type: string
+              example: PT00H15M00S
             points:
               description: TODO
               type: array
               items:
                 $ref: '#/components/schemas/8.0.FmsPoint'
+
     8.0.FmsPoint:
       type: object
       properties:
-        name:
-          description: TODO
-          type: string
-          example: ABUSO
         latitude:
-          description: TODO
+          description: |
+            Latitude in decimal degrees.
           type: number
+          minimum: -90
+          maximum: 90
           example: 45.8505556
         longitude:
-          description: TODO
+          description: |
+            Longitude in decimal degrees.
           type: number
+          minimum: -180
+          maximum: 180
           example: 1.7486111111111
+        name:
+          description: |
+            TODO
+            Remark: optional, don't expect a value.
+          type: string
+          example: ABUSO
+        characteristics:
+          description: |
+            TODO
+          type: array
+          items:
+            type: string
+            enum:
+              - start_of_climb
+              - top_of_climb
+              - top_of_descent
+              - end_of_descent
+              - start_of_descent
+              - runway
+              - level-off_start
+              - level-off_end
+              - aircraft_projection
+              - discontinuity
+              - non-flyable
+              - clearance_altitude_level-off
+              - unnamed_fix
+              - baro-ref_climb_baro_setting
+              - baro-ref_descent_baro_setting
+              - baro-ref_std
+              - crossover_altitude
+              - transition_altitude-level
+              - speed_change
+          example: [start_of_climb, off_start]
         altitude:
-          description: TODO
+          description: |
+            Altitude in feet.
           type: integer
           example: 32000
-        eta:
-          description: TODO
-          type: integer
-          example: 12
         speed:
-          description: TODO
+          description: |
+            Speed in MACH if value < 2 or KCAS ≥ 2.
           type: number
+          minimum: 0
           example: 145.3
+        eta:
+          description: |
+            Estimated time of arrival. (RFC3339 date-time)
+          type: string
+          format: date-time
+          example: 2023-01-18T12:05:30Z
         fuel:
-          description: TODO
+          description: |
+            Fuel TODO in KLBS.
           type: number
           example: 12540.6
-        characteristics:
-          description: TODO
-          type: string
-          enum:
-            - TOP_OF_CLIMB
-            - TOP_OF_DESCENT
+        temperature:
+          description: |
+            Temperature (which?) in degress celsius.
+          type: number
+          example: -50.6
+        wind_speed:
+          description: |
+            Wind speed in knots.
+          type: number
+          example: 235.7
+        wind_direction:
+          description: |
+            Wind direction in decimal degree.
+          type: number
+          minimum: 0
+          maximum: 360
+          example: 340.6
         constraints:
           description: TODO
           type: object
           properties:
             altitude_upper_bound:
-              description: TODO
+              description: |
+                Altitude upper bound in feet.
               type: integer
               example: 12000
             altitude_lower_bound:
-              description: TODO
+              description: |
+                Altitude lower bound in feet.
               type: integer
               example: 13000
             speed_type:
               description: TODO
               type: string
               enum:
-                - AT_OR_BELOW
-                - AT
-                - AT_OR_ABOVE
+                - at_or_below
+                - at
+                - at_or_above
             speed_value:
-              description: TODO
+              description: TODO in knots.
               type: integer
               example: 123
             time_type:
               description: TODO
               type: string
               enum:
-                - AT_OR_BELOW
-                - AT
-                - AT_OR_ABOVE
+                - at_or_below
+                - at
+                - at_or_above
+              example: at_or_above
             time_value:
-              description: TODO
+              description: TODO in seconds
               type: integer
               example: 1234
+
     parameterName:
       type: string
       description: Name of a parameter, please note that '.' are used for namespaces.
@@ -1420,7 +1533,11 @@ components:
       example: AirlineID
   parameters:
     IncludePayload:
-      description: Optional parameter, if set to true, the response will have the payload included. Otherwise the payload is not sent. If not set, the default is false. If the client is only checking for updates of messages, it should request without the payload and use the ETAG as an indicator if messages has changed. The ETAG should be the same, independed if the payload is requested.
+      description: |
+        Optional parameter, if set to true, the response will have the payload included. Otherwise the payload is not sent. If
+        not set, the default is false. If the client is only checking for updates of messages, it should request without the
+        payload and use the ETAG as an indicator if messages has changed. The ETAG should be the same, independed if the payload
+        is requested.
       in: query
       name: include_payload
       required: false
@@ -1428,8 +1545,8 @@ components:
         type: boolean
     IfMatch:
       description: |
-        The RFC7232 If-Match header field in a request requires the server to only operate on the resource that matches at least 
-        one of the provided entity-tags. This allows clients express a precondition that prevent the method from being applied 
+        The RFC7232 If-Match header field in a request requires the server to only operate on the resource that matches at least
+        one of the provided entity-tags. This allows clients express a precondition that prevent the method from being applied
         if there have been any changes to the resource.
       example: '"42", "c0d5809f-cbfa-4ce9-8b03-2231fee3e1ee"'
       in: header
@@ -1439,7 +1556,7 @@ components:
         type: string
     IfNoneMatch:
       description: |
-        The RFC7232 If-None-Match header field in a request requires the server to only operate on the resource if it does not match 
+        The RFC7232 If-None-Match header field in a request requires the server to only operate on the resource if it does not match
         any of the provided entity-tags. If the provided entity-tag is `*`, it is required that the resource does not exist at all.
       example: '"c0d5809f-cbfa-4ce9-8b03-2231fee3e1ee", *'
       in: header
@@ -1465,7 +1582,9 @@ components:
       required: true
     NasDetailed:
       name: detailed
-      description: If the client requests additional detail using the optional parameter 'detailed' with the value 'true' within the query, additional properties as described in XXX should be included.
+      description: |
+        If the client requests additional detail using the optional parameter 'detailed' with the value 'true' within the
+        query, additional properties as described in XXX should be included.
       in: query
       schema:
         type: boolean
@@ -1475,7 +1594,8 @@ components:
         No Content: Already exists
     RestApi304:
       description: |
-        Not Modified: If a request is made with an ETag and the Server detects that the client has already an up-to-date version of the resource, the server may response instead with 200 (Ok) with 304 (Not modified) where no payload  is attached to conserve traffic.
+        Not Modified: If a request is made with an ETag and the Server detects that the client has already an up-to-date version of the
+        resource, the server may response instead with 200 (Ok) with 304 (Not modified) where no payload  is attached to conserve traffic.
     RestApi400:
       description: |
         Bad Request: The request was badly formatted and could not be completed.
@@ -1486,8 +1606,8 @@ components:
       content: {}
     RestApi429:
       description: |
-        Too many requests: A request may receive this error message instead of an response, if the server determined 
-        to many requests need to be handled. Optionally the Server may include the 'Retry-After' Header with a value 
+        Too many requests: A request may receive this error message instead of an response, if the server determined
+        to many requests need to be handled. Optionally the Server may include the 'Retry-After' Header with a value
         based on seconds for an estimation when the client may try to restart the request."
       headers:
         Retry-After:
@@ -1503,20 +1623,21 @@ components:
             $ref: '#/components/schemas/ErrorMessage'
     RestApi501:
       description: |
-        Not Implemented: Unsupported service or version in a URL should be answered with code 501. The client should not 
-        expect the service to be available anytime during the lifecycle of the server and should not poll the server with the same request to reduce resources consumption.
+        Not Implemented: Unsupported service or version in a URL should be answered with code 501. The client should not
+        expect the service to be available anytime during the lifecycle of the server and should not poll the server with
+        the same request to reduce resources consumption.
       content: {}
     RestApi502:
       description: |
-        Bad Gateway: If a proxy or reverse proxy is set-up between the A834A Client and Server, in case the proxy is 
+        Bad Gateway: If a proxy or reverse proxy is set-up between the A834A Client and Server, in case the proxy is
         experiencing issue, this error code should be reported.
       content: {}
     RestApi503:
       description: |
-        Service Unavailable: If a service is (temporary) not available (i.e. not yet fully initialized) it should 
-        return this error code to indicate the client, that the service may be available soon and the client may 
-        retry its request later on.(Other standard HTTP codes may be used by the A834A supplier to provide useful 
-        information to the clients nevertheless, the general principle is that overlap with error codes defined in 
+        Service Unavailable: If a service is (temporary) not available (i.e. not yet fully initialized) it should
+        return this error code to indicate the client, that the service may be available soon and the client may
+        retry its request later on.(Other standard HTTP codes may be used by the A834A supplier to provide useful
+        information to the clients nevertheless, the general principle is that overlap with error codes defined in
         the present document should be avoided.)
       content: {}
     WebSocket101:
@@ -1549,8 +1670,8 @@ components:
   headers:
     ETag:
       description: |
-        The RFC7232 ETag header field in a response provides the current entity-tag for the selected resource. An entity-tag 
-        is an opaque identifier for different versions of a resource over time, regardless whether multiple versions are valid 
+        The RFC7232 ETag header field in a response provides the current entity-tag for the selected resource. An entity-tag
+        is an opaque identifier for different versions of a resource over time, regardless whether multiple versions are valid
         at the same time. An entity-tag consists of an opaque quoted string, possibly prefixed by a weakness indicator.
       example: W/"abc", "42", "c0d5809f-cbfa-4ce9-8b03-2231fee3e1ee"
       required: false

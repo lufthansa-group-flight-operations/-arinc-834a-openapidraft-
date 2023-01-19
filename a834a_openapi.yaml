@@ -289,6 +289,8 @@ paths:
             <br>To reduce required resources on both client and server, the client should use this function with caution.
             <br/>For multiple parameters request, the parameters should be provided as a comma separated list.
           examples:
+            listAvailableParameters:
+              summary: Example of list of available parameters request          
             singleParameter:
               summary: Example of single parameter request
               value: time_utc
@@ -308,6 +310,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/4.1.4.4.A834AParameters'
+              examples:
+                listAvailableParameters:
+                  summary: List all parameters
+                  value:
+                    parameters:
+                      - name: date_utc
+                        settable: false
+                      - name: time_utc
+                        settable: false
+                singleParameter:
+                  summary: Example of single parameter request
+                  value:
+                    parameters:
+                      - name: date_utc
+                        timestamp: 2022-04-21T18:45:15.456Z
+                        value: 2022-04-21
+                multipleParameter:
+                  summary: Example of multiple parameters request
+                  value:
+                    parameters:
+                      - name: date_utc
+                        timestamp: 2022-04-21T18:45:15.456Z
+                        value: 2022-04-21
+                      - name: time_utc
+                        timestamp: 2022-04-21T18:45:15.456Z
+                        value: 18:45:15
+                allParameter:
+                  summary: Example of all parameters request
+                  value:
+                    parameters:
+                      - name: ac_type
+                        timestamp: 2022-04-21T18:45:14.456Z
+                        value: A359
+                      - name: date_utc
+                        timestamp: 2022-04-21T18:45:15.456Z
+                        value: 2022-04-21
+                      - name: time_utc
+                        timestamp: 2022-04-21T18:45:15.456Z
+                        value: 18:45:15
         '403':
           description: |
             Forbidden: On an item that is not allowed for modification, the server should report error message 403 (Forbidden) with the
@@ -846,6 +887,7 @@ components:
     ISO8601TimeStamp:
       description: Test
       type: string
+      example: 2022-04-21T18:45:15.456Z
     ErrorMessage:
       type: object
       description: Error message that gives additional info about the error.
@@ -924,6 +966,20 @@ components:
           example:
             - fuel_price
             - coffee_temperature
+    4.4.1.A834AParametersListing:
+      type: object
+      properties:
+        parameters:
+          type: array
+          items:
+            type: array
+            items:
+              $ref: '#/components/schemas/4.1.4.4.A834AParameterListItem'
+      example:
+        - name: date_utc
+          settable: false
+        - name: time_utc
+          settable: false
     4.1.4.3.WriteParameters:
       type: object
       properties:
@@ -948,13 +1004,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/4.1.4.4.A834AParameter'
-        unknownParameters:
-          type: array
-          items:
-            $ref: '#/components/schemas/parameterName'
-          example:
-            - fuel_price
-            - coffee_temperature
     4.1.4.4.A834AParameter:
       description: Schema for A834A parameter version 1.0.2
       type: object
@@ -962,7 +1011,7 @@ components:
         name:
           $ref: '#/components/schemas/parameterName'
         timestamp:
-          $ref: '#/components/schemas/4.1.3.timestamp'
+          $ref: '#/components/schemas/ISO8601TimeStamp'
         value:
           type: object
           description: |
@@ -974,6 +1023,22 @@ components:
           type: boolean
           description: by default all parameters for public ARINC 834A ADIF service cannot be set by a client.
           default: false
+    4.1.4.4.A834AParameterListItem:
+      description: Schema for A834A parameter version 1.0.2      
+      type: object
+      required:
+        - name
+        - settable
+      properties:
+        name:
+          $ref: '#/components/schemas/parameterName'        
+        settable:
+          type: boolean
+          description: by default all parameters for public ARINC 834A ADIF service cannot be set by a client.
+          default: false
+      example:
+        name: date_utc
+        settable: false
     4.1.4.4.ErrorResponse:
       type: object
       properties:
@@ -1023,6 +1088,7 @@ components:
       type: string
       format: date-time
       readOnly: true
+      example: 2022-04-21T18:45:15.456Z
     6.0.Data_size:
       description: Size of the data in bytes.
       minimum: 1

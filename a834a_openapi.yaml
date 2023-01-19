@@ -283,8 +283,10 @@ paths:
             type: string
             minimum: 0
           description: |
-            The list of parameters which a client want to retrieve the values should be set as a comma separated list within the path following the query "?params=".
-            <br/>If no query is provided, all parameters are returned. To reduce required resources on both client and server, the client should use this function with caution.
+            The list of parameters which a client want to retrieve. Values should be set as a comma separated list within the path following the query "?params=".
+            <br/>If no query is provided, a list of all available/known parameters is returned with the settable property and without values.
+            <br> To retrieve a list of all parameters with their values, use query <b>?params=*</b>
+            <br>To reduce required resources on both client and server, the client should use this function with caution.
             <br/>For multiple parameters request, the parameters should be provided as a comma separated list.
           examples:
             singleParameter:

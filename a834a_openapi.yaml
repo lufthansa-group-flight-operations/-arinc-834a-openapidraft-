@@ -5,27 +5,27 @@ info:
   license:
     name: License Info
     url: https://example.com/license
-  version: v0.0.3
+  version: v0.0.5
 servers:
   - url: https://a834a-1.suppliername.local/a834a/
 tags:
-  - name: 2.1. Protocol Switching
+  - name: 2.6.3 Protocol Switching
   - name: 3.2 Service Discovery
     description: Service Discovery
-  - name: 4.1.4 Parameter Interfaces
-  - name: 6.0 ACARS
+  - name: 4.0 Parameter Interfaces
+  - name: 5.0 ACARS
     description: Aircraft Communication and Reporting System Messaging
-  - name: 7.0 File Storage Management
-  - name: 8.0 Flight Plan Data Management
+  - name: 6.0 File Storage Management
+  - name: 7.0 Flight Plan Data Management
 paths:
   /adif/v1/subscribe:
     get:
       tags:
-        - 2.1. Protocol Switching
+        - 2.6.3 Protocol Switching
       servers:
         - url: wss://a834a-1.suppliername.local/a834a/
       summary: |
-        2.1.1 Protocol Switching - WebSockets NOTE: Need to be removed due to duplicate in OpenApi.
+        2.6.3.1 Protocol Switching - WebSockets NOTE: Need to be removed due to duplicate in OpenApi.
       parameters:
         - $ref: '#/components/parameters/WebSocketConnection'
         - $ref: '#/components/parameters/WebSocketUpgrade'
@@ -41,11 +41,11 @@ paths:
   /stap/v1/:
     get:
       tags:
-        - 2.1. Protocol Switching
+        - 2.6.3 Protocol Switching
       servers:
         - url: wss://a834a-1.suppliername.local/a834a/
       summary: |
-        2.1.2 Protocol Switching - STAP
+        2.6.3.2 Protocol Switching - STAP
       parameters:
         - $ref: '#/components/parameters/WebSocketConnection'
         - $ref: '#/components/parameters/WebSocketUpgrade'
@@ -61,11 +61,11 @@ paths:
   /adbp/v1/:
     get:
       tags:
-        - 2.1. Protocol Switching
+        - 2.6.3 Protocol Switching
       servers:
         - url: wss://a834a-1.suppliername.local/a834a/
       summary: |
-        2.1.2 Protocol Switching - ADBP
+        2.6.3.3 Protocol Switching - ADBP
       parameters:
         - $ref: '#/components/parameters/WebSocketConnection'
         - $ref: '#/components/parameters/WebSocketUpgrade'
@@ -81,11 +81,11 @@ paths:
   /{service}/v1/:
     get:
       tags:
-        - 2.1. Protocol Switching
+        - 2.6.3 Protocol Switching
       servers:
         - url: wss://a834a-1.suppliername.local/a834a/
       summary: |
-        2.1.4 Protocol Switching - Future Usages
+        2.6.3.4 Protocol Switching - Future Usages
       parameters:
         - in: path
           name: service
@@ -127,7 +127,7 @@ paths:
   /nas/v1/:
     get:
       tags:
-        - 7.0 File Storage Management
+        - 6.0 File Storage Management
       summary: Retrieve identified root folder
       parameters:
         - $ref: '#/components/parameters/NasDetailed'
@@ -155,7 +155,7 @@ paths:
   /nas/v1/{path}:
     get:
       tags:
-        - 7.0 File Storage Management
+        - 6.0 File Storage Management
       summary: Retrieve identified folder/file
       operationId: getItem
       parameters:
@@ -203,7 +203,7 @@ paths:
           $ref: '#/components/responses/RestApi501'
     put:
       tags:
-        - 7.0 File Storage Management
+        - 6.0 File Storage Management
       summary: Create/Update folder/file
       operationId: createItem
       parameters:
@@ -242,7 +242,7 @@ paths:
           #$ref: '#/components/responses/RestApi507'
     delete:
       tags:
-        - 7.0 File Storage Management
+        - 6.0 File Storage Management
       summary: Delete folder/file
       operationId: deleteItem
       parameters:
@@ -271,8 +271,8 @@ paths:
   /adif/v1/parameters:
     get:
       tags:
-        - 4.1.4 Parameter Interfaces
-      summary: 4.1.4.2 Parameter Synchronous request API
+        - 4.0 Parameter Interfaces
+      summary: 4.3.2 Parameter Synchronous request API
       description: The ARINC 834A server should allow connected clients to retrieve valid parameters using the following REST commands.
       operationId: getParameters
       parameters:
@@ -290,7 +290,7 @@ paths:
             <br/>For multiple parameters request, the parameters should be provided as a comma separated list.
           examples:
             listAvailableParameters:
-              summary: Example of list of available parameters request          
+              summary: Example of list of available parameters request
             singleParameter:
               summary: Example of single parameter request
               value: time_utc
@@ -383,8 +383,8 @@ paths:
           $ref: '#/components/responses/RestApi503'
     put:
       tags:
-        - 4.1.4 Parameter Interfaces
-      summary: 4.1.4.3 Parameter REST Set API.
+        - 4.0 Parameter Interfaces
+      summary: 4.3.3 Parameter REST Set API.
       description: |
         The ARINC 834A supports also the “Write Parameter” feature. This is applicable only to specific services as detailed
         in this document. As such this function is optional since only ADIF function is mandatory for ARINC 834A.
@@ -447,7 +447,7 @@ paths:
   /adif/v1/parameters/{paramname}:
     get:
       tags:
-        - 4.1.4 Parameter Interfaces
+        - 4.0 Parameter Interfaces
       operationId: getParameterById
       parameters:
         - in: path
@@ -463,7 +463,7 @@ paths:
   /adif/v1/subscription:
     get:
       tags:
-        - 2.1. Protocol Switching
+        - 2.6.3 Protocol Switching
       servers:
         - url: wss://a834a-1.suppliername.local/a834a/
       summary: '2.1.1 Protocol Switching - WebSockets NOTE: Need to be removed due to duplicate in openapi.'
@@ -512,8 +512,8 @@ paths:
   /acars/v1/uplinks:
     get:
       tags:
-        - 6.0 ACARS
-      summary: 6.2.1 Get a list of all Uplinks
+        - 5.0 ACARS
+      summary: 5.3.1 Get a list of all Uplinks
       description: Retrieve uplinks which matches the filter criteria or all uplinks when no filter is provided.
       operationId: getAllUplinks
       parameters:
@@ -535,15 +535,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/6.0.UplinkList'
+                $ref: '#/components/schemas/5.2.UplinkList'
         '304':
           $ref: '#/components/responses/RestApi304'
         '501':
           $ref: '#/components/responses/RestApi501'
     delete:
       tags:
-        - 6.0 ACARS
-      summary: 6.2.3 Delete all Uplinks
+        - 5.0 ACARS
+      summary: 5.3.3 Delete all Uplinks
       description: Delete uplinks which matches the filter criteria or all uplinks when no filter is provided.
       operationId: deleteAllUplinks
       parameters:
@@ -562,8 +562,8 @@ paths:
   /acars/v1/uplinks/{id}:
     get:
       tags:
-        - 6.0 ACARS
-      summary: 6.2.2 Get a specific Uplink
+        - 5.0 ACARS
+      summary: 5.3.2 Get a specific Uplink
       description: Retrieve an uplink for the given id.
       operationId: getUplinkById
       parameters:
@@ -582,15 +582,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/6.0.Uplink'
+                $ref: '#/components/schemas/5.2.Uplink'
         '404':
           $ref: '#/components/responses/RestApi404'
         '501':
           $ref: '#/components/responses/RestApi501'
     delete:
       tags:
-        - 6.0 ACARS
-      summary: 6.2.4 Delete a specific Uplink
+        - 5.0 ACARS
+      summary: 5.3.4 Delete a specific Uplink
       description: Delete an uplink for the given id.
       operationId: deleteUplinkById
       parameters:
@@ -611,8 +611,8 @@ paths:
   /acars/v1/downlinks:
     get:
       tags:
-        - 6.0 ACARS
-      summary: 6.2.5 Get a list of all Downlinks
+        - 5.0 ACARS
+      summary: 5.3.5 Get a list of all Downlinks
       description: Retrieve downlinks which matches the filter criteria or all downlinks when no filter is provided.
       operationId: getAllDownlinks
       parameters:
@@ -634,15 +634,15 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/6.0.DownlinkList'
+                $ref: '#/components/schemas/5.2.DownlinkList'
         '304':
           $ref: '#/components/responses/RestApi304'
         '501':
           $ref: '#/components/responses/RestApi501'
     post:
       tags:
-        - 6.0 ACARS
-      summary: 6.2.7 Create a new Downlink
+        - 5.0 ACARS
+      summary: 5.3.7 Create a new Downlink
       description: Creates a new downlink request.
       operationId: createDownlink
       requestBody:
@@ -651,7 +651,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/6.0.Downlink'
+              $ref: '#/components/schemas/5.2.Downlink'
             example:
               mti: FT
               mediaSelect: acars_any
@@ -669,7 +669,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/6.0.Downlink'
+                $ref: '#/components/schemas/5.2.Downlink'
         '400':
           $ref: '#/components/responses/RestApi400'
         '429':
@@ -684,8 +684,8 @@ paths:
           $ref: '#/components/responses/RestApi501'
     delete:
       tags:
-        - 6.0 ACARS
-      summary: 6.2.8 Delete all Downlinks
+        - 5.0 ACARS
+      summary: 5.3.8 Delete all Downlinks
       description: |
         Delete downlinks which matches the filter criteria or all downlinks when no filter is provided. The delete command only deletes
         the message(s) on the 834A server. If the message is in the state 'queued', meaning it has not been transferred to CMF, the message
@@ -708,8 +708,8 @@ paths:
   /acars/v1/downlinks/{id}:
     get:
       tags:
-        - 6.0 ACARS
-      summary: 6.2.6 Get a specific Downlink
+        - 5.0 ACARS
+      summary: 5.3.6 Get a specific Downlink
       description: Retrieve a downlinks for the given id.
       operationId: getDownlinkById
       parameters:
@@ -732,7 +732,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/6.0.Downlink'
+                $ref: '#/components/schemas/5.2.Downlink'
         '304':
           $ref: '#/components/responses/RestApi304'
         '404':
@@ -741,8 +741,8 @@ paths:
           $ref: '#/components/responses/RestApi501'
     delete:
       tags:
-        - 6.0 ACARS
-      summary: 6.2.9 Delete a specific Downlink
+        - 5.0 ACARS
+      summary: 5.3.9 Delete a specific Downlink
       description: Delete a downlink for the given id.
       operationId: deleteDownlinkById
       parameters:
@@ -763,8 +763,8 @@ paths:
   /acars/v1/status:
     get:
       tags:
-        - 6.0 ACARS
-      summary: "6.2.10\tGet the status of the channels"
+        - 5.0 ACARS
+      summary: "5.3.10 Get the status of the channels"
       description: Retrieve the status of all communication channels.
       operationId: getChannelStatus
       responses:
@@ -773,17 +773,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/6.0.Status'
+                $ref: '#/components/schemas/5.2.Status'
         '501':
           $ref: '#/components/responses/RestApi501'
 
   /acars/v1/subscribe:
     get:
       tags:
-        - 6.0 ACARS
+        - 5.0 ACARS
       servers:
         - url: wss://a834a-1.suppliername.local/a834a/
-      summary: 6.3 WebSocket Upgrade
+      summary: 5.4 WebSocket Upgrade
       description: Note this is WSS not HTTP and is an UPGRADE not a POST
       operationId: subscribeAcarsNotifications
       parameters:
@@ -857,7 +857,7 @@ paths:
   /fms/v1/flightPlan:
     get:
       tags:
-        - 8.0 Flight Plan Data Management
+        - 7.0 Flight Plan Data Management
       summary: 8.x TODO
       description: Retrieve current FMS flight plan.
       operationId: getFmsFlightPlan
@@ -867,7 +867,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/8.0.FmsFlightPlan'
+                $ref: '#/components/schemas/7.0.FmsFlightPlan'
         '501':
           $ref: '#/components/responses/RestApi501'
 components:
@@ -1024,14 +1024,14 @@ components:
           description: by default all parameters for public ARINC 834A ADIF service cannot be set by a client.
           default: false
     4.1.4.4.A834AParameterListItem:
-      description: Schema for A834A parameter version 1.0.2      
+      description: Schema for A834A parameter version 1.0.2
       type: object
       required:
         - name
         - settable
       properties:
         name:
-          $ref: '#/components/schemas/parameterName'        
+          $ref: '#/components/schemas/parameterName'
         settable:
           type: boolean
           description: by default all parameters for public ARINC 834A ADIF service cannot be set by a client.
@@ -1059,12 +1059,12 @@ components:
         NOTE:
           type: string
           example: 'TODO: OPEN ITEM'
-    6.0.MsgPayload:
+    5.2.MessagePayload:
       description: |
         Payload of the message. Currently ASCII only. Mandatory in POST command. Optional, if "include_content" is set in the
         query for the GET request, the payload will be delivered.
       type: string
-    6.0.PayloadDataType:
+    5.2.PayloadDataType:
       description: |
         Describes the format of the data in payload. Currently only ASCII is supported. Optional field, if not set ASCII is assumed.
       type: string
@@ -1073,7 +1073,7 @@ components:
       enum:
         - ASCII
       default: ASCII
-    6.0.LifeTime:
+    5.2.LifeTime:
       description: |
         Time after which the message gets discarded. The pattern of the value is according A619, but with the diference, that the
         timer restarts at each unit. In particular it means that the timer starts when the message is received by the ACARS Service
@@ -1083,18 +1083,18 @@ components:
       maximum: 30
       minimum: 0
       type: integer
-    6.0.TimeStamp:
+    5.2.TimeStamp:
       description: Time stamp  (ISO 8601 format) when the message was received by the A834A Server.
       type: string
       format: date-time
       readOnly: true
       example: 2022-04-21T18:45:15.456Z
-    6.0.Data_size:
+    5.2.DataSize:
       description: Size of the data in bytes.
       minimum: 1
       type: integer
       readOnly: true
-    6.0.DownlinkState:
+    5.2.DownlinkState:
         description: State of the queued downlink message.
         type: string
         enum:
@@ -1105,7 +1105,7 @@ components:
           - cmf_nak
           - cmf_timeout
           - dsp_ack
-    6.0.UplinkList:
+    5.2.UplinkList:
       type: object
       properties:
         selfLink:
@@ -1115,7 +1115,7 @@ components:
           type: array
           readOnly: true
           items:
-            $ref: '#/components/schemas/6.0.Uplink'
+            $ref: '#/components/schemas/5.2.Uplink'
       example:
         selfLink: https://server/a834a/acars/v1/uplinks
         uplinks:
@@ -1133,26 +1133,26 @@ components:
             data_type: ASCII
             dataSize: 82
             data: METAR KSTL 211651Z 01005KT 10SM FEW020 BKN250 19/12 A3026 RMK AO2 SLP244 T01890117
-    6.0.Uplink:
+    5.2.Uplink:
       type: object
       properties:
         selflink:
           $ref: '#/components/schemas/selfLinkWithUniqueId'
         timestamp:
-          $ref: '#/components/schemas/6.0.TimeStamp'
+          $ref: '#/components/schemas/5.2.TimeStamp'
         mti:
           description: Message Type Identifier to address specific applications.
           type: string
           minLength: 2
           maxLength: 2
         lifetime:
-          $ref: '#/components/schemas/6.0.LifeTime'
+          $ref: '#/components/schemas/5.2.LifeTime'
         data_type:
-          $ref: '#/components/schemas/6.0.PayloadDataType'
+          $ref: '#/components/schemas/5.2.PayloadDataType'
         data_size:
-          $ref: '#/components/schemas/6.0.Data_size'
+          $ref: '#/components/schemas/5.2.DataSize'
         payload:
-          $ref: '#/components/schemas/6.0.MsgPayload'
+          $ref: '#/components/schemas/5.2.MessagePayload'
       example:
         selflink: https://server/a834a/acars/v1/uplinks/240be703-012b-4442-ab38-405616baf625
         timestamp: 2022-04-21T18:45:15.456Z
@@ -1161,7 +1161,7 @@ components:
         data_type: ASCII
         data_size: 82
         payload: METAR KSTL 211651Z 01005KT 10SM FEW020 BKN250 19/12 A3026 RMK AO2 SLP244 T01890117
-    6.0.DownlinkList:
+    5.2.DownlinkList:
       type: object
       properties:
         selfLink:
@@ -1171,7 +1171,7 @@ components:
           type: array
           readOnly: true
           items:
-            $ref: '#/components/schemas/6.0.Downlink'
+            $ref: '#/components/schemas/5.2.Downlink'
       example:
         selfLink: https://server/a834a/acars/v1/downlinks
         downlinks:
@@ -1195,17 +1195,17 @@ components:
             data_type: ASCII
             data_size: 82
             payload: METAR KSTL 211651Z 01005KT 10SM FEW020 BKN250 19/12 A3026 RMK AO2 SLP244 T01890117
-    6.0.Downlink:
+    5.2.Downlink:
       type: object
       properties:
         selflink:
           $ref: '#/components/schemas/selfLinkWithUniqueId'
           readOnly: true
         timestamp:
-          $ref: '#/components/schemas/6.0.TimeStamp'
+          $ref: '#/components/schemas/5.2.TimeStamp'
           readOnly: true
         state:
-          $ref: '#/components/schemas/6.0.DownlinkState'
+          $ref: '#/components/schemas/5.2.DownlinkState'
           readOnly: true
         status_update_timestamp:
           description: Time stamp (ISO 8601 format) indicating when the last 'state' change took place.
@@ -1226,14 +1226,14 @@ components:
             - acars_satcom
             - acars_fms
         lifetime:
-          $ref: '#/components/schemas/6.0.LifeTime'
+          $ref: '#/components/schemas/5.2.LifeTime'
         data_type:
-          $ref: '#/components/schemas/6.0.PayloadDataType'
+          $ref: '#/components/schemas/5.2.PayloadDataType'
         data_size:
-          $ref: '#/components/schemas/6.0.Data_size'
+          $ref: '#/components/schemas/5.2.DataSize'
           readOnly: true
         payload:
-          $ref: '#/components/schemas/6.0.MsgPayload'
+          $ref: '#/components/schemas/5.2.MessagePayload'
       example:
         selflink: https://server/a834a/acars/v1/downlinks/5eb2e8cd-a853-4d7a-bdd4-2a45f8ebbeb7
         timestamp: 2022-04-21T18:45:15.456Z
@@ -1245,7 +1245,7 @@ components:
         data_type: ASCII
         data_size: 82
         payload: METAR KSTL 211651Z 01005KT 10SM FEW020 BKN250 19/12 A3026 RMK AO2 SLP244 T01890117
-    6.0.Status:
+    5.2.Status:
       type: object
       properties:
         selflink:
@@ -1395,7 +1395,7 @@ components:
             quota_available: 99999990
             quota_used: 10
 
-    8.0.FmsFlightPlan:
+    7.0.FmsFlightPlan:
       type: object
       properties:
         name:
@@ -1465,9 +1465,9 @@ components:
               description: TODO
               type: array
               items:
-                $ref: '#/components/schemas/8.0.FmsPoint'
+                $ref: '#/components/schemas/7.0.FmsPoint'
 
-    8.0.FmsPoint:
+    7.0.FmsPoint:
       type: object
       properties:
         latitude:

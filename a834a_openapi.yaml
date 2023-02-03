@@ -1084,7 +1084,7 @@ components:
       minimum: 0
       type: integer
     5.2.TimeStamp:
-      description: Time stamp  (ISO 8601 format) when the message was received by the A834A Server.
+      description: Time stamp (RFC3339 format) when the message was received by the A834A Server.
       type: string
       format: date-time
       readOnly: true
@@ -1208,7 +1208,7 @@ components:
           $ref: '#/components/schemas/5.2.DownlinkState'
           readOnly: true
         status_update_timestamp:
-          description: Time stamp (ISO 8601 format) indicating when the last 'state' change took place.
+          description: Time stamp (RFC3339 format) indicating when the last 'state' change took place.
           type: string
           format: date-time
           readOnly: true
@@ -1219,6 +1219,7 @@ components:
           maxLength: 2
           example: WX
         media_select:
+          description: Allowed media channels to use.
           type: string
           enum:
             - acars_any

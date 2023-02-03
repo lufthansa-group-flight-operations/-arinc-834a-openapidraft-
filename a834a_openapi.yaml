@@ -1277,18 +1277,18 @@ components:
               name:
                 description: Name of the communication channel.
                 type: string
-              isAvailable:
+              is_avail:
                 description: Indicates whether the channel is available or not.
                 type: boolean
           example:
             - name: acars_vhf
-              isAvailable: true
+              is_avail: true
             - name: acars_hf
-              isAvailable: false
+              is_avail: false
             - name: acars_satcom
-              isAvailable: true
+              is_avail: true
             - name: acars_fms
-              isAvailable: false
+              is_avail: false
     7.0.PathList:
       type: object
       properties:

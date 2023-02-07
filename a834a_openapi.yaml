@@ -7,7 +7,7 @@ info:
     url: https://example.com/license
   version: v0.0.5
 servers:
-  - url: https://a834a-1.suppliername.local/a834a/
+  - url: https://a834a-0.suppliername.local/a834a/
 tags:
   - name: 2.6.3 Protocol Switching
   - name: 3.2 Service Discovery

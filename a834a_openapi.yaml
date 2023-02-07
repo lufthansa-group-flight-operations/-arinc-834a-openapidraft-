@@ -381,69 +381,6 @@ paths:
           $ref: '#/components/responses/RestApi502'
         '503':
           $ref: '#/components/responses/RestApi503'
-    put:
-      tags:
-        - 4.0 Parameter Interfaces
-      summary: 4.3.3 Parameter REST Set API.
-      description: |
-        The ARINC 834A supports also the “Write Parameter” feature. This is applicable only to specific services as detailed
-        in this document. As such this function is optional since only ADIF function is mandatory for ARINC 834A.
-      requestBody:
-        description: Multiple parameters may be Set with a single request.
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/4.1.4.3.WriteParameters'
-      responses:
-        '200':
-          description: 'OK: The server should return the requested parameters formatted with applicable JSON schema.'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/4.1.4.4.A834AParameters'
-              example:
-                - name: Parametername1
-                  timestamp: 1000
-                  value: xxx
-                  settable: true
-                - name: Parametername2
-                  tiemstamp: 1000
-                  value: xxx
-                  settable: true
-        '403':
-          description: |
-            Forbidden: On an item that is not allowed for modification, the server should report error message 403 (Forbidden) with
-            the list of rejected parameters as follows.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/4.1.4.4.ErrorResponse'
-              example:
-                error: parameter not modifiable
-                parameters:
-                  - hdg_mag
-                  - tas
-        '404':
-          description: |
-            Not Found: Non-Existent parameter should be answered with code 404 (Not Found). The name of the unknown parameter
-            should be reported in the error message as follows.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/4.1.4.4.ErrorResponse'
-              example:
-                error: parameter not found
-                parameters:
-                  - fuel_price
-                  - coffee_temperature
-        '429':
-          $ref: '#/components/responses/RestApi429'
-        '501':
-          $ref: '#/components/responses/RestApi501'
-        '502':
-          $ref: '#/components/responses/RestApi502'
-        '503':
-          $ref: '#/components/responses/RestApi503'
   /adif/v1/parameters/{paramname}:
     get:
       tags:
@@ -509,6 +446,70 @@ paths:
           $ref: '#/components/responses/RestApi500'
         '501':
           $ref: '#/components/responses/RestApi501'
+  /xadif/v1/parameters:
+    put:
+      tags:
+        - 4.0 Parameter Interfaces
+      summary: 4.3.3 Parameter REST Set API.
+      description: |
+        The ARINC 834A supports also the “Write Parameter” feature. This is applicable only to specific services as detailed
+        in this document. As such this function is optional since only ADIF function is mandatory for ARINC 834A.
+      requestBody:
+        description: Multiple parameters may be Set with a single request.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/4.1.4.3.WriteParameters'
+      responses:
+        '200':
+          description: 'OK: The server should return the requested parameters formatted with applicable JSON schema.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/4.1.4.4.A834AParameters'
+              example:
+                - name: Parametername1
+                  timestamp: 1000
+                  value: xxx
+                  settable: true
+                - name: Parametername2
+                  tiemstamp: 1000
+                  value: xxx
+                  settable: true
+        '403':
+          description: |
+            Forbidden: On an item that is not allowed for modification, the server should report error message 403 (Forbidden) with
+            the list of rejected parameters as follows.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/4.1.4.4.ErrorResponse'
+              example:
+                error: parameter not modifiable
+                parameters:
+                  - hdg_mag
+                  - tas
+        '404':
+          description: |
+            Not Found: Non-Existent parameter should be answered with code 404 (Not Found). The name of the unknown parameter
+            should be reported in the error message as follows.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/4.1.4.4.ErrorResponse'
+              example:
+                error: parameter not found
+                parameters:
+                  - fuel_price
+                  - coffee_temperature
+        '429':
+          $ref: '#/components/responses/RestApi429'
+        '501':
+          $ref: '#/components/responses/RestApi501'
+        '502':
+          $ref: '#/components/responses/RestApi502'
+        '503':
+          $ref: '#/components/responses/RestApi503'
   /acars/v1/uplinks:
     get:
       tags:

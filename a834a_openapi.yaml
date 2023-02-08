@@ -1393,9 +1393,6 @@ components:
             last_modified_timestamp: "2022-11-07T09:52:02.000Z"
             writable: 'true'
             deletable: 'true'
-            quota_total: 100000000
-            quota_available: 99999990
-            quota_used: 10
 
     7.0.FmsFlightPlan:
       type: object

@@ -1122,7 +1122,7 @@ components:
         uplinks:
           - selfLink: https://server/a834a/acars/v1/uplinks/90ad2e56-aa8c-49dc-a1aa-028379c011c4
             timestamp: 2022-04-21T17:55:35.321Z
-            mti: AC
+            mti: AO
             lifetime: 10
             data_type: ASCII
             dataSize: 22
@@ -1133,7 +1133,7 @@ components:
             lifetime: 0
             data_type: ASCII
             dataSize: 82
-            data: METAR KSTL 211651Z 01005KT 10SM FEW020 BKN250 19/12 A3026 RMK AO2 SLP244 T01890117
+            data: METAR KSTF 211651Z 01005KT 10SM FEW020 BKN250 19/12 A3026 RMK AO2 SLP244 T01890117
     5.2.Uplink:
       type: object
       properties:
@@ -1194,8 +1194,8 @@ components:
             media_select: ACARS_ANY
             lifetime: 0
             data_type: ASCII
-            data_size: 82
-            payload: METAR KSTL 211651Z 01005KT 10SM FEW020 BKN250 19/12 A3026 RMK AO2 SLP244 T01890117
+            data_size: 19
+            payload: REQ METAR MSCH KSTF
     5.2.Downlink:
       type: object
       properties:
@@ -1245,8 +1245,8 @@ components:
         media_select: ACARS_ANY
         lifetime: 0
         data_type: ASCII
-        data_size: 82
-        payload: METAR KSTL 211651Z 01005KT 10SM FEW020 BKN250 19/12 A3026 RMK AO2 SLP244 T01890117
+        data_size: 19
+        payload: REQ METAR MSCH KSTF
     5.2.Status:
       type: object
       properties:
